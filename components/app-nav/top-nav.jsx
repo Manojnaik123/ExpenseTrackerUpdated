@@ -142,7 +142,7 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
                 </div>}
             </div>
 
-<AddModal/>
+{/* <AddModal/> */}
 
             <div className='flex justify-center items-center pl-3 pr-4'>
                 <span className='p-3 rounded-full border
