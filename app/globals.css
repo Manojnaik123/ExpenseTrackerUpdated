@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  /* Chrome, Safari, Edge */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+@theme {
+  /* core background */
+  --color-light-background: #F8FAFC;
+  --color-light-surface-background: #FFFFFF;
+  --color-sidebar-background: #EEF2F7;
+
+  /* text */
+  --color-light-primary-text: #0F172A;
+  --color-light-secondary-text: #475569;
+  --color-light-muted-text: #94A3B8;
+
+  /* borders */
+  --color-light-border: #E2E8F0;
+  --color-divider: #CBD5E1;
+
+  /* Dark */
+  /* core bg */
+  --color-dark-background: #020617;
+  --color-dark-surface-background: #020617;
+  --color-dark-sidebar-background: #020617;
+
+  /* Text colors */
+  --color-dark-primary-text: #E5E7EB;
+  --color-dark-secondary-text: #94A3B8;
+  --color-dark-muted-text: #64748B;
+
+  /* borders */
+  --color-dark-border: #1E293B;
+  --color-divider: #334155;
+
+  /*primary accent*/
+  --color-primary-accent: #3B82F6;
+  --color-accent-hover: #2563EB;
+  --color-soft-accent-background: #DBEAFE;
+
+  /*hover*/
+  --color-hover-gray: #9CA3AF4D;
+
+  /* blue button text*/
+  --color-button-blue: #1e88e5;
 }
