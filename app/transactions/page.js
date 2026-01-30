@@ -1,15 +1,45 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { downArrow } from '@/lib/icons';
+import { ClipLoader } from 'react-spinners';
+
 import DataTable from '@/components/data-table';
 
 
 const TransactionsPage = () => {
-    const { nav } = useLanguage();
+    const [data, setData] = useState();
 
-    const tableTitles = [nav.date, nav.name, nav.type, nav.amount, nav.remarks];
+    const { nav, lan } = useLanguage();
+
+    const tableTitles = [nav.date, nav.category, nav.type, nav.amount, nav.remarks];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch("/api/transactions");
+                if (!res.ok) throw new Error("Failed to fetch");
+                const json = await res.json();
+                setData(json);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const filteredData = data?.transactions.filter(item => item.lanId == lan).map(item=> ({
+        isSelected: false,
+        id: item.id,
+        first: item.date,
+        second: item.category,
+        third: item.subCategory,
+        fourth: item.type,
+        fifth: item.amount,
+        sixth: item.notes,
+        hidden: false,
+    }))
 
     return (
         <div className='h-full w-full p-4
@@ -19,33 +49,15 @@ const TransactionsPage = () => {
             border-light-border dark:border-dark-border
             bg-light-surface-background dark:bg-dark-surface-background
             '>
-                <div className=' flex flex-col md:flex md:flex-row justify-between pb-4 gap-4'>
-                    <div className='flex grow max-w-[340px]'>
-                        <button className='px-4 py-2 border rounded-l-full w-1/3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                        '>{nav.all}</button>
-                        <button className='px-4 py-2 border-y w-1/3
-                        border-light-border dark:border-dark-border
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        '>{nav.income}</button>
-                        <button className='px-4 py-2 border rounded-r-full w-1/3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                        '>{nav.expense}</button>
-                    </div>
-                    <div className='flex gap-3 grow justify-between md:justify-end'>
-                        <span className='px-4 py-2 border rounded-md flex gap-32
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                        '>all {downArrow}</span>
-                        <button className='px-4 py-2 border rounded-full
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                        '>{nav.export}</button>
-                    </div>
-                </div>
-            <DataTable titleArray={tableTitles}/>
+                
+                {!data && <div className='bg-light-surface-background dark:bg-dark-surface-background
+                     rounded-md 
+                    flex flex-col justify-center items-center gap-2 p-4
+                    '>
+                        <ClipLoader color='gray' size={30} className='' />
+                        <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
+                    </div>}
+                {data && <DataTable titleArray={tableTitles} tableData={filteredData} />}
             </div>
         </div>
     )

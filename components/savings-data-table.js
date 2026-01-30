@@ -1,12 +1,12 @@
 'use client';
 
-import { arrowEnd, arrowFirst, cross, dash, deleteIcon, edit, leftArrow, rightArrow, tick, xxx } from '@/lib/icons'
+import { arrowEnd, arrowFirst, cross, leftArrow, rightArrow, xxx } from '@/lib/icons'
 import React, { useState } from 'react';
 import { downArrow } from '@/lib/icons';
 import { useLanguage } from '@/app/context/LanguageContext';
 
 
-const DataTable = ({ titleArray, tableData }) => {
+const SavingsDataTable = ({ titleArray, tableData }) => {
     const [data, setData] = useState({
         allSelect: false,
         data: tableData
@@ -14,7 +14,7 @@ const DataTable = ({ titleArray, tableData }) => {
 
     const [buttonActive, setButtonActive] = useState(1);
 
-    const { nav, lan } = useLanguage();
+    const { nav } = useLanguage();
 
     function handleinputclick(id) {
         setData(prev => {
@@ -40,6 +40,9 @@ const DataTable = ({ titleArray, tableData }) => {
             return newData;
         })
     }
+
+    console.log('after hand');
+
 
     function handleAllSelect() {
         setData(prev => {
@@ -94,7 +97,7 @@ const DataTable = ({ titleArray, tableData }) => {
                 console.log(newData);
                 return newData;
             })
-        } else if (identifier === 'Income') {
+        } else if (identifier === 'Withdraw') {
             setButtonActive(2);
             setData(prev => {
                 const newData = {
@@ -113,7 +116,7 @@ const DataTable = ({ titleArray, tableData }) => {
                             fourth: x.fourth,
                             fifth: x.fifth,
                             sixth: x.sixth,
-                            hidden: x.fourth !== 'Income'
+                            hidden: x.fourth !== 'Withdraw'
                         })
                     }
 
@@ -121,7 +124,7 @@ const DataTable = ({ titleArray, tableData }) => {
                 console.log(newData);
                 return newData;
             })
-        } else if (identifier === 'Expense') {
+        } else if (identifier === 'Deposit') {
             setButtonActive(3);
             setData(prev => {
                 const newData = {
@@ -140,7 +143,7 @@ const DataTable = ({ titleArray, tableData }) => {
                             fourth: x.fourth,
                             fifth: x.fifth,
                             sixth: x.sixth,
-                            hidden: x.fourth !== 'Expense'
+                            hidden: x.fourth !== 'Deposit'
                         })
                     }
                 }
@@ -164,8 +167,8 @@ const DataTable = ({ titleArray, tableData }) => {
                 '>
                         <button className='py-2'>{cross}</button>
                         <span> {data.data.filter(i => i.isSelected === true && i.hidden === false).length} Selected </span>
-                        <button>{edit}</button>
-                        <button>{deleteIcon}</button>
+                        <button>{`[edit]`}</button>
+                        <button>{`[del]`}</button>
                     </div>
                 }
 
@@ -234,7 +237,7 @@ const DataTable = ({ titleArray, tableData }) => {
                                     `}
                                         onClick={() => handleAllSelect()}
                                     >
-                                        {data.allSelect ? data.data.some(item => item.isSelected === false) ? <span>{dash}</span> : <span>{tick}</span> : ''}
+                                        {data.allSelect ? data.data.some(item => item.isSelected === false) ? '-' : 'x' : ''}
                                     </button>
                                 </th>
                                 <th className='text-left p-3 
@@ -267,7 +270,7 @@ const DataTable = ({ titleArray, tableData }) => {
                                     `}
                                             onClick={() => handleinputclick(item.id)}
                                         >
-                                            {item.isSelected ?  <span> {tick} </span>  : '' }
+                                            {item.isSelected ? 'x' : ''}
                                         </button>
                                         {/* <input type='checkbox' onChange={()=> handleinputclick(item.id)} checked={item.isSelected ? item.isSelected: undefined}/> checked={true} */}
                                     </td>
@@ -277,30 +280,23 @@ const DataTable = ({ titleArray, tableData }) => {
                                     <td className='p-3 
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>
-                                        <div className='flex flex-col'>
-                                            <span>
+                                        
                                                 {item.second}
-                                            </span>
-                                            <span className=' text-[12px] md:text-[15px]
-                                        text-light-muted-text dark:text-dark-muted-text
-                                        '>
-                                                {item.third}
-                                            </span>
-                                        </div>
+                                            
                                     </td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>
-                                        <span className={`${item.fourth === 'Income' ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
-                                            {item.fourth}
+                                        <span className={`${item.third === 'Deposit' ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
+                                            {item.third}
                                         </span>
                                     </td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
-                    '>{item.fifth}</td>
+                    '>{item.fourth}</td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
-                    '>{item.sixth}</td>
+                    '>{item.fifth}</td>
                                 </tr>
                             ))}
 
@@ -347,4 +343,4 @@ const DataTable = ({ titleArray, tableData }) => {
     )
 }
 
-export default DataTable
+export default SavingsDataTable

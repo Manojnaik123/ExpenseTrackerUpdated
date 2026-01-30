@@ -69,6 +69,7 @@ const SettingsPage = () => {
                         </div>
 
                         {/* Preferences */}
+                     <Link href='/settings/editpersonalization'>
                         <div className='px-4'>
                             <div className='flex justify-between items-center py-4 border-b 
                   border-light-border dark:border-dark-border
@@ -82,14 +83,16 @@ const SettingsPage = () => {
                             '>{nav.preferredLanguage}, {nav.currency}, {nav.timeZone}</span>
                                 </div>
                                 <div>
-                                    <Link href='/settings/editpersonalization' className='text-light-secondary-text dark:text-dark-secondary-text'>
+                                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
                                         {rightArrow}
-                                    </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                     </Link>
 
                         {/* Appearance */}
+                        <Link href='/settings/editappearance'>
                         <div className='px-4'>
                             <div className='flex justify-between items-center py-4 border-b 
                   border-light-border dark:border-dark-border
@@ -109,6 +112,7 @@ const SettingsPage = () => {
                                 </div>
                             </div>
                         </div>
+                        </Link>
 
                     </div>
                 </div>

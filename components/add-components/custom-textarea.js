@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CustomTextArea = ({ label, placeHolder }) => {
+const CustomTextArea = ({ label, placeHolder, onChange }) => {
   return (
     <div className='relative flex flex-col grow gap-1'>
       <label className='text-[13px]
@@ -18,7 +18,7 @@ const CustomTextArea = ({ label, placeHolder }) => {
         type={type}
         placeholder={placeHolder}
       /> */}
-      <textarea className='border rounded-md p-3
+      <textarea className='border rounded-md p-3 h-32
         border-light-border dark:border-dark-border
         focus:outline-none
         focus:ring-2 focus:ring-light-muted-text/20
@@ -28,6 +28,7 @@ const CustomTextArea = ({ label, placeHolder }) => {
     
         '
       placeholder={placeHolder}
+      onChange={onChange}
       />
     </div>
   )

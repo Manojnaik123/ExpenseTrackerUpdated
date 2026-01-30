@@ -5,8 +5,11 @@ import React from 'react'
 import AddTransaction from './add-transaction'
 
 import { useEffect, useRef } from 'react';
+import AddSaving from './add-saving';
+import AddBudget from './add-budget';
+import AddGoal from './add-goal';
 
-const AddModal = () => {
+const AddModal = ({ toggleModal, modalId }) => {
     const dialog = useRef();
 
     useEffect(() => {
@@ -19,14 +22,17 @@ const AddModal = () => {
         <>
 
             <div
-                className="md:fixed md:inset-0 md:bg-black/10 md:backdrop-blur-sm md:z-40"
+                className="md:fixed md:inset-0 md:bg-black/10 md:backdrop-blur-[2px] md:z-40"
             // close when clicking overlay
             ></div>
-            <dialog ref={dialog} className='fixed z-50 flex flex-col h-full w-full md:h-[60lvh] md:w-[40%] lg:w-[35%] xl:w-[25%] m-auto rounded-lg
-    bg-light-background dark:bg-dark-background md:mt-44 border 
+            <dialog ref={dialog} className='fixed z-50 flex flex-col h-full w-full md:h-[80lvh] md:w-[600px] m-auto rounded-lg
+    bg-light-background dark:bg-dark-background border 
     border-light-border dark:border-dark-border
     '>
-                <AddTransaction />
+                {modalId === 1 && <AddTransaction toggleModal={toggleModal} />}
+                {modalId === 2 && <AddBudget toggleModal={toggleModal}/> }
+                {modalId === 3 && <AddSaving toggleModal={toggleModal}/>}
+                {modalId === 4 && <AddGoal toggleModal={toggleModal}/>}
             </dialog>
         </>
 

@@ -57,4 +57,12 @@
 
   /* blue button text*/
   --color-button-blue: #1e88e5;
+
+  /* warning red*/
+  --color-warning-primary: #d00000;
+  --color-warning-secondary: #ef233c;
+
+  /* success */
+  --color-success-bg: #38b000;
+  --color-success-text: #70e000;
 }

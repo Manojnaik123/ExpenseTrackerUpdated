@@ -70,10 +70,55 @@ export const navBarData = {
         saving: 'Saving',
         goal: 'Goal',
 
+        // add transaction 
+        //type: 'Type',
+        category: 'Category',
+        subCategory: 'Sub Category',
+        // date 
+        // amount 
+        notes: 'Notes',
+        cancel: 'Cancel',
+
+        selectOption: 'Select option',
+        enterAmount: 'Enter Amount',
+        enterSomething: 'Enter Something...',
+
+        typeValidationLabel: 'Please select Type',
+        categoryValidationLabel: 'Please select Category',
+        subCategoryValidationLabel: 'Please select Sub Category',
+        dateValidationLabel: 'Please choose Date',
+        amountValidationLabel: 'Please select Amount',
+
+        // add saving 
+        // name
+        saving: 'Saving',
+        nameValidtionLabel: 'Please enter name',
+        enterName: 'Enter Name',
+
+        // add budget 
+        title: 'Title',
+        titleValidationLabel: 'Please enter Title',
+
+        //add goal 
+        /// title
+        // category 
+        targetAmount: 'Target Amount',
+        deadLine: 'DeadLine',
+        remarks: 'Remarks',
+        priority: 'Priority',
+        priorityValidationLabel: 'Please select Priority',
+
+        // add modal 
+        savingData: 'Saving Data...',
+        loading: 'Loading...',
+
     },
 
     2: {
         // Hindi
+
+        loading: 'लोड हो रहा है...',
+
         companyName: "खर्च ट्रैकर",
 
         dashboard: "डैशबोर्ड",
@@ -134,10 +179,59 @@ export const navBarData = {
         saving: 'बचत',
         goal: 'लक्ष्य',
 
+        // add transaction 
+        //type: 'Type',
+        category: 'श्रेणी',
+        subCategory: 'उप-श्रेणी',
+        // date 
+        // amount 
+        notes: 'टिप्पणियाँ',
+        cancel: 'रद्द करें',
+
+        selectOption: 'विकल्प चुनें',
+        enterAmount: 'राशि दर्ज करें',
+        enterSomething: 'कुछ दर्ज करें...',
+
+        typeValidationLabel: 'कृपया प्रकार चुनें',
+        categoryValidationLabel: 'कृपया श्रेणी चुनें',
+        subCategoryValidationLabel: 'कृपया उप-श्रेणी चुनें',
+        dateValidationLabel: 'कृपया तिथि चुनें',
+        amountValidationLabel: 'कृपया राशि चुनें',
+
+        // add saving 
+        // name
+        saving: 'बचत',
+        nameValidtionLabel: 'कृपया नाम दर्ज करें',
+        enterName: 'नाम दर्ज करें',
+
+        // add budget 
+        title: 'शीर्षक',
+        titleValidationLabel: 'कृपया शीर्षक दर्ज करें',
+
+        //add goal 
+        /// title
+        // category 
+        targetAmount: 'लक्षित राशि',
+        deadLine: 'अंतिम तिथि',
+        remarks: 'टिप्पणियाँ',
+        priority: 'Priority',
+        priorityValidationLabel: 'कृपया प्राथमिकता चुनें',
+
+
+        // add modal 
+        savingData: 'डेटा सहेजा जा रहा है...',
     },
 
     3: {
         // German
+
+
+
+        // add modal 
+        savingData: 'Daten werden gespeichert...',
+loading: 'Wird geladen...',
+
+
         companyName: "Ausgabenverfolger",
 
         dashboard: "Dashboard",
@@ -198,10 +292,58 @@ export const navBarData = {
         saving: 'Ersparnis',
         goal: 'Ziel',
 
+        // add transaction 
+        //type: 'Type',
+        category: 'Kategorie',
+        subCategory: 'Unterkategorie',
+        // date 
+        // amount 
+        notes: 'Notizen',
+        create: 'Erstellen',
+        cancel: 'Abbrechen',
+
+        selectOption: 'Option auswählen',
+        enterAmount: 'Betrag eingeben',
+        enterSomething: 'Etwas eingeben...',
+
+        typeValidationLabel: 'Bitte Typ auswählen',
+        categoryValidationLabel: 'Bitte Kategorie auswählen',
+        subCategoryValidationLabel: 'Bitte Unterkategorie auswählen',
+        dateValidationLabel: 'Bitte Datum auswählen',
+        amountValidationLabel: 'Bitte Betrag auswählen',
+
+        // add saving 
+        // name
+        saving: 'Sparen',
+        nameValidtionLabel: 'Bitte Namen eingeben',
+        enterName: 'Name eingeben',
+
+        // add budget 
+        title: 'Titel',
+        titleValidationLabel: 'Bitte Titel eingeben',
+
+        //add goal 
+        /// title
+        // category 
+        targetAmount: 'Zielbetrag',
+        deadLine: 'Frist',
+        remarks: 'Bemerkungen',
+        priority: 'Priorität',
+        priorityValidationLabel: 'Bitte Priorität auswählen',
+
+
+
+
     },
 
     4: {
         // French
+
+        // add modal 
+        savingData: 'Enregistrement des données...',
+loading: 'Chargement...',
+
+
         companyName: "Suivi des Dépenses",
 
         dashboard: "Tableau de bord",
@@ -262,10 +404,59 @@ export const navBarData = {
         saving: 'Épargne',
         goal: 'Objectif',
 
+        // add transaction 
+        //type: 'Type',
+        category: 'Catégorie',
+        subCategory: 'Sous-catégorie',
+        // date 
+        // amount 
+        notes: 'Notes',
+        create: 'Créer',
+        cancel: 'Annuler',
+
+        selectOption: 'Sélectionner une option',
+        enterAmount: 'Entrer le montant',
+        enterSomething: 'Entrez quelque chose...',
+
+        typeValidationLabel: 'Veuillez sélectionner le type',
+        categoryValidationLabel: 'Veuillez sélectionner la catégorie',
+        subCategoryValidationLabel: 'Veuillez sélectionner la sous-catégorie',
+        dateValidationLabel: 'Veuillez choisir la date',
+        amountValidationLabel: 'Veuillez sélectionner le montant',
+
+        // add saving 
+        // name
+        saving: 'Épargne',
+        nameValidtionLabel: 'Veuillez entrer le nom',
+        enterName: 'Entrer le nom',
+
+        // add budget 
+        title: 'Titre',
+        titleValidationLabel: 'Veuillez entrer le titre',
+
+        //add goal 
+        /// title
+        // category 
+        targetAmount: 'Montant cible',
+        deadLine: 'Date limite',
+        remarks: 'Remarques',
+
+        priority: 'Priorité',
+        priorityValidationLabel: 'Veuillez sélectionner la priorité',
+
+
+
     },
 
     5: {
         // Spanish
+
+        // add modal 
+        savingData: 'Guardando datos...',
+        loading: 'Cargando...',
+
+
+
         companyName: "Control de Gastos",
 
         dashboard: "Panel",
@@ -327,10 +518,56 @@ export const navBarData = {
         saving: 'Ahorro',
         goal: 'Meta',
 
+        // add transaction 
+        //type: 'Type',
+        category: 'Categoría',
+        subCategory: 'Subcategoría',
+        // date 
+        // amount 
+        notes: 'Notas',
+        cancel: 'Cancelar',
+
+        selectOption: 'Seleccionar opción',
+        enterAmount: 'Ingresar monto',
+        enterSomething: 'Ingrese algo...',
+
+        typeValidationLabel: 'Por favor seleccione Tipo',
+        categoryValidationLabel: 'Por favor seleccione Categoría',
+        subCategoryValidationLabel: 'Por favor seleccione Subcategoría',
+        dateValidationLabel: 'Por favor elija Fecha',
+        amountValidationLabel: 'Por favor seleccione Monto',
+
+
+        // add saving 
+        // name
+        saving: 'Ahorro',
+        nameValidtionLabel: 'Por favor ingrese el nombre',
+        enterName: 'Ingrese el nombre',
+
+        // add budget 
+        title: 'Título',
+        titleValidationLabel: 'Por favor ingrese el título',
+
+        //add goal 
+        /// title
+        // category 
+        targetAmount: 'Monto objetivo',
+        deadLine: 'Fecha límite',
+        remarks: 'Observaciones',
+        priority: 'Prioridad',
+        priorityValidationLabel: 'Por favor seleccione la prioridad',
+
+
+
     },
 
     6: {
         // Japanese
+
+        // add modal 
+        savingData: 'データを保存しています...',
+        loading: '読み込み中...',
+
         companyName: "支出トラッカー",
 
         dashboard: "ダッシュボード",
@@ -390,5 +627,44 @@ export const navBarData = {
         budget: '予算',
         saving: '貯蓄',
         goal: '目標',
+
+        // add transaction 
+        //type: 'Type',
+        category: 'カテゴリ',
+        subCategory: 'サブカテゴリ',
+        // date 
+        // amount 
+        notes: 'メモ',
+        create: '作成',
+        cancel: 'キャンセル',
+        selectOption: 'オプションを選択',
+        enterAmount: '金額を入力',
+        enterSomething: '何か入力してください...',
+
+        typeValidationLabel: 'タイプを選択してください',
+        categoryValidationLabel: 'カテゴリを選択してください',
+        subCategoryValidationLabel: 'サブカテゴリを選択してください',
+        dateValidationLabel: '日付を選択してください',
+        amountValidationLabel: '金額を選択してください',
+
+        // add saving 
+        // name
+        saving: '貯蓄',
+        nameValidtionLabel: '名前を入力してください',
+        enterName: '名前を入力',
+
+        // add budget 
+        title: 'タイトル',
+        titleValidationLabel: 'タイトルを入力してください',
+
+        //add goal 
+        /// title
+        // category 
+        targetAmount: '目標金額',
+        deadLine: '期限',
+        remarks: '備考',
+        priority: '優先度',
+        priorityValidationLabel: '優先度を選択してください',
+
     },
 };

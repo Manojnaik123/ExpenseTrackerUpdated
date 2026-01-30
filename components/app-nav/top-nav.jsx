@@ -28,6 +28,12 @@ function titleFinder(path, nav) {
     if (path === '/settings') {
         return nav.settings;
     }
+    if(path === '/settings/editpersonalization'){
+        return `Settings > Personalize`
+    }
+     if(path === '/settings/editappearance'){
+        return `Settings > Appearance`
+    }
     console.log(path);
 
 }
@@ -35,6 +41,8 @@ function titleFinder(path, nav) {
 const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
 
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalIdentifier, setModalIdentifier] = useState(0);
 
     const dropdownWrapperRef = useRef(null);
 
@@ -66,8 +74,14 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
         setIsDropDownOpen(prev => !prev);
     }
 
-    function handleCreateClick() {
+    function handleCreateClick(identifier) {
         setIsDropDownOpen(false);
+        setModalIdentifier(identifier);
+        setIsModalOpen(true);
+    }
+
+    function toggleModal(){
+        setIsModalOpen(prev => !prev)
     }
 
     return (
@@ -113,36 +127,39 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
                     <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
                     text-light-secondary-text dark:text-dark-secondary-text'
-                        onClick={handleCreateClick}
+                        onClick={()=> handleCreateClick(1)}
                     >
                         {transaction}
                         <span>{nav.transactions}</span>
                     </button>
                     <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>
+                    text-light-secondary-text dark:text-dark-secondary-text'
+                    onClick={()=> handleCreateClick(2)}
+                    >
                         {budget}
                         <span>{nav.budget}</span>
                     </button>
                     <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>
+                    text-light-secondary-text dark:text-dark-secondary-text'
+                    onClick={()=> handleCreateClick(3)}
+                    >
                         {savings}
                         <span>{nav.saving}</span>
                     </button>
                     <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>
+                    text-light-secondary-text dark:text-dark-secondary-text'
+                    onClick={()=> handleCreateClick(4)}
+                    >
                         {goals}
                         <span>{nav.goal}</span>
                     </button>
                 </div>}
             </div>
 
-{/* <AddModal/> */}
+            {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier}/>}
 
             <div className='flex justify-center items-center pl-3 pr-4'>
                 <span className='p-3 rounded-full border
