@@ -3,7 +3,7 @@
 import { arrowEnd, arrowFirst, cross, leftArrow, rightArrow, xxx } from '@/lib/icons'
 import React, { useState } from 'react';
 import { downArrow } from '@/lib/icons';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/app/application/context/LanguageContext';
 
 
 const SavingsDataTable = ({ titleArray, tableData }) => {

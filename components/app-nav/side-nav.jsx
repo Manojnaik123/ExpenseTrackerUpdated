@@ -2,7 +2,7 @@
 
 import { budget, dashboard, goals, savings, setting, transaction } from '@/lib/icons';
 import { usePathname } from 'next/navigation';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/app/application/context/LanguageContext';
 import { useMediaQuery } from '@/mediaMatch';
 
 import Link from 'next/link';
@@ -23,7 +23,7 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
          bg-light-background border-r dark:bg-dark-background
          border-light-border dark:border-dark-border`}>
             <div className='grow p-4'>
-                <Link href='/' className={` ${path === '/' ? '' : ''} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                <Link href='/application/' className={` ${path === '/application' ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
                 rounded-md font-medium hover:bg-hover-gray
                  `}>
                     <div className='text-light-secondary-text dark:text-dark-secondary-text'>
@@ -31,7 +31,7 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
                     </div>
                     <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.dashboard}</span>
                 </Link>
-                <Link href='/transactions' className={` ${path.startsWith('/transactions') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                <Link href='/application/transactions' className={` ${path.startsWith('/application/transactions') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
                 rounded-md font-medium hover:bg-hover-gray
                 `}>
                     <div className='text-light-secondary-text dark:text-dark-secondary-text'>
@@ -39,7 +39,7 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
                     </div>
                     <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.transactions}</span>
                 </Link>
-                <Link href='/budgets' className={` ${path.startsWith('/budgets') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                <Link href='/application/budgets' className={` ${path.startsWith('/application/budgets') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
                 rounded-md font-medium hover:bg-hover-gray
                  `}>
                     <div className='text-light-secondary-text dark:text-dark-secondary-text'>
@@ -47,7 +47,7 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
                     </div>
                     <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.budgets}</span>
                 </Link>
-                <Link href='/savings' className={` ${path.startsWith('/savings') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                <Link href='/application/savings' className={` ${path.startsWith('/application/savings') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
                 rounded-md font-medium hover:bg-hover-gray
                 `}>
                     <div className='text-light-secondary-text dark:text-dark-secondary-text'>
@@ -55,7 +55,7 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
                     </div>
                     <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.savings}</span>
                 </Link>
-                <Link href='/goals' className={` ${path.startsWith('/goals') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 
+                <Link href='/application/goals' className={` ${path.startsWith('/application/goals') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 
                 rounded-md font-medium hover:bg-hover-gray
                 `}>
                     <div className='text-light-secondary-text dark:text-dark-secondary-text'>
@@ -67,7 +67,7 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
             </div>
             <div className='h-16 border-t p-4 flex justify-start items-center w-full
              border-light-border dark:border-dark-border'>
-                <Link href='/settings' className={` ${path.startsWith('/settings') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 w-full
+                <Link href='/application/settings' className={` ${path.startsWith('/application/settings') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 w-full
                 rounded-md font-medium hover:bg-hover-gray
                 `}>
                     <div className='text-light-secondary-text dark:text-dark-secondary-text'>

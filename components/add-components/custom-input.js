@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CustomInput = ({ label, type, placeHolder, onChange, isValid }) => {
+const CustomInput = ({defValue, label, type, placeHolder, onChange, isValid, max }) => {
   return (
     <div className='relative flex flex-col grow gap-1'>
       <label className='text-[13px]
@@ -20,6 +20,8 @@ const CustomInput = ({ label, type, placeHolder, onChange, isValid }) => {
         type={type}
         placeholder={placeHolder}
         onChange={onChange}
+        max={max}
+        value={defValue}
       />
     </div>
   )

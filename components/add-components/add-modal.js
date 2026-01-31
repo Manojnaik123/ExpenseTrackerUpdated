@@ -9,7 +9,7 @@ import AddSaving from './add-saving';
 import AddBudget from './add-budget';
 import AddGoal from './add-goal';
 
-const AddModal = ({ toggleModal, modalId }) => {
+const AddModal = ({ toggleModal, modalId, id }) => {
     const dialog = useRef();
 
     useEffect(() => {
@@ -20,7 +20,6 @@ const AddModal = ({ toggleModal, modalId }) => {
 
     return (
         <>
-
             <div
                 className="md:fixed md:inset-0 md:bg-black/10 md:backdrop-blur-[2px] md:z-40"
             // close when clicking overlay
@@ -29,7 +28,7 @@ const AddModal = ({ toggleModal, modalId }) => {
     bg-light-background dark:bg-dark-background border 
     border-light-border dark:border-dark-border
     '>
-                {modalId === 1 && <AddTransaction toggleModal={toggleModal} />}
+                {modalId === 1 && <AddTransaction toggleModal={toggleModal} id={id}/>}
                 {modalId === 2 && <AddBudget toggleModal={toggleModal}/> }
                 {modalId === 3 && <AddSaving toggleModal={toggleModal}/>}
                 {modalId === 4 && <AddGoal toggleModal={toggleModal}/>}

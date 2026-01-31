@@ -7,11 +7,12 @@ import CustomTextArea from './custom-textarea';
 
 import { cross } from '@/lib/icons';
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { transactionDataValidator } from '@/util/form-validation';
+import { maxDate } from '@/util/time-related-date';
 
-const AddTransaction = ({ toggleModal }) => {
+const AddTransaction = ({ toggleModal, id }) => {
     const [data, setData] = useState();
     const [subCategoriesData, setSubCategoriesData] = useState(null);
     const [userData, setUserData] = useState(null);
@@ -30,7 +31,14 @@ const AddTransaction = ({ toggleModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/transaction");
+
+                const payload = {
+                    id: id ? id : 0,
+                }
+
+                const params = new URLSearchParams(payload).toString();
+
+                const res = await fetch(`/api/transaction?${params}`);
                 if (!res.ok) throw new Error("Failed to fetch");
                 const json = await res.json();
                 setData(json);
@@ -40,6 +48,14 @@ const AddTransaction = ({ toggleModal }) => {
         };
         fetchData();
     }, []);
+
+    console.log(data?.userTransaction);
+
+
+    var userTransaction;
+    if(id > 0){
+        userTransaction = data?.userTransaction[0];
+    }
 
     const types = data?.types.filter(item => item.lanid == lan).map(item => ({
         id: item.transaction_type_id,
@@ -63,6 +79,7 @@ const AddTransaction = ({ toggleModal }) => {
         }
         setUserData(prev => ({
             ...prev,
+            id: id > 0? id : 0,
             [identifier]: selected.id
         }))
     }
@@ -70,6 +87,7 @@ const AddTransaction = ({ toggleModal }) => {
     function handleInputChange(event, identifier) {
         setUserData(prev => ({
             ...prev,
+            id: id > 0? id : 0,
             [identifier]: event.target.value
         }))
     }
@@ -106,7 +124,7 @@ const AddTransaction = ({ toggleModal }) => {
                     bg-light-primary-text/10 dark:bg-dark-primary-text/10`}>
 
                     <div className='bg-light-surface-background dark:bg-dark-surface-background
-                    w-20 h-20 rounded-md 
+                    w-20 h-20 rounded-md
                     flex justify-center items-center
                     '>
                         <ClipLoader color='gray' size={30} className='' />
@@ -136,35 +154,61 @@ const AddTransaction = ({ toggleModal }) => {
                     <div className='flex flex-col grow p-4'>
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.type} options={types} onSelect={(e) => handleSelectChange(e, 'typeId')}
-                                    isValid={errors.typeId}
+                                <CustomSelect 
+                                label={nav.type} 
+                                options={types} 
+                                onSelect={(e) => handleSelectChange(e, 'typeId')}
+                                isValid={errors.typeId}
+                                selectedKey={id > 0 ?userTransaction.type_id : null}
                                 />
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.category} options={categories} onSelect={(e) => handleSelectChange(e, 'categoryId')}
+                                <CustomSelect 
+                                selectedKey={id > 0 ?userTransaction.category_id : null}
+                                label={nav.category} 
+                                options={categories} 
+                                onSelect={(e) => handleSelectChange(e, 'categoryId')}
                                     isValid={errors.categoryId}
                                 />
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.subCategory} options={subCategoriesData} onSelect={(e) => handleSelectChange(e, 'subCategoryId')}
+                                <CustomSelect 
+                                selectedKey={id > 0 ?userTransaction.subcategory_id : null}
+                                label={nav.subCategory} 
+                                options={subCategoriesData} 
+                                onSelect={(e) => handleSelectChange(e, 'subCategoryId')}
                                     isValid={errors.subCategoryId}
                                 />
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.amount} type='number' placeHolder={nav.enterAmount} onChange={(e) => handleInputChange(e, 'amount')}
+                                <CustomInput 
+                                defValue={id > 0 ? userTransaction.amount: null} 
+                                label={nav.amount} 
+                                type='number' 
+                                placeHolder={nav.enterAmount} 
+                                onChange={(e) => handleInputChange(e, 'amount')}
                                     isValid={errors.amount}
                                 ></CustomInput>
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomInput label={nav.date} type='date' placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
+                            <CustomInput 
+                             defValue={id > 0 ? userTransaction.date: null} 
+                            label={nav.date} type='date' 
+                            placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
                                 isValid={errors.date}
+                                max = {maxDate}
                             ></CustomInput>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomTextArea label={nav.notes} placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')} />
+                            <CustomTextArea  
+                            label={nav.notes} 
+                            placeHolder={nav.enterSomething} 
+                            onChange={(e) => handleInputChange(e, 'notes')} 
+                            defValue={id > 0 ? userTransaction.notes: null} 
+                            />
                         </div>
                         <div className='p-4'>
                             <li className={` ${errors.typeId ? undefined : 'hidden'}

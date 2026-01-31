@@ -7,8 +7,23 @@ const supabase = createClient(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
-export async function GET() {
+export async function GET(req) {
     try {
+
+        // edit mode 
+        const { searchParams } = new URL(req.url);
+
+        const id= searchParams.get('id');
+        var userTransaction;
+
+        if (id > 0) {
+            const [userTransRes] = await Promise.all([
+                supabase.from("UserTransaction").select("*")
+                    .eq("id", id),
+            ]);
+            userTransaction = userTransRes.data;
+        }
+
         const [typesRes, typesTranslationsRes, languagesRes, categoriesRes, translationsRes,
             subcategoriesRes, subcategoryTranslationsRes
         ] = await Promise.all([
@@ -21,7 +36,6 @@ export async function GET() {
 
             supabase.from("TransactionSubCategory").select("*"),
             supabase.from("TransactionSubCategoryTranslation").select("*"),
-
         ]);
 
         if (typesRes.error || typesTranslationsRes.error || languagesRes.error ||
@@ -87,7 +101,8 @@ export async function GET() {
         return NextResponse.json({
             types: transTypes,
             categories: transCategories,
-            subCategories: transSubCategories
+            subCategories: transSubCategories,
+            userTransaction: userTransaction
         });
     } catch (error) {
         return NextResponse.json(

@@ -3,8 +3,8 @@ import { useState } from "react";
 import SideNavBar from "./side-nav";
 import TopNavBar from "./top-nav";
 
-import { LanguageProvider } from "@/app/context/LanguageContext";
-import { useTheme } from "@/app/context/ThemeContext";
+import { LanguageProvider } from "@/app/application/context/LanguageContext";
+import { useTheme } from "@/app/application/context/ThemeContext";
 import { useMediaQuery } from "@/mediaMatch";
 
 const Navigation = ({ children }) => {

@@ -112,6 +112,9 @@ export const navBarData = {
         savingData: 'Saving Data...',
         loading: 'Loading...',
 
+        total: 'Total',
+
+
     },
 
     2: {
@@ -220,6 +223,7 @@ export const navBarData = {
 
         // add modal 
         savingData: 'डेटा सहेजा जा रहा है...',
+        total: 'कुल',
     },
 
     3: {
@@ -229,7 +233,7 @@ export const navBarData = {
 
         // add modal 
         savingData: 'Daten werden gespeichert...',
-loading: 'Wird geladen...',
+        loading: 'Wird geladen...',
 
 
         companyName: "Ausgabenverfolger",
@@ -331,7 +335,7 @@ loading: 'Wird geladen...',
         priority: 'Priorität',
         priorityValidationLabel: 'Bitte Priorität auswählen',
 
-
+        total: 'Gesamt',
 
 
     },
@@ -341,7 +345,7 @@ loading: 'Wird geladen...',
 
         // add modal 
         savingData: 'Enregistrement des données...',
-loading: 'Chargement...',
+        loading: 'Chargement...',
 
 
         companyName: "Suivi des Dépenses",
@@ -444,6 +448,7 @@ loading: 'Chargement...',
         priority: 'Priorité',
         priorityValidationLabel: 'Veuillez sélectionner la priorité',
 
+        total: 'Total',
 
 
     },
@@ -557,6 +562,7 @@ loading: 'Chargement...',
         priority: 'Prioridad',
         priorityValidationLabel: 'Por favor seleccione la prioridad',
 
+        total: 'Total',
 
 
     },
@@ -665,6 +671,59 @@ loading: 'Chargement...',
         remarks: '備考',
         priority: '優先度',
         priorityValidationLabel: '優先度を選択してください',
+        total: '合計',
 
     },
 };
+
+export const transactionTimeSpan = {
+  1: [ // English
+    { key: 1, value: 'All' },
+    { key: 2, value: 'Today' },
+    { key: 3, value: 'Yesterday' },
+    { key: 4, value: 'This Week' },
+    { key: 5, value: 'This Month' },
+    { key: 6, value: 'This Year' },
+  ],
+  2: [ // Hindi
+    { key: 1, value: 'सभी' },
+    { key: 2, value: 'आज' },
+    { key: 3, value: 'कल' },
+    { key: 4, value: 'इस सप्ताह' },
+    { key: 5, value: 'इस महीने' },
+    { key: 6, value: 'इस वर्ष' },
+  ],
+  3: [ // German
+    { key: 1, value: 'Alle' },
+    { key: 2, value: 'Heute' },
+    { key: 3, value: 'Gestern' },
+    { key: 4, value: 'Diese Woche' },
+    { key: 5, value: 'Dieser Monat' },
+    { key: 6, value: 'Dieses Jahr' },
+  ],
+  4: [ // French
+    { key: 1, value: 'Tous' },
+    { key: 2, value: 'Aujourd\'hui' },
+    { key: 3, value: 'Hier' },
+    { key: 4, value: 'Cette semaine' },
+    { key: 5, value: 'Ce mois-ci' },
+    { key: 6, value: 'Cette année' },
+  ],
+  5: [ // Spanish
+    { key: 1, value: 'Todos' },
+    { key: 2, value: 'Hoy' },
+    { key: 3, value: 'Ayer' },
+    { key: 4, value: 'Esta semana' },
+    { key: 5, value: 'Este mes' },
+    { key: 6, value: 'Este año' },
+  ],
+  6: [ // Japanese
+    { key: 1, value: 'すべて' },
+    { key: 2, value: '今日' },
+    { key: 3, value: '昨日' },
+    { key: 4, value: '今週' },
+    { key: 5, value: '今月' },
+    { key: 6, value: '今年' },
+  ],
+};
+

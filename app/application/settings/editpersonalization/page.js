@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/app/application/context/LanguageContext';
 import CustomSelect from '@/components/add-components/custom-dropdown';
 
 import { languageData } from '@/data';

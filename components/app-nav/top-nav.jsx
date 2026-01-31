@@ -1,37 +1,40 @@
 'use client';
 
 import { budget, downArrow, goals, leftArrow, rightArrow, savings, transaction, upArrow } from '@/lib/icons';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/app/application/context/LanguageContext';
 import { usePathname } from 'next/navigation';
 import { useMediaQuery } from '@/mediaMatch';
 
 
 import React, { useState, useRef, useEffect } from 'react'
 import AddModal from '../add-components/add-modal';
+import { useTheme } from '@/app/application/context/ThemeContext';
+
+
 
 function titleFinder(path, nav) {
-    if (path === '/') {
+    if (path === '/application') {
         return nav.dashboard;
     }
-    if (path === '/transactions') {
+    if (path === '/application/transactions') {
         return nav.transactions;
     }
-    if (path === '/budgets') {
+    if (path === '/application/budgets') {
         return nav.budgets;
     }
-    if (path === '/savings') {
+    if (path === '/application/savings') {
         return nav.savings;
     }
-    if (path === '/goals') {
+    if (path === '/application/goals') {
         return nav.goals;
     }
-    if (path === '/settings') {
+    if (path === '/application/settings') {
         return nav.settings;
     }
-    if(path === '/settings/editpersonalization'){
+    if(path === '/application/settings/editpersonalization'){
         return `Settings > Personalize`
     }
-     if(path === '/settings/editappearance'){
+     if(path === '/application/settings/editappearance'){
         return `Settings > Appearance`
     }
     console.log(path);
@@ -46,9 +49,24 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
 
     const dropdownWrapperRef = useRef(null);
 
-    const { nav } = useLanguage();
+    const { nav, setLan } = useLanguage();
+    const {isDark, setIsDark} = useTheme();
     const path = usePathname();
     const isSmallScreen = useMediaQuery('(max-width: 1024px)');
+
+    // remove 
+function toggleTheme(){
+    setIsDark(prev => !prev)
+}
+
+function toggleLan(){
+    setLan(prev => {
+        if(prev == 1){
+            return 6;
+        } 
+        return 1;
+    })
+}
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -113,6 +131,7 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
 
             <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
                 <button className='hidden md:flex justify-between items-center gap-1 px-4 py-2 rounded-full
+                text-white
             bg-primary-accent hover:bg-accent-hover'
                     onClick={() => dropDownToggle()}
                 >
@@ -160,6 +179,13 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
             </div>
 
             {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier}/>}
+
+            <button onClick={toggleTheme} className='bg-red-500 p-4 m-2'>
+                dark
+            </button>
+            <button onClick={toggleLan} className='bg-red-500 p-4 m-2'>
+                lan
+            </button>
 
             <div className='flex justify-center items-center pl-3 pr-4'>
                 <span className='p-3 rounded-full border

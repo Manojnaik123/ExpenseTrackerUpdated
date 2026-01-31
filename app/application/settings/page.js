@@ -69,7 +69,7 @@ const SettingsPage = () => {
                         </div>
 
                         {/* Preferences */}
-                     <Link href='/settings/editpersonalization'>
+                     <Link href='/application/settings/editpersonalization'>
                         <div className='px-4'>
                             <div className='flex justify-between items-center py-4 border-b 
                   border-light-border dark:border-dark-border
@@ -92,7 +92,7 @@ const SettingsPage = () => {
                      </Link>
 
                         {/* Appearance */}
-                        <Link href='/settings/editappearance'>
+                        <Link href='/application/settings/editappearance'>
                         <div className='px-4'>
                             <div className='flex justify-between items-center py-4 border-b 
                   border-light-border dark:border-dark-border
@@ -106,7 +106,7 @@ const SettingsPage = () => {
                             '>{` ${nav.lightDarkThemes} (remove the border of the below last child bottom)`}</span>
                                 </div>
                                 <div>
-                                    <Link href='/settings/editappearance' className='text-light-secondary-text dark:text-dark-secondary-text'>
+                                    <Link href='/application/settings/editappearance' className='text-light-secondary-text dark:text-dark-secondary-text'>
                                         {rightArrow}
                                     </Link>
                                 </div>

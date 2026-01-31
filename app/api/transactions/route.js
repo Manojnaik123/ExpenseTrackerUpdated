@@ -42,6 +42,7 @@ export async function GET() {
                     subCategoryId: tx.subcategory_id,
                     date: tx.date,
                     notes: tx.notes,
+                    typeId: tx.type_id,
                 }))
         );
 
@@ -57,6 +58,7 @@ export async function GET() {
                     amount: tx.amount,
                     date: tx.date,
                     notes: tx.notes,
+                    typeId: tx.typeId
                 })));
 
         const updatedTransaction = newTransaction.flatMap(tx =>
@@ -71,6 +73,7 @@ export async function GET() {
                     amount: tx.amount,
                     date: tx.date,
                     notes: tx.notes,
+                    typeId: tx.typeId
                 }))
         )
 

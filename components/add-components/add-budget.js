@@ -7,7 +7,7 @@ import CustomTextArea from './custom-textarea';
 
 import { cross } from '@/lib/icons';
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from '@/app/context/LanguageContext';
+import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { budgetDataValidator } from '@/util/form-validation';
 
