@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <div className="w-full flex flex-col gap-4
       bg-light-surface-background  dark:bg-dark-surface-background">
-        <div className="h-[calc(100lvh-64px)] w-full flex flex-col grow px-4">
+        {/* <div className="h-[calc(100lvh-64px)] w-full flex flex-col grow px-4">
           <div className="shrink-0">
             <FirstComponent />
           </div>
@@ -29,7 +29,7 @@ export default function Home() {
         </div>
         <div className="h-[70lvh] p-4 pt-0 flex gap-4">
           <FourthComponent />
-        </div>
+        </div> */}
       </div>
     </>
   );
