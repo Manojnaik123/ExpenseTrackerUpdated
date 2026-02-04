@@ -11,9 +11,16 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { savingDataValidator } from '@/util/form-validation';
 
-const AddSaving = ({ toggleModal }) => {
+const AddSaving = ({ toggleModal, id }) => {
     const [data, setData] = useState();
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({
+        id: 0,
+        name: '',
+        typeId: null,
+        amount: '',
+        date: '',
+        notes: '',
+    });
     const [showSpinner, setShowSpinner] = useState(false);
 
     const [errors, setErrors] = useState({
@@ -28,7 +35,12 @@ const AddSaving = ({ toggleModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/saving");
+
+                const payload = {
+                    id: id ? id : 0,
+                }
+                const params = new URLSearchParams(payload).toString();
+                const res = await fetch(`/api/saving?${params}`);
                 if (!res.ok) throw new Error("Failed to fetch");
                 const json = await res.json();
                 setData(json);
@@ -39,13 +51,35 @@ const AddSaving = ({ toggleModal }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (id > 0 && data?.userSaving?.length) {
+            const us = data.userSaving[0];
+
+            setUserData({
+                id: us.id,
+                name: us.name,
+                typeId: us.saving_type_id,
+                amount: us.amount,
+                date: us.date,
+                notes: us.notes
+            });
+
+            setErrors({
+                name: false,
+                typeId: false,
+                amount: false,
+                date: false,
+            });
+        }
+    }, [id, data, lan]);
+
     const types = data?.types.filter(item => item.lanid == lan).map(item => ({
         id: item.id,
         value: item.translation
     }));
 
     console.log(types);
-    
+
 
     function handleSelectChange(selected, identifier) {
         setUserData(prev => ({
@@ -62,7 +96,7 @@ const AddSaving = ({ toggleModal }) => {
     }
 
     console.log(userData);
-    
+
 
     async function handleSubmit() {
         if (savingDataValidator(userData, setErrors)) {
@@ -126,35 +160,51 @@ const AddSaving = ({ toggleModal }) => {
                     <div className='flex flex-col grow p-4'>
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.name} type='text' placeHolder={nav.enterName} onChange={(e) => handleInputChange(e, 'name')}
+                                <CustomInput
+                                    label={nav.name}
+                                    type='text' placeHolder={nav.enterName}
+                                    onChange={(e) => handleInputChange(e, 'name')}
                                     isValid={errors.amount}
+                                    value={userData.name}
                                 ></CustomInput>
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.type} options={types} onSelect={(e) => handleSelectChange(e, 'typeId')}
+                                <CustomSelect
+                                    label={nav.type}
+                                    options={types} onSelect={(e) => handleSelectChange(e, 'typeId')}
                                     isValid={errors.typeId}
+                                    selectedKey={userData.typeId}
                                 />
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.amount} type='number' placeHolder={nav.enterAmount} onChange={(e) => handleInputChange(e, 'amount')}
+                                <CustomInput
+                                    label={nav.amount}
+                                    type='number'
+                                    placeHolder={nav.enterAmount} onChange={(e) => handleInputChange(e, 'amount')}
                                     isValid={errors.amount}
+                                    value={userData.amount}
                                 ></CustomInput>
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.date} type='date' placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
+                                <CustomInput
+                                    label={nav.date}
+                                    type='date'
+                                    placeHolder={nav.enterSomething}
+                                    onChange={(e) => handleInputChange(e, 'date')}
                                     isValid={errors.date}
+                                    value={userData.date}
                                 ></CustomInput>
                             </div>
                         </div>
-                        {/* <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomInput label={nav.date} type='date' placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
-                                isValid={errors.date}
-                            ></CustomInput>
-                        </div> */}
+                        
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomTextArea label={nav.notes} placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')} />
+                            <CustomTextArea 
+                            label={nav.notes} 
+                            placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')}
+                            value={userData.value}
+                            />
                         </div>
                         <div className='p-4'>
                             <li className={` ${errors.typeId ? undefined : 'hidden'}

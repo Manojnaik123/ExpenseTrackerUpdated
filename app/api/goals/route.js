@@ -37,7 +37,7 @@ export async function GET() {
                     categoryId: ug.goal_category_id,
                     amount: ug.amount,
                     priorityId: ug.priority_id,
-                    // priority: 
+                    fund:ug.fund,
                     date: ug.date,
                 }))
         );
@@ -54,7 +54,9 @@ export async function GET() {
                     categoryId: ug.categoryId,
                     amount: ug.amount,
                     priority: t.label,
+                    priorityId: ug.priorityId,
                     date: ug.date,
+                    fund:ug.fund
                 }))
         );
 
@@ -72,39 +74,17 @@ export async function GET() {
 
 export async function POST(request) {
     try {
-        const body = await request.json();
-        const { typeId, categoryId, subCategoryId, amount, date, notes } = body;
 
-        const errors = serverSideTransactionDataValidator({
-            typeId,
-            categoryId,
-            subCategoryId,
-            amount,
-            date,
-            notes
-        });
+        const id = await request.json();
 
-        if (Object.values(errors).some(Boolean)) {
-            return NextResponse.json(
-                { error: true, errors },
-                { status: 400 }
-            );
-        }
+        console.log(id);
+        
 
         const { data, error } = await supabase
-            .from("UserTransaction")
-            .insert([
-                {
-                    type_id: typeId,
-                    category_id: categoryId,
-                    subcategory_id: subCategoryId,
-                    date,
-                    amount,
-                    notes
-                },
-            ])
-            .select()
-            .single();
+            .from('UserGoal')
+            .delete()
+            .eq('id', id)
+            .select();
 
         if (error) throw error;
 
@@ -120,3 +100,56 @@ export async function POST(request) {
         );
     }
 }
+
+
+
+// export async function POST(request) {
+//     try {
+//         const body = await request.json();
+//         const { typeId, categoryId, subCategoryId, amount, date, notes } = body;
+
+//         const errors = serverSideTransactionDataValidator({
+//             typeId,
+//             categoryId,
+//             subCategoryId,
+//             amount,
+//             date,
+//             notes
+//         });
+
+//         if (Object.values(errors).some(Boolean)) {
+//             return NextResponse.json(
+//                 { error: true, errors },
+//                 { status: 400 }
+//             );
+//         }
+
+//         const { data, error } = await supabase
+//             .from("UserTransaction")
+//             .insert([
+//                 {
+//                     type_id: typeId,
+//                     category_id: categoryId,
+//                     subcategory_id: subCategoryId,
+//                     date,
+//                     amount,
+//                     notes
+//                 },
+//             ])
+//             .select()
+//             .single();
+
+//         if (error) throw error;
+
+//         return NextResponse.json(
+//             { success: true, data },
+//             { status: 201 }
+//         );
+
+//     } catch (err) {
+//         return NextResponse.json(
+//             { error: err.message },
+//             { status: 500 }
+//         );
+//     }
+// }

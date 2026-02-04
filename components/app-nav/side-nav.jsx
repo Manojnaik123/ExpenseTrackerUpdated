@@ -19,61 +19,61 @@ const SideNavBar = ({sideBarOpen, setSideBar}) => {
     
     return (
         // <div>
-        <nav className={` ${sideBarOpen? 'w-72': 'w-20'} hidden md:flex flex-col fixed z-30 h-full pt-16
+        <nav className={` ${sideBarOpen? 'w-60': 'w-20'} hidden md:flex flex-col fixed z-30 h-full pt-16
          bg-light-background border-r dark:bg-dark-background
          border-light-border dark:border-dark-border`}>
             <div className='grow p-4'>
-                <Link href='/application/' className={` ${path === '/application' ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
-                rounded-md font-medium hover:bg-hover-gray
+                <Link href='/application/' className={` ${path === '/application' ? 'bg-accent-hover text-white': 'bg-none text-light-secondary-text dark:text-dark-secondary-text hover:bg-hover-gray'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                rounded-md font-medium 
                  `}>
-                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
+                    <div className=''>
                         {dashboard}
                     </div>
-                    <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.dashboard}</span>
+                    <span className={` ${sideBarOpen? 'flex': 'hidden'} `}>{nav.dashboard}</span>
                 </Link>
-                <Link href='/application/transactions' className={` ${path.startsWith('/application/transactions') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
-                rounded-md font-medium hover:bg-hover-gray
+                <Link href='/application/transactions' className={` ${path.startsWith('/application/transactions') ? 'bg-accent-hover text-white': 'bg-none text-light-secondary-text dark:text-dark-secondary-text hover:bg-hover-gray'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                rounded-md font-medium 
                 `}>
-                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
+                    <div className=''>
                         {transaction}
                     </div>
-                    <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.transactions}</span>
+                    <span className={` ${sideBarOpen? 'flex': 'hidden'}`}>{nav.transactions}</span>
                 </Link>
-                <Link href='/application/budgets' className={` ${path.startsWith('/application/budgets') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
-                rounded-md font-medium hover:bg-hover-gray
+                <Link href='/application/budgets' className={` ${path.startsWith('/application/budgets') ? 'bg-accent-hover text-white': 'bg-none text-light-secondary-text dark:text-dark-secondary-text hover:bg-hover-gray'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                rounded-md font-medium
                  `}>
-                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
+                    <div className=''>
                         {budget}
                     </div>
-                    <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.budgets}</span>
+                    <span className={` ${sideBarOpen? 'flex': 'hidden'} `}>{nav.budgets}</span>
                 </Link>
-                <Link href='/application/savings' className={` ${path.startsWith('/application/savings') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
-                rounded-md font-medium hover:bg-hover-gray
+                <Link href='/application/savings' className={` ${path.startsWith('/application/savings') ? 'bg-accent-hover text-white': 'bg-none text-light-secondary-text dark:text-dark-secondary-text hover:bg-hover-gray'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 mb-2
+                rounded-md font-medium 
                 `}>
-                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
+                    <div >
                         {savings}
                     </div>
-                    <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.savings}</span>
+                    <span className={` ${sideBarOpen? 'flex': 'hidden'} `}>{nav.savings}</span>
                 </Link>
-                <Link href='/application/goals' className={` ${path.startsWith('/application/goals') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 
-                rounded-md font-medium hover:bg-hover-gray
+                <Link href='/application/goals' className={` ${path.startsWith('/application/goals') ? 'bg-accent-hover text-white': 'bg-none text-light-secondary-text dark:text-dark-secondary-text hover:bg-hover-gray'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 
+                rounded-md font-medium 
                 `}>
-                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
+                    <div >
                         {goals}
                     </div>
-                    <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>{nav.goals}</span>
+                    <span className={` ${sideBarOpen? 'flex': 'hidden'} `}>{nav.goals}</span>
                 </Link>
 
             </div>
             <div className='h-16 border-t p-4 flex justify-start items-center w-full
              border-light-border dark:border-dark-border'>
-                <Link href='/application/settings' className={` ${path.startsWith('/application/settings') ? 'bg-hover-gray': 'bg-none'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 w-full
-                rounded-md font-medium hover:bg-hover-gray
+                <Link href='/application/settings' className={` ${path.startsWith('/application/settings') ? 'bg-accent-hover text-white': 'bg-none text-light-secondary-text dark:text-dark-secondary-text hover:bg-hover-gray'} flex ${sideBarOpen? 'justify-start': 'justify-center'} items-center gap-3 p-2 w-full
+                rounded-md font-medium 
                 `}>
-                    <div className='text-light-secondary-text dark:text-dark-secondary-text'>
+                    <div >
                         {setting}
                     </div>
-                    <span className={` ${sideBarOpen? 'flex': 'hidden'} text-light-secondary-text dark:text-dark-secondary-text`}>
+                    <span className={` ${sideBarOpen? 'flex': 'hidden'} `}>
                         {nav.settings}
                     </span>
                 </Link>

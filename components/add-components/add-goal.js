@@ -10,9 +10,18 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { goalDataValidator } from '@/util/form-validation';
 
-const AddGoal = ({ toggleModal }) => {
+const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
     const [data, setData] = useState();
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({
+        id: 0,
+        title: '',
+        categoryId: null,
+        amount: '',
+        priorityId: null,
+        date: '',
+        notes: '',
+        fund: '',
+    });
     const [showSpinner, setShowSpinner] = useState(false);
 
     const [errors, setErrors] = useState({
@@ -28,7 +37,11 @@ const AddGoal = ({ toggleModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/goal");
+                const payload = {
+                    id: id ? id : 0,
+                }
+                const params = new URLSearchParams(payload).toString();
+                const res = await fetch(`/api/goal?${params}`);
                 if (!res.ok) throw new Error("Failed to fetch");
                 const json = await res.json();
                 setData(json);
@@ -39,8 +52,32 @@ const AddGoal = ({ toggleModal }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        console.log(id);
 
-    console.log(data);
+        if (id > 0 && data?.userGoal?.length) {
+            const goal = data.userGoal[0];
+
+            setUserData({
+                id: goal.id,
+                title: goal.title,
+                categoryId: goal.goal_category_id,
+                amount: goal.amount,
+                priorityId: goal.priority_id,
+                date: goal.date,
+                notes: goal.notes,
+                fund: goal.fund
+            })
+
+            setErrors({
+                title: false,
+                categoryId: false,
+                amount: false,
+                priorityId: false,
+                date: false,
+            })
+        }
+    }, [id, data, lan])
 
     const priorities = data?.priorities.filter(item => item.lanid == lan).map(item => ({
         id: item.id,
@@ -51,8 +88,6 @@ const AddGoal = ({ toggleModal }) => {
         id: item.id,
         value: item.translation
     }));
-
-    // console.log(priorities);
 
 
     function handleSelectChange(selected, identifier) {
@@ -136,35 +171,64 @@ const AddGoal = ({ toggleModal }) => {
                     <div className='flex flex-col grow p-4'>
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.title} type='text' placeHolder={nav.enterName} onChange={(e) => handleInputChange(e, 'title')}
+                                <CustomInput
+                                    value={userData.title}
+                                    label={nav.title}
+                                    type='text'
+                                    placeHolder={nav.enterName} onChange={(e) => handleInputChange(e, 'title')}
                                     isValid={errors.title}
+                                    disabled={isAddFundPage}
                                 ></CustomInput>
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.category} options={categories} onSelect={(e) => handleSelectChange(e, 'categoryId')}
+                                <CustomSelect
+                                    selectedKey={userData.categoryId}
+                                    label={nav.category}
+                                    options={categories} onSelect={(e) => handleSelectChange(e, 'categoryId')}
                                     isValid={errors.categoryId}
+                                    disabled={isAddFundPage}
                                 />
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomInput label={nav.targetAmount} type='number' placeHolder={nav.amount} onChange={(e) => handleInputChange(e, 'amount')}
+                            <CustomInput
+                                value={isAddFundPage ? userData.fund : userData.amount}
+                                label={isAddFundPage ? nav.addFund : nav.targetAmount}
+                                type='number' placeHolder={nav.amount}
+                                onChange={(e) => handleInputChange(e, isAddFundPage ? 'fund' : 'amount')}
                                 isValid={errors.amount}
                             ></CustomInput>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.priority} options={priorities} onSelect={(e) => handleSelectChange(e, 'priorityId')}
+                                <CustomSelect
+                                    selectedKey={userData.priorityId}
+                                    label={nav.priority}
+                                    options={priorities}
+                                    onSelect={(e) => handleSelectChange(e, 'priorityId')}
                                     isValid={errors.priorityId}
+                                    disabled={isAddFundPage}
                                 />
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.deadLine} type='date' placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
+                                <CustomInput
+                                    value={userData.date}
+                                    label={nav.deadLine}
+                                    type='date' placeHolder={nav.enterSomething}
+                                    onChange={(e) => handleInputChange(e, 'date')}
                                     isValid={errors.date}
+                                    disabled={isAddFundPage}
                                 ></CustomInput>
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomTextArea label={nav.notes} placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'remarks')} />
+                            <CustomTextArea
+                                value={userData.notes}
+                                label={nav.notes}
+                                placeHolder={nav.enterSomething}
+                                onChange={(e) => handleInputChange(e, 'remarks')}
+                                disabled={isAddFundPage}
+                                />
                         </div>
                         <div className='p-4'>
                             <li className={` ${errors.title ? undefined : 'hidden'}

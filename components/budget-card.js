@@ -5,14 +5,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { hexToRgba } from '@/util/ui'
 import BudgetDropDown from './budget-dropdown'
 import { useLanguage } from '@/app/application/context/LanguageContext';
+import { useCurrency } from '@/app/application/context/CurrencyContext';
 
-const BudgetCard = ({deleteHandler, toggleEditModal, toggleModal, id, title, subTitle, amount, date, amountSpent, imgId }) => {
+const BudgetCard = ({ deleteHandler, toggleEditModal, toggleModal, id, title, subTitle, amount, date, amountSpent, imgId }) => {
 
     const [IsDropDownOpen, setDropDownOpen] = useState(false);
     const wrapperRef = useRef(null);
 
-    const {nav} = useLanguage();
+    const { nav } = useLanguage();
 
+    const {currentCurrencySymbol} = useCurrency();
+ 
     function handleDropDown() {
         setDropDownOpen(prev => !prev);
     }
@@ -73,14 +76,15 @@ const BudgetCard = ({deleteHandler, toggleEditModal, toggleModal, id, title, sub
                     <div className='flex justify-between items-center pt-2'>
                         <span className='text-2xl
                     text-light-primary-text dark:text-dark-primary-text
-                    '>${amount - amountSpent}</span>
+                    '> {currentCurrencySymbol} {Math.abs(amount - amountSpent)}</span>
                         <span className='text-light-secondary-text dark:text-dark-secondary-text'>{date}</span>
                     </div>
                     <div className='flex justify-between items-center
                 text-light-muted-text dark:text-dark-muted-text
                 '>
-                        <span>{nav.remainingFrom} ${amount}</span>
-                        <span>{nav.creditedOn}</span>
+                        <span>{(amount - amountSpent) > 0 ? nav.remainingFrom + ' ' : 'Spent over '}
+                           {currentCurrencySymbol} {amount}</span>
+                        <span>{nav.createdOn}</span>
                     </div>
                     <div className='flex justify-between items-center pt-4
                 text-light-muted-text dark:text-dark-muted-text
@@ -97,11 +101,17 @@ const BudgetCard = ({deleteHandler, toggleEditModal, toggleModal, id, title, sub
                     {/* <progress value='40' max='100' className='w-full h-3 rounded-full overflow-hidden'></progress> */}
                     <div className="w-full h-3 overflow-hidden
                 rounded-full border border-light-border dark:border-dark-border
-                bg-light-background dark:bg-dark-background
+                bg-hover-gray/50
                 ">
                         <div
-                            className="h-full bg-green-500 transition-all duration-300"
-                            style={{ width: `${(amountSpent / amount) * 100}%` }}
+                            className={`h-full  transition-all duration-300 rounded-r-full`}
+                            style={
+                                {
+                                    width: `${(amountSpent / amount) * 100}%`,
+                                    backgroundColor: hexToRgba(iconColor[imgId], 1),
+                                }
+
+                            }
                         />
                     </div>
                 </div>

@@ -7,15 +7,33 @@ const supabase = createClient(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
-export async function GET() {
+export async function GET(req) {
     try {
+
+        const { searchParams } = new URL(req.url);
+
+        const id = searchParams.get('id');
+
+        var userSaving;
+
+        if (id > 0) {
+            const [userBudgetRes] = await Promise.all([
+                supabase.from("UserSaving").select("*")
+                    .eq("id", id),
+            ]);
+            userSaving = userBudgetRes.data;
+        }
+
+        console.log(userSaving);
+
+
         const [typesRes, typesTranslationsRes, languagesRes] = await Promise.all([
             supabase.from("SavingType").select("*"),
             supabase.from("SavingTypeTranslation").select("*"),
             supabase.from("Language").select("*"),
         ]);
 
-        if (typesRes.error || typesTranslationsRes.error || languagesRes.error ) {
+        if (typesRes.error || typesTranslationsRes.error || languagesRes.error) {
             throw new Error("Supabase fetch failed");
         }
 
@@ -30,12 +48,13 @@ export async function GET() {
             return {
                 id: tt.saving_type_id,
                 lanid: tt.language_id,
-                translation: tt.label,          
+                translation: tt.label,
             };
         });
 
         return NextResponse.json({
             types: transTypes,
+            userSaving: userSaving,
         });
     } catch (error) {
         return NextResponse.json(
@@ -49,7 +68,7 @@ export async function GET() {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { name, typeId, amount, date, notes } = body;
+        const { id, name, typeId, amount, date, notes } = body;
 
         const errors = serverSideSavingDataValidator({
             name,
@@ -66,24 +85,48 @@ export async function POST(request) {
             );
         }
 
-        const { data, error } = await supabase
-            .from("UserSaving")
-            .insert([
-                {
-                    name: name,
-                    saving_type_id: typeId,
-                    amount,
-                    date,
-                    notes
-                },
-            ])
-            .select()
-            .single();
+        let result;
 
-        if (error) throw error;
+        if (id && id > 0) {
+            const { data, error } = await supabase
+                .from("UserSaving")
+                .update([
+                    {
+                        name: name,
+                        saving_type_id: typeId,
+                        amount,
+                        date,
+                        notes
+                    },
+                ])
+                .eq("id", id)
+                .select()
+                .single();
+
+            if (error) throw error;
+            result = data;
+
+        } else {
+            const { data, error } = await supabase
+                .from("UserSaving")
+                .insert([
+                    {
+                        name: name,
+                        saving_type_id: typeId,
+                        amount,
+                        date,
+                        notes
+                    },
+                ])
+                .select()
+                .single();
+
+            if (error) throw error;
+            result = data;
+        }
 
         return NextResponse.json(
-            { success: true, data },
+            { success: true, result },
             { status: 201 }
         );
 

@@ -6,6 +6,7 @@ import TopNavBar from "./top-nav";
 import { LanguageProvider } from "@/app/application/context/LanguageContext";
 import { useTheme } from "@/app/application/context/ThemeContext";
 import { useMediaQuery } from "@/mediaMatch";
+import { CurrencyProvider } from "@/app/application/context/CurrencyContext";
 
 const Navigation = ({ children }) => {
     const isSmallScreen = useMediaQuery('(max-width: 1024px)');
@@ -18,16 +19,18 @@ const Navigation = ({ children }) => {
     }
 
     return (
-        <div className={`${isDark? 'dark': undefined} flex flex-col grow`}>
-            <LanguageProvider>
+        <div className={`${isDark ? 'dark' : undefined} flex flex-col grow`}>
+            <CurrencyProvider>
+                <LanguageProvider>
                     <TopNavBar sideBarToggle={toggleSidebar} sideBarOpen={sideBarOpen}></TopNavBar>
                     <div className="h-full w-full grow">
                         <SideNavBar sideBarOpen={sideBarOpen} setSideBar={setSideBarOpen}></SideNavBar>
-                        <div className={`${sideBarOpen ? 'md:ml-72' : 'md:ml-20'} pt-16 h-full`}>
+                        <div className={`${sideBarOpen ? 'md:ml-60' : 'md:ml-20'} pt-16 h-full`}>
                             {children}
                         </div>
                     </div>
-            </LanguageProvider>
+                </LanguageProvider>
+            </CurrencyProvider>
         </div>
     );
 }

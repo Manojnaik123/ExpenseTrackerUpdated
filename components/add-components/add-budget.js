@@ -122,9 +122,6 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
 
     if (!data) return <ClipLoader color='gray' size={30} className='m-auto' />
 
-    console.log('--------------------------');
-    console.log(isAddExpensePage);
-    console.log('--------------------------');
 
     return (
         <>

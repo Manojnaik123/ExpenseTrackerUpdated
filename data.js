@@ -131,9 +131,21 @@ export const navBarData = {
     selected: 'Selected',
 
     remainingFrom: 'Remaning from',
-    creditedOn: 'Credited on',
+    createdOn: 'Created on',
     amountSpent: 'Amount spent',
     utilization: 'Utilization',
+
+
+    deposit: 'Deposit',
+    withdraw: 'Withdraw',
+
+    areYouSureWantToDeleteTheSelectedGoal: 'Are you sure want to delete selected goal?',
+    confirmDeletionOfGoal: 'Confirm deletion of Goal',
+
+    addFund: 'Add fund',
+    outOf: 'Out of',
+    daysLeft: 'days left',
+    priority: 'Priority',
 
   },
 
@@ -263,12 +275,33 @@ export const navBarData = {
     selected: 'चयनित',
 
     remainingFrom: 'से शेष राशि',
-    creditedOn: 'जमा किया गया दिन',
+    createdOn: 'निर्माण तिथि',
     amountSpent: 'खर्च की गई राशि',
-    utilization: 'उपयोग'
+    utilization: 'उपयोग',
+
+    deposit: 'जमा',
+    withdraw: 'निकासी',
+
+    areYouSureWantToDeleteTheSelectedGoal: 'क्या आप चयनित लक्ष्य को हटाना चाहते हैं?',
+    confirmDeletionOfGoal: 'लक्ष्य हटाने की पुष्टि करें',
+
+    addFund: 'फंड जोड़ें',
+    outOf: 'में से',
+    daysLeft: 'दिन शेष',
+    priority: 'प्राथमिकता',
 
 
   },
+
+
+
+
+
+
+
+
+
+
 
   3: {
     // German
@@ -398,11 +431,33 @@ export const navBarData = {
 
     selected: 'Ausgewählt',
     remainingFrom: 'Verbleibend von',
-    creditedOn: 'Gutgeschrieben am',
+    createdOn: 'Erstellt am',
     amountSpent: 'Ausgegebener Betrag',
-    utilization: 'Auslastung'
+    utilization: 'Auslastung',
+
+    deposit: 'Einzahlung',
+    withdraw: 'Abhebung',
+
+    areYouSureWantToDeleteTheSelectedGoal: 'Möchten Sie das ausgewählte Ziel wirklich löschen?',
+    confirmDeletionOfGoal: 'Löschen des Ziels bestätigen',
+
+    addFund: 'Geld hinzufügen',
+    outOf: 'von',
+    daysLeft: 'Tage übrig',
+    priority: 'Priorität',
 
   },
+
+
+
+
+
+
+
+
+
+
+
 
   4: {
     // French
@@ -531,10 +586,33 @@ export const navBarData = {
     selected: 'Sélectionné',
 
     remainingFrom: 'Restant de',
-    creditedOn: 'Crédité le',
+    createdOn: 'Créé le',
     amountSpent: 'Montant dépensé',
     utilization: 'Utilisation',
+
+    deposit: 'Dépôt',
+    withdraw: 'Retrait',
+
+    areYouSureWantToDeleteTheSelectedGoal: 'Êtes-vous sûr de vouloir supprimer l’objectif sélectionné ?',
+    confirmDeletionOfGoal: 'Confirmer la suppression de l’objectif',
+
+    addFund: 'Ajouter des fonds',
+    outOf: 'sur',
+    daysLeft: 'jours restants',
+    priority: 'Priorité',
   },
+
+
+
+
+
+
+
+
+
+
+
+
 
   5: {
     // Spanish
@@ -664,12 +742,35 @@ export const navBarData = {
     selected: 'Seleccionado',
 
     remainingFrom: 'Restante de',
-    creditedOn: 'Acreditado el',
+    createdOn: 'Creado el',
     amountSpent: 'Cantidad gastada',
     utilization: 'Utilización',
 
+    deposit: 'Depósito',
+    withdraw: 'Retiro',
+
+    areYouSureWantToDeleteTheSelectedGoal: '¿Estás seguro de que deseas eliminar el objetivo seleccionado?',
+    confirmDeletionOfGoal: 'Confirmar eliminación del objetivo',
+
+    addFund: 'Agregar fondos',
+    outOf: 'de',
+    daysLeft: 'días restantes',
+    priority: 'Prioridad',
 
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   6: {
     // Japanese
@@ -794,12 +895,37 @@ export const navBarData = {
     selected: '選択済み',
 
     remainingFrom: '残額（元）',
-    creditedOn: '入金日',
+    createdOn: '作成日',
     amountSpent: '使用額',
     utilization: '利用率',
 
+    deposit: '入金',
+    withdraw: '出金',
+
+    areYouSureWantToDeleteTheSelectedGoal: '選択した目標を削除してもよろしいですか？',
+    confirmDeletionOfGoal: '目標の削除を確認',
+
+    addFund: '資金を追加',
+    outOf: 'のうち',
+    daysLeft: '残り日数',
+    priority: '優先度',
   },
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const transactionTimeSpan = {
   1: [ // English
@@ -851,4 +977,15 @@ export const transactionTimeSpan = {
     { key: 6, value: '今年' },
   ],
 };
+
+export const currency = [
+  { key: 1, code: 'INR', value: '₹' },
+  { key: 2, code: 'USD', value: '$' },
+  { key: 3, code: 'EUR', value: '€' },
+  { key: 4, code: 'GBP', value: '£' },
+  { key: 5, code: 'JPY', value: '¥' },
+  { key: 6, code: 'AUD', value: '$' },
+  { key: 7, code: 'CAD', value: '$' },
+  { key: 8, code: 'CNY', value: '¥' }
+]
 

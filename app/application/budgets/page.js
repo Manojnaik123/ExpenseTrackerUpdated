@@ -22,6 +22,8 @@ const BudgetsPage = () => {
     const [selectedId, setSelectedId] = useState(0);
     const [isAddExpensePage, setIsExpensePage] = useState(false);
 
+    const [isCompleted, setIsCompleted] = useState(false);
+
     async function fetchBudgets(){
         const fetchData = async () => {
             try {
@@ -38,10 +40,15 @@ const BudgetsPage = () => {
 
     useEffect(() => {
         fetchBudgets();
-    }, []);
+    }, [lan]);
 
     function handleButtonClick(identifier) {
         setButtonActive(identifier);
+        if(identifier == 1){
+            setIsCompleted(false);
+        } else if (identifier == 2){
+            setIsCompleted(true);
+        }
     }
 
     function toggleModal(){
@@ -90,7 +97,8 @@ const BudgetsPage = () => {
         fetchBudgets();
     }
 
-    const filteredData = data?.budgets.filter(item => item.lanId == lan);
+    const filteredData = data?.budgets
+    .filter(item => item.lanId == lan && (!isCompleted ? (((item.amountSpent/ item.amount) * 100)  < 100) : (((item.amountSpent/ item.amount) * 100)  >= 100)));
 
     return (
         <div className='h-full w-full p-4

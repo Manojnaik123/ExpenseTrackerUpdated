@@ -25,3 +25,27 @@ export function exportTransactionsToExcel(transactions) {
     // 4. Trigger download
     XLSX.writeFile(workbook, 'transactions.xlsx');
 }
+
+
+export function exportSavingsToExcel(savings) {
+    var count = 1;
+    // 1. Shape the data (VERY important)
+    const formattedData = savings.map(tx => ({
+        Slno: count++,
+        Date: tx.first,
+        Title: tx.second,
+        Type: tx.third,
+        Amount: tx.fourth,
+        Remarks: tx.fifth,
+    }));
+
+    // 2. Convert JSON → worksheet
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+
+    // 3. Create workbook & append sheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Savings');
+
+    // 4. Trigger download
+    XLSX.writeFile(workbook, 'savings.xlsx');
+}

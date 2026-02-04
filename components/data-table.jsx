@@ -11,6 +11,7 @@ import AddModal from './add-components/add-modal';
 import AddVerificaltionModal from './verification-modal/add-modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { exportTransactionsToExcel } from '@/util/xl-export';
+import { useCurrency } from '@/app/application/context/CurrencyContext';
 
 const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +36,7 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [buttonActive, setButtonActive] = useState(1);
 
     const { nav, lan } = useLanguage();
+    const {currentCurrencySymbol} = useCurrency();
 
     const filterdData = tableData.slice(indexofFirstRow, indexOfLastRow)
         .filter(item => {
@@ -408,12 +410,12 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>
                                         <span className={`${item.typeId == 1 ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
-                                            {item.fourth}
+                                        {item.fourth}
                                         </span>
                                     </td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
-                    '>{item.fifth}</td>
+                    '> {currentCurrencySymbol +' '+item.fifth}</td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>{item.sixth}</td>

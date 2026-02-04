@@ -155,7 +155,6 @@ const AddTransaction = ({ toggleModal, id }) => {
     }
 
     async function handleSubmit() {
-        console.log(userData);
         if (transactionDataValidator(userData, setErrors)) {
             setShowSpinner(true);
             const res = await fetch("/api/transaction", {

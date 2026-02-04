@@ -25,17 +25,20 @@ export async function GET() {
         // user savings 
         const savings = userSavings.flatMap(us =>
             savingsTypesTranslation
-                .filter(t => t.transaction_type_id === us.type_id)
+                .filter(t => t.saving_type_id === us.saving_type_id)
                 .map(t => ({
                     id: us.id,
                     lanId: t.language_id,
                     type: t.label,
+                    typeId: us.saving_type_id,
                     name: us.name,
                     amount: us.amount,
                     date: us.date,
                     notes: us.notes,
                 }))
         );
+        console.log(savings.length);
+        
 
         return NextResponse.json({
             savings: savings,
@@ -51,39 +54,14 @@ export async function GET() {
 
 export async function POST(request) {
     try {
-        const body = await request.json();
-        const { typeId, categoryId, subCategoryId, amount, date, notes } = body;
+        const idsToDelete = await request.json();
 
-        const errors = serverSideTransactionDataValidator({
-            typeId,
-            categoryId,
-            subCategoryId,
-            amount,
-            date,
-            notes
-        });
-
-        if (Object.values(errors).some(Boolean)) {
-            return NextResponse.json(
-                { error: true, errors },
-                { status: 400 }
-            );
-        }
+        console.log(idsToDelete);
 
         const { data, error } = await supabase
-            .from("UserTransaction")
-            .insert([
-                {
-                    type_id: typeId,
-                    category_id: categoryId,
-                    subcategory_id: subCategoryId,
-                    date,
-                    amount,
-                    notes
-                },
-            ])
-            .select()
-            .single();
+            .from('UserSaving')
+            .delete()
+            .in('id', idsToDelete);
 
         if (error) throw error;
 
@@ -99,3 +77,56 @@ export async function POST(request) {
         );
     }
 }
+
+
+
+// export async function POST(request) {
+//     try {
+//         const body = await request.json();
+//         const { typeId, categoryId, subCategoryId, amount, date, notes } = body;
+
+//         const errors = serverSideTransactionDataValidator({
+//             typeId,
+//             categoryId,
+//             subCategoryId,
+//             amount,
+//             date,
+//             notes
+//         });
+
+//         if (Object.values(errors).some(Boolean)) {
+//             return NextResponse.json(
+//                 { error: true, errors },
+//                 { status: 400 }
+//             );
+//         }
+
+//         const { data, error } = await supabase
+//             .from("UserTransaction")
+//             .insert([
+//                 {
+//                     type_id: typeId,
+//                     category_id: categoryId,
+//                     subcategory_id: subCategoryId,
+//                     date,
+//                     amount,
+//                     notes
+//                 },
+//             ])
+//             .select()
+//             .single();
+
+//         if (error) throw error;
+
+//         return NextResponse.json(
+//             { success: true, data },
+//             { status: 201 }
+//         );
+
+//     } catch (err) {
+//         return NextResponse.json(
+//             { error: err.message },
+//             { status: 500 }
+//         );
+//     }
+// }

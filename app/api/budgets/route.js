@@ -55,12 +55,11 @@ export async function POST(request) {
 
         const id = await request.json();
 
-        console.log(id);
-        
         const { data, error } = await supabase
             .from('UserBudget')
             .delete()
-            .eq('id', id);
+            .eq('id', id)
+            .select();
 
         if (error) throw error;
 

@@ -10,9 +10,6 @@ const supabase = createClient(
 export async function GET(req) {
     try {
 
-        console.log('level 1');
-
-
         const { searchParams } = new URL(req.url);
 
         const id = searchParams.get('id');

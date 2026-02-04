@@ -10,7 +10,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import AddModal from '../add-components/add-modal';
 import { useTheme } from '@/app/application/context/ThemeContext';
 
-
+import Image from 'next/image';
 
 function titleFinder(path, nav) {
     if (path === '/application') {
@@ -31,10 +31,10 @@ function titleFinder(path, nav) {
     if (path === '/application/settings') {
         return nav.settings;
     }
-    if(path === '/application/settings/editpersonalization'){
+    if (path === '/application/settings/editpersonalization') {
         return `Settings > Personalize`
     }
-     if(path === '/application/settings/editappearance'){
+    if (path === '/application/settings/editappearance') {
         return `Settings > Appearance`
     }
     console.log(path);
@@ -50,23 +50,23 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
     const dropdownWrapperRef = useRef(null);
 
     const { nav, setLan } = useLanguage();
-    const {isDark, setIsDark} = useTheme();
+    const { isDark, setIsDark } = useTheme();
     const path = usePathname();
     const isSmallScreen = useMediaQuery('(max-width: 1024px)');
 
     // remove 
-function toggleTheme(){
-    setIsDark(prev => !prev)
-}
+    function toggleTheme() {
+        setIsDark(prev => !prev)
+    }
 
-function toggleLan(){
-    setLan(prev => {
-        if(prev == 1){
-            return 6;
-        } 
-        return 1;
-    })
-}
+    function toggleLan() {
+        setLan(prev => {
+            if (prev == 1) {
+                return 6;
+            }
+            return 1;
+        })
+    }
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -98,107 +98,114 @@ function toggleLan(){
         setIsModalOpen(true);
     }
 
-    function toggleModal(){
+    function toggleModal() {
         setIsModalOpen(prev => !prev)
     }
 
     return (
-       <div>
-        {/* <div className='w-full bg-green-400 flex justify-center items-center'>
+        <div>
+            {/* <div className='w-full bg-green-400 flex justify-center items-center'>
                 <span className='text-[12px] p-0 text-green-900' >Data saved successfully</span>
         </div> */}
-         <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
+            <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
     h-16 border-b border-light-border dark:border-dark-border
     flex
     '>
-            <div className={` ${sideBarOpen ? 'w-72' : 'w-20'} hidden h-16 border-r border-light-border dark:border-dark-border
+                <div className={` ${sideBarOpen ? 'w-60' : 'w-20'} hidden h-16 border-r border-light-border dark:border-dark-border
         md:flex justify-between items-center p-4`}>
-                <div>
-                    <span className='text-light-primary-text dark:text-dark-primary-text'>logo</span>
-                </div>
-                <span className={`${sideBarOpen ? 'flex' : 'hidden'} text-light-primary-text dark:text-dark-primary-text
+                    <div>
+                        <span className='text-light-primary-text dark:text-dark-primary-text'>
+                            <Image src='/images/pngegg.png'
+                                alt="Logo"
+                                width={40}
+                                height={40}
+                            />
+                        </span>
+                    </div>
+                    <span className={`${sideBarOpen ? 'flex' : 'hidden'} text-light-primary-text dark:text-dark-primary-text
             text-[20px]`}>{nav.companyName}</span>
-                <button className='text-light-primary-text dark:text-dark-primary-text'
-                    onClick={sideBarToggle} disabled={isSmallScreen}
-                >
-                    {sideBarOpen ? leftArrow : rightArrow}
-                </button>
-            </div>
-            <div className='grow flex justify-between items-center p-4 pr-0
+                    <button className='text-light-primary-text dark:text-dark-primary-text'
+                        onClick={sideBarToggle} disabled={isSmallScreen}
+                    >
+                        {sideBarOpen ? leftArrow : rightArrow}
+                    </button>
+                </div>
+                <div className='grow flex justify-between items-center p-4 pr-0
             bg-light-background dark:bg-dark-background
         '>
-                <span className='text-[20px]
+                    <span className='text-[20px]
             text-light-primary-text dark:text-dark-primary-text
             '>{titleFinder(path, nav)}</span>
 
-            </div>
+                </div>
 
-            <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
-                <button className='hidden md:flex justify-between items-center gap-1 px-4 py-2 rounded-full
+                <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
+                    <button className='hidden md:flex justify-between items-center gap-1 px-4 py-2 rounded-full
                 text-white
             bg-primary-accent hover:bg-accent-hover'
-                    onClick={() => dropDownToggle()}
-                >
-                    {nav.create} {isDropDownOpen? upArrow: downArrow}</button>
+                        onClick={() => dropDownToggle()}
+                    >
+                        {nav.create} {isDropDownOpen ? upArrow : downArrow}</button>
 
 
-                {/* dropdown on top navbar */}
-                {isDropDownOpen && <div  className='fixed w-44 right-20 top-14 border rounded-sm py-4 flex flex-col gap-5
+                    {/* dropdown on top navbar */}
+                    {isDropDownOpen && <div className='fixed w-44 right-20 top-14 border rounded-sm py-4 flex flex-col gap-5
                 bg-light-surface-background dark:bg-dark-sidebar-background
                 border-light-border dark:border-dark-border
                 '>
-                    <button className='flex justify-start items-center py-2 px-4 gap-2
+                        <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
                     text-light-secondary-text dark:text-dark-secondary-text'
-                        onClick={()=> handleCreateClick(1)}
-                    >
-                        {transaction}
-                        <span>{nav.transactions}</span>
-                    </button>
-                    <button className='flex justify-start items-center py-2 px-4 gap-2
+                            onClick={() => handleCreateClick(1)}
+                        >
+                            {transaction}
+                            <span>{nav.transactions}</span>
+                        </button>
+                        <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
                     text-light-secondary-text dark:text-dark-secondary-text'
-                    onClick={()=> handleCreateClick(2)}
-                    >
-                        {budget}
-                        <span>{nav.budget}</span>
-                    </button>
-                    <button className='flex justify-start items-center py-2 px-4 gap-2
+                            onClick={() => handleCreateClick(2)}
+                        >
+                            {budget}
+                            <span>{nav.budget}</span>
+                        </button>
+                        <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
                     text-light-secondary-text dark:text-dark-secondary-text'
-                    onClick={()=> handleCreateClick(3)}
-                    >
-                        {savings}
-                        <span>{nav.saving}</span>
-                    </button>
-                    <button className='flex justify-start items-center py-2 px-4 gap-2
+                            onClick={() => handleCreateClick(3)}
+                        >
+                            {savings}
+                            <span>{nav.saving}</span>
+                        </button>
+                        <button className='flex justify-start items-center py-2 px-4 gap-2
                 hover:bg-hover-gray
                     text-light-secondary-text dark:text-dark-secondary-text'
-                    onClick={()=> handleCreateClick(4)}
-                    >
-                        {goals}
-                        <span>{nav.goal}</span>
-                    </button>
-                </div>}
-            </div>
+                            onClick={() => handleCreateClick(4)}
+                        >
+                            {goals}
+                            <span>{nav.goal}</span>
+                        </button>
+                    </div>}
+                </div>
 
-            {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier}/>}
+                {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier} />}
 
-            <button onClick={toggleTheme} className='bg-red-500 p-4 m-2'>
-                dark
-            </button>
-            <button onClick={toggleLan} className='bg-red-500 p-4 m-2'>
-                lan
-            </button>
+                <button onClick={toggleTheme} className='bg-red-500 p-4 m-2'>
+                    dark
+                </button>
+                <button onClick={toggleLan} className='bg-red-500 p-4 m-2'>
+                    lan
+                </button>
 
-            <div className='flex justify-center items-center pl-3 pr-4'>
-                <span className='p-3 rounded-full border
+                <div className='flex justify-center items-center pl-3 pr-4'>
+                    <span className='p-3 rounded-full border
             border-light-border dark:border-dark-border
+            text-light-secondary-text dark:text-dark-secondary-text
             '>MN</span>
-            </div>
+                </div>
 
-        </nav>
-       </div>
+            </nav>
+        </div>
     )
 }
 
