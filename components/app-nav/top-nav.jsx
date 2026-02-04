@@ -115,11 +115,11 @@ const TopNavBar = ({ sideBarToggle, sideBarOpen }) => {
         md:flex justify-between items-center p-4`}>
                     <div>
                         <span className='text-light-primary-text dark:text-dark-primary-text'>
-                            {/* <Image src='/images/pngegg.png'
+                            <Image src='/images/pngegg.png'
                                 alt="Logo"
                                 width={40}
                                 height={40}
-                            /> */}
+                            />
                         </span>
                     </div>
                     <span className={`${sideBarOpen ? 'flex' : 'hidden'} text-light-primary-text dark:text-dark-primary-text
