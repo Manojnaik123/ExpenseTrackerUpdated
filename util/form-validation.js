@@ -156,8 +156,6 @@ export function serverSideBudgetDataValidator(userData) {
         amount: !userData?.amount && userData?.amount !== 0,
         date: !userData?.date,
     };
-    console.log(newErrors);
-
     return newErrors;
 }
 

@@ -48,3 +48,31 @@ export async function GET() {
         );
     }
 }
+
+
+export async function POST(request) {
+    try {
+
+        const id = await request.json();
+
+        console.log(id);
+        
+        const { data, error } = await supabase
+            .from('UserBudget')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+
+        return NextResponse.json(
+            { success: true, data },
+            { status: 201 }
+        );
+
+    } catch (err) {
+        return NextResponse.json(
+            { error: err.message },
+            { status: 500 }
+        );
+    }
+}

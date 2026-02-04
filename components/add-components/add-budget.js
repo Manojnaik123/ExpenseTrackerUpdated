@@ -1,6 +1,5 @@
 'use client';
 
-
 import CustomSelect from './custom-dropdown';
 import CustomInput from './custom-input';
 import CustomTextArea from './custom-textarea';
@@ -10,10 +9,19 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { budgetDataValidator } from '@/util/form-validation';
+import BudgetDropDown from '../budget-dropdown';
 
-const AddBudget = ({ toggleModal }) => {
+const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
     const [data, setData] = useState();
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({
+        id: 0,
+        title: '',
+        categoryId: null,
+        amount: '',
+        date: '',
+        notes: '',
+        amountSpent: ''
+    });
     const [showSpinner, setShowSpinner] = useState(false);
 
     const [errors, setErrors] = useState({
@@ -28,7 +36,11 @@ const AddBudget = ({ toggleModal }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/budget");
+                const payload = {
+                    id: id ? id : 0,
+                }
+                const params = new URLSearchParams(payload).toString();
+                const res = await fetch(`/api/budget?${params}`);
                 if (!res.ok) throw new Error("Failed to fetch");
                 const json = await res.json();
                 setData(json);
@@ -39,13 +51,38 @@ const AddBudget = ({ toggleModal }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        console.log(id);
+
+        if (id > 0 && data?.userBudget?.length) {
+            const budget = data.userBudget[0];
+            
+            setUserData({
+                id: budget.id,
+                title: budget.title,
+                categoryId: budget.budget_category_id,
+                amount: budget.amount,
+                date: budget.date,
+                notes: budget.notes,
+                amountSpent: budget.amountSpent
+            })
+
+            setErrors({
+                title: false,
+                categoryId: false,
+                amount: false,
+                date: false,
+            })
+        }
+    }, [id, data, lan])
+
     const categories = data?.categories.filter(item => item.lanid == lan).map(item => ({
         id: item.id,
         value: item.translation
     }));
 
     console.log(categories);
-    
+
 
     function handleSelectChange(selected, identifier) {
         setUserData(prev => ({
@@ -60,7 +97,7 @@ const AddBudget = ({ toggleModal }) => {
             [identifier]: event.target.value
         }))
     }
-    
+
     async function handleSubmit() {
         if (budgetDataValidator(userData, setErrors)) {
             setShowSpinner(true);
@@ -85,6 +122,10 @@ const AddBudget = ({ toggleModal }) => {
 
     if (!data) return <ClipLoader color='gray' size={30} className='m-auto' />
 
+    console.log('--------------------------');
+    console.log(isAddExpensePage);
+    console.log('--------------------------');
+
     return (
         <>
             <div className='relative h-full w-full'>
@@ -96,7 +137,7 @@ const AddBudget = ({ toggleModal }) => {
                     w-20 h-20 rounded-md 
                     flex justify-center items-center
                     '>
-                        <ClipLoader color='gray' size={30} className='' />
+                        <ClipLoader color='gray' size={30}/>
                     </div>
                 </div>
                 <div className='absolute h-full w-full flex flex-col' >
@@ -111,7 +152,7 @@ const AddBudget = ({ toggleModal }) => {
                         <span className='grow pl-4 text-lg md:p-0
             text-light-primary-text dark:text-dark-primary-text
             '>
-                            {nav.create} {nav.budget} 
+                            {nav.create} {nav.budget}
                         </span>
                         <button className='md:hidden text-sm
             text-light-secondary-text dark:text-dark-secondary-text'
@@ -123,30 +164,59 @@ const AddBudget = ({ toggleModal }) => {
                     <div className='flex flex-col grow p-4'>
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.title} type='text' placeHolder={nav.enterName} onChange={(e) => handleInputChange(e, 'title')}
+                                <CustomInput
+                                    label={nav.title}
+                                    type='text'
+                                    placeHolder={nav.enterName}
+                                    onChange={(e) => handleInputChange(e, 'title')}
                                     isValid={errors.title}
+                                    value={userData.title}
+                                    disabled={isAddExpensePage}
                                 ></CustomInput>
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomSelect label={nav.category} options={categories} onSelect={(e) => handleSelectChange(e, 'categoryId')}
+                                <CustomSelect
+                                    label={nav.category}
+                                    options={categories}
+                                    onSelect={(e) => handleSelectChange(e, 'categoryId')}
                                     isValid={errors.categoryId}
+                                    selectedKey={userData.categoryId}
+                                    disabled={isAddExpensePage}
                                 />
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.amount} type='number' placeHolder={nav.enterAmount} onChange={(e) => handleInputChange(e, 'amount')}
+                            {/* amount X amountSpent */}
+                                <CustomInput
+                                    label={isAddExpensePage ? nav.addExpense : nav.amount}
+                                    type='number'
+                                    placeHolder={nav.enterAmount}
+                                    onChange={(e) => handleInputChange(e, isAddExpensePage ? 'amountSpent' : 'amount')}
                                     isValid={errors.amount}
+                                    value={isAddExpensePage ? userData.amountSpent : userData.amount}
                                 ></CustomInput>
                             </div>
                             <div className='md:w-1/2'>
-                                <CustomInput label={nav.date} type='date' placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
+                                <CustomInput
+                                    label={nav.date}
+                                    type='date'
+                                    placeHolder={nav.enterSomething}
+                                    onChange={(e) => handleInputChange(e, 'date')}
                                     isValid={errors.date}
+                                    value={userData.date}
+                                    disabled={isAddExpensePage}
                                 ></CustomInput>
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomTextArea label={nav.notes} placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')} />
+                            <CustomTextArea 
+                            label={nav.notes} 
+                            placeHolder={nav.enterSomething} 
+                            onChange={(e) => handleInputChange(e, 'notes')} 
+                            value={userData.notes}
+                            disabled={isAddExpensePage}
+                            />
                         </div>
                         <div className='p-4'>
                             <li className={` ${errors.title ? undefined : 'hidden'}
@@ -160,8 +230,10 @@ const AddBudget = ({ toggleModal }) => {
                         </div>
                         <div className='hidden md:flex justify-end items-center gap-3 pt-10 mt-auto'>
                             <button className='text-lg
-                    text-blue-700
-                    '>{nav.cancel}</button>
+                    text-blue-700'
+                    onClick={toggleModal}
+                    >
+                        {nav.cancel}</button>
                             <button className='text-lg
                     text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}

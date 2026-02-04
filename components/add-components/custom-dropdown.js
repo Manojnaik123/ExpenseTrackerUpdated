@@ -3,12 +3,16 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { downArrow } from '@/lib/icons';
 import { useEffect, useRef, useState } from 'react';
 
-const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height }) => {
+const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height, disabled=false }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const dropdownRef = useRef(null);
 
   const { nav } = useLanguage();
+
+  useEffect(() => {
+    setSelected(selectedKey ?? null);
+  }, [selectedKey]);
 
   // Set default selected based on selectedKey
   useEffect(() => {
@@ -38,6 +42,7 @@ const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height }
       {/* Trigger */}
       <button
         type="button"
+        disabled={disabled}
         onClick={() => setOpen((prev) => !prev)}
         className={`w-full text-left p-3 rounded-md border border-light-border dark:border-dark-border flex justify-between items-center
         focus:outline-none
@@ -45,12 +50,13 @@ const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height }
         ${isValid && 'ring-3 ring-warning-primary/30'}
         ${height ? `h-${height}` : ''}
         ${isValid && 'focus:ring-3 focus:ring-warning-primary/30'}
+        ${disabled ? 'bg-hover-gray/40 text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}
         `}
       >
-        <span className="text-light-secondary-text dark:text-dark-secondary-text">
+        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}`}>
           {selected ? selected.value : nav.selectOption}
         </span>
-        <span className="text-sm text-light-secondary-text dark:text-dark-secondary-text">
+        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
           {downArrow}
         </span>
       </button>

@@ -103,7 +103,11 @@ function toggleLan(){
     }
 
     return (
-        <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
+       <div>
+        {/* <div className='w-full bg-green-400 flex justify-center items-center'>
+                <span className='text-[12px] p-0 text-green-900' >Data saved successfully</span>
+        </div> */}
+         <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
     h-16 border-b border-light-border dark:border-dark-border
     flex
     '>
@@ -194,6 +198,7 @@ function toggleLan(){
             </div>
 
         </nav>
+       </div>
     )
 }
 

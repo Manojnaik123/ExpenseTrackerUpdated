@@ -9,7 +9,7 @@ import AddSaving from './add-saving';
 import AddBudget from './add-budget';
 import AddGoal from './add-goal';
 
-const AddModal = ({ toggleModal, modalId, id }) => {
+const AddModal = ({ toggleModal, modalId, id, isAddExpensePage }) => {
     const dialog = useRef();
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const AddModal = ({ toggleModal, modalId, id }) => {
     border-light-border dark:border-dark-border
     '>
                 {modalId === 1 && <AddTransaction toggleModal={toggleModal} id={id}/>}
-                {modalId === 2 && <AddBudget toggleModal={toggleModal}/> }
+                {modalId === 2 && <AddBudget toggleModal={toggleModal} id={id} isAddExpensePage={isAddExpensePage}/> }
                 {modalId === 3 && <AddSaving toggleModal={toggleModal}/>}
                 {modalId === 4 && <AddGoal toggleModal={toggleModal}/>}
             </dialog>

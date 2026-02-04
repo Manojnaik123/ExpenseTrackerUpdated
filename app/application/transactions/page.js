@@ -7,6 +7,7 @@ import { ClipLoader } from 'react-spinners';
 
 import DataTable from '@/components/data-table';
 import TransactionsDataTable from '@/components/data-table';
+import { useSearchParams } from 'next/navigation';
 
 
 const TransactionsPage = () => {
@@ -16,8 +17,10 @@ const TransactionsPage = () => {
 
     const tableTitles = [nav.date, nav.category, nav.type, nav.amount, nav.remarks];
 
-    useEffect(() => {
-        const fetchData = async () => {
+     const searchParams = useSearchParams();
+
+    async function fetchingLogic(){
+         const fetchData = async () => {
             try {
                 const res = await fetch("/api/transactions");
                 if (!res.ok) throw new Error("Failed to fetch");
@@ -28,7 +31,11 @@ const TransactionsPage = () => {
             }
         };
         fetchData();
-    }, [lan]);
+    }
+
+    useEffect(() => {
+       fetchingLogic();
+    }, [lan, searchParams]);
 
     const filteredData = data?.transactions.filter(item => item.lanId == lan).map(item => ({
         isSelected: false,
@@ -69,6 +76,7 @@ const TransactionsPage = () => {
                     {data && <TransactionsDataTable
                     titleArray = {tableTitles}
                     tableData = {filteredData}
+                    onRefresh = {fetchingLogic}
                     />}
             </div>
         </div>

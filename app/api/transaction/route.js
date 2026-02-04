@@ -13,7 +13,7 @@ export async function GET(req) {
         // edit mode 
         const { searchParams } = new URL(req.url);
 
-        const id= searchParams.get('id');
+        const id = searchParams.get('id');
         var userTransaction;
 
         if (id > 0) {
@@ -116,8 +116,7 @@ export async function GET(req) {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { typeId, categoryId, subCategoryId, amount, date, notes } = body;
-
+        const { id, typeId, categoryId, subCategoryId, amount, date, notes } = body;
         const errors = serverSideTransactionDataValidator({
             typeId,
             categoryId,
@@ -134,25 +133,49 @@ export async function POST(request) {
             );
         }
 
-        const { data, error } = await supabase
-            .from("UserTransaction")
-            .insert([
-                {
+        let result;
+
+        if (id && id > 0) {
+            // edit
+            const { data, error } = await supabase
+                .from("UserTransaction")
+                .update({
                     type_id: typeId,
                     category_id: categoryId,
                     subcategory_id: subCategoryId,
                     date,
                     amount,
-                    notes
-                },
-            ])
-            .select()
-            .single();
+                    notes,
+                })
+                .eq("id", id)
+                .select()
+                .single();
 
-        if (error) throw error;
+            if (error) throw error;
+            result = data;
+        } else {
+            // insert
+            const { data, error } = await supabase
+                .from("UserTransaction")
+                .insert([
+                    {
+                        type_id: typeId,
+                        category_id: categoryId,
+                        subcategory_id: subCategoryId,
+                        date,
+                        amount,
+                        notes
+                    },
+                ])
+                .select()
+                .single();
+
+            if (error) throw error;
+            result = data;
+        }
 
         return NextResponse.json(
-            { success: true, data },
+            { success: true, result },
             { status: 201 }
         );
 

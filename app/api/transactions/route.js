@@ -90,7 +90,33 @@ export async function GET() {
 
 export async function POST(request) {
     try {
-        const body = await request.json();
+
+        const idsToDelete = await request.json();
+
+        const { data, error } = await supabase
+            .from('UserTransaction')
+            .delete()
+            .in('id', idsToDelete);
+
+        if (error) throw error;
+
+        return NextResponse.json(
+            { success: true, data },
+            { status: 201 }
+        );
+
+    } catch (err) {
+        return NextResponse.json(
+            { error: err.message },
+            { status: 500 }
+        );
+    }
+}
+
+
+/**
+ * 
+ *  const body = await request.json();
         const { typeId, categoryId, subCategoryId, amount, date, notes } = body;
 
         const errors = serverSideTransactionDataValidator({
@@ -124,17 +150,4 @@ export async function POST(request) {
             .select()
             .single();
 
-        if (error) throw error;
-
-        return NextResponse.json(
-            { success: true, data },
-            { status: 201 }
-        );
-
-    } catch (err) {
-        return NextResponse.json(
-            { error: err.message },
-            { status: 500 }
-        );
-    }
-}
+ */

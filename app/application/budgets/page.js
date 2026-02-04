@@ -6,14 +6,23 @@ import { useLanguage } from '../context/LanguageContext';
 
 import BudgetCard from '@/components/budget-card';
 import { ClipLoader } from 'react-spinners';
+import AddVerificaltionModal from '@/components/verification-modal/add-modal';
+
+import { cross } from '@/lib/icons';
+import AddModal from '@/components/add-components/add-modal';
 
 const BudgetsPage = () => {
     const { nav, lan } = useLanguage();
 
     const [data, setData] = useState();
     const [buttonActive, setButtonActive] = useState(1);
+    const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
+    const [isEditModalOpen, setEditModalOpen] = useState(false);
 
-    useEffect(() => {
+    const [selectedId, setSelectedId] = useState(0);
+    const [isAddExpensePage, setIsExpensePage] = useState(false);
+
+    async function fetchBudgets(){
         const fetchData = async () => {
             try {
                 const res = await fetch("/api/budgets");
@@ -25,10 +34,60 @@ const BudgetsPage = () => {
             }
         };
         fetchData();
+    } 
+
+    useEffect(() => {
+        fetchBudgets();
     }, []);
 
     function handleButtonClick(identifier) {
         setButtonActive(identifier);
+    }
+
+    function toggleModal(){
+        setVerificationModalOpen(prev => !prev);
+    }
+
+    function handleModalClose(){
+        setVerificationModalOpen(false);
+    }
+
+    function openEditModal(identifier, isAddExpense){
+        setIsExpensePage(isAddExpense); // here 
+        setSelectedId(Number(identifier));
+        setEditModalOpen(true);
+    }
+
+    function toggleEditModal(){
+        fetchBudgets();
+        setIsExpensePage(false);
+        setEditModalOpen(prev => !prev);
+    }
+
+    function handleBudgetDelete(identifier){
+        setSelectedId(identifier);
+    }
+
+    async function handleDeletionOfBudget(){
+        const id = selectedId;
+        
+        const res = await fetch("/api/budgets", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(id),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.error(data.error);
+                return;
+            }
+        console.log('data deletes');
+        setVerificationModalOpen(false);
+        fetchBudgets();
     }
 
     const filteredData = data?.budgets.filter(item => item.lanId == lan);
@@ -37,6 +96,54 @@ const BudgetsPage = () => {
         <div className='h-full w-full p-4
         bg-light-background dark:bg-dark-background
         '>
+            {isVerificationModalOpen && <AddVerificaltionModal>
+                 <div className='flex flex-col  rounded-md gap-4
+                            bg-light-surface-background dark:bg-dark-surface-background
+                            border border-light-border dark:border-dark-border
+                            '>
+                                <div className='flex justify-between items-center border-b p-4
+                                border-light-border dark:border-dark-border'>
+                                    <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
+                                    >{nav.confirmDeletionOfBudget}</span>
+                                    <button className='text-light-secondary-text dark:text-dark-secondary-text'
+                                    onClick={handleModalClose}
+                                    >
+                                        {cross}
+                                    </button>
+                                </div>
+                                <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
+                                    <p>
+                                        {nav.areYouSureWantToDeleteTheSelectedBudget}
+                                    </p>
+                                    <p className='text-sm
+                                    text-light-muted-text dark:text-dark-muted-text'>
+                                        {nav.thisActionCannotBeUnDone}
+                                    </p>
+                                </div>
+                                <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
+                                    <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
+                                    text-light-secondary-text dark:text-dark-secondary-text
+                                    hover:bg-hover-gray/30'
+                                    onClick={handleModalClose}
+                                    >
+                                        {nav.cancel}
+                                    </button>
+                                    <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
+                                    text-light-secondary-text dark:text-dark-secondary-text
+                                    hover:border-warning-primary hover:bg-warning-secondary/60'
+                                    onClick={handleDeletionOfBudget}
+                                    >
+                                        {nav.delete}
+                                    </button>
+                                </div>
+                            </div>
+                </AddVerificaltionModal>}
+             {isEditModalOpen && <AddModal 
+             modalId={2} 
+             id={selectedId} 
+             toggleModal={toggleEditModal}
+             isAddExpensePage = {isAddExpensePage}
+             />}
             <div className='h-full w-full'>
                 <div className='flex w-96'>
                     <button className={`px-4 py-2 border rounded-l-full w-1/3
@@ -74,6 +181,10 @@ const BudgetsPage = () => {
                  gap-4 pt-4'>
                     {data && filteredData.map(item => (
                         <BudgetCard 
+                        toggleModal = {toggleModal}
+                        toggleEditModal={openEditModal}
+                        deleteHandler = {handleBudgetDelete}
+                        id={item.id}
                         date={item.date} 
                         title={item.title} 
                         subTitle={item.category} 

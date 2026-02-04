@@ -1,21 +1,29 @@
 'use client';
 
-import { arrowEnd, arrowFirst, cross, dash, deleteIcon, download, edit, leftArrow, rightArrow, tick, xxx } from '@/lib/icons'
-import React, { useState } from 'react';
+import { arrowEnd, arrowFirst, cross, dash, dashboard, deleteIcon, download, edit, leftArrow, rightArrow, tick, xxx } from '@/lib/icons'
+import React, { useRef, useState } from 'react';
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import CustomSelect from './add-components/custom-dropdown';
 
 import { transactionTimeSpan } from '@/data.js';
 import { getWeekStartDate, toLocalDate } from '@/util/time-related-date';
 import AddModal from './add-components/add-modal';
+import AddVerificaltionModal from './verification-modal/add-modal';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { exportTransactionsToExcel } from '@/util/xl-export';
 
-const DataTable = ({ titleArray, tableData }) => {
+const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [type, setType] = useState(1);
     const [timeSpanId, setTimeSpanId] = useState(1);
     const [allSelected, setAllSelected] = useState(false);
     const [selectedRows, setSelectedRows] = useState(false);
-     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showVerificationModal, setShowVerificationModal] = useState(false);
+
+     const dialog = useRef();
+
+     const router = useRouter();
 
     const rowsPerPage = 5;
 
@@ -166,8 +174,86 @@ const DataTable = ({ titleArray, tableData }) => {
         toggleModal();
     }
 
+    async function handleMultipleDelete(){
+        const selectedIds = filterdData.filter(item => item.isSelected === true).map(item => item.id);
+        const res = await fetch("/api/transactions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(selectedIds),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.error(data.error);
+                return;
+            }
+        onRefresh();
+        setShowVerificationModal(false);
+    }
+
+    async function showConfirmationModal(){
+         setShowVerificationModal(true);
+    }
+
+    function handleVerifyDialog(){
+        setShowVerificationModal(false);
+    }
+
+     function handleTransactionExport(transactions){
+        exportTransactionsToExcel(transactions);
+    }
+
+    function handleUnSelectAllRows(){
+        filterdData.map(item => item.isSelected = false);
+        setAllSelected(false);
+    }
+
+
     return (
         <>
+         {showVerificationModal && <AddVerificaltionModal ref={dialog}>
+            <div className='flex flex-col  rounded-md gap-4
+            bg-light-surface-background dark:bg-dark-surface-background
+            border border-light-border dark:border-dark-border
+            '>
+                <div className='flex justify-between items-center border-b p-4
+                border-light-border dark:border-dark-border'>
+                    <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
+                    >{nav.confirmDeletionOfTransaction}</span>
+                    <button className='text-light-secondary-text dark:text-dark-secondary-text'
+                    onClick={handleVerifyDialog}
+                    >
+                        {cross}
+                    </button>
+                </div>
+                <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
+                    <p>
+                        {nav.areYouSureWantToDeleteTheSelectedRows}
+                    </p>
+                    <p className='text-sm
+                                    text-light-muted-text dark:text-dark-muted-text'>
+                        {nav.thisActionCannotBeUnDone}
+                    </p>
+                </div>
+                <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
+                    <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
+                    text-light-secondary-text dark:text-dark-secondary-text
+                    hover:bg-hover-gray/30
+                    ' onClick={handleVerifyDialog}>
+                        {nav.cancel}
+                    </button>
+                    <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
+                    text-light-secondary-text dark:text-dark-secondary-text
+                    hover:border-warning-primary hover:bg-warning-secondary/60
+                    ' onClick={handleMultipleDelete}>
+                        {nav.delete}
+                    </button>
+                </div>
+            </div>
+            </AddVerificaltionModal>}
             <div className="w-full ">
 
                 {/* edit box */}
@@ -178,12 +264,17 @@ const DataTable = ({ titleArray, tableData }) => {
                 text-[13px] border
                 border-light-muted-text/15 dark:border-dark-surface-background/5
                 '>
-                        <button className='py-2'>{cross}</button>
-                        <span> {filterdData.filter(i => i.isSelected === true).length} Selected </span>
+                        <button className='py-2'
+                        onClick={handleUnSelectAllRows}
+                        >{cross}
+                        </button>
+                        <span> {filterdData.filter(i => i.isSelected === true).length} {nav.selected} </span>
                         <button onClick={handleEditTransaction}>
                             {filterdData.filter(item=> item.isSelected).length === 1&& edit}
                             </button>
-                        <button>{deleteIcon}</button>
+                        <button onClick={showConfirmationModal}>
+                            {deleteIcon}
+                            </button>
                     </div>
                 }
 
@@ -233,8 +324,11 @@ const DataTable = ({ titleArray, tableData }) => {
                             <button className='px-4 py-2 border rounded-full flex justify-between items-center gap-3
                          border-light-border dark:border-dark-border
                          text-light-secondary-text dark:text-dark-secondary-text
-                         hover:bg-hover-gray/30
-                        '>{nav.export} {download}</button>
+                         hover:bg-hover-gray/30'
+                         onClick={()=> handleTransactionExport(tableData)}
+                         >
+                            {nav.export} {download}
+                        </button>
                         </div>
                     </div>
                 }
@@ -255,7 +349,8 @@ const DataTable = ({ titleArray, tableData }) => {
                                     `}
                                         onClick={() => handleAllSelect()}
                                     >
-                                        {allSelected ? <span>{tick}</span> : ''}
+                                        {(allSelected && filterdData.every(item => item.isSelected === true)) ?
+                                         <span>{tick}</span> : ''}
                                     </button>
                                 </th>
                                 <th className='text-left p-3 
