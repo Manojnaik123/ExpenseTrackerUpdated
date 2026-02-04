@@ -6,7 +6,7 @@ import {
   Cell,
   Tooltip,
   Label,
-  // ResponsiveContainer
+  ResponsiveContainer
 } from "recharts";
 
 const data = [
@@ -19,8 +19,8 @@ const COLORS = ["red", "yellow", "green"];
 
 export default function PieChartComp() {
   return (
-    <div className="w-full h-[100%]  flex justify-center items-center">
-      {/* <ResponsiveContainer className="h-full w-full max-w-175 max-h-125"> */}
+    <div className="w-full h-full  flex justify-center items-center">
+      <ResponsiveContainer className="h-full w-full max-w-175 max-h-125">
         <PieChart>
           <Pie
             data={data}
@@ -67,7 +67,7 @@ export default function PieChartComp() {
 
           <Tooltip />
         </PieChart>
-      {/* </ResponsiveContainer> */}
+      </ResponsiveContainer>
     </div>
   );
 }
