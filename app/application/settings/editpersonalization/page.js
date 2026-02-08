@@ -1,21 +1,13 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import CustomSelect from '@/components/add-components/custom-dropdown';
 
 import { useCurrency } from '../../context/CurrencyContext';
 
-const EditPersonalization = () => {
-
-    const { lan, setLan } = useLanguage();
-
-    function handleSelect(e) {
-        setLan(e.key);
-    }
-
-    const lanData = [
+ const lanData = [
         {
             key: 1,
             value: 'English'
@@ -41,11 +33,31 @@ const EditPersonalization = () => {
         },
     ]
 
-    function handleCurrencySelect(e) {
-        setCurrency(e.key)
-    }
+const EditPersonalization = () => {
+
+    const [selectedLanId, setSelectedLanId] = useState();
+    const [selectedCurId, setSelectedCurId] = useState();
+
+    const { nav, setLan } = useLanguage();
 
     const { currency, setCurrency } = useCurrency();
+
+    useEffect(()=>{
+        setSelectedLanId(Number(localStorage.getItem('languageId')));
+        setSelectedCurId(Number(localStorage.getItem('currencyId')));
+    },[])
+
+    function handleSelect(e) {
+        setLan(e.key);
+        setSelectedLanId(e.key);
+        localStorage.setItem('languageId', e.key);
+    }
+
+    function handleCurrencySelect(e) {
+        setCurrency(e.key);
+        setSelectedCurId(e.key)
+        localStorage.setItem('currencyId', e.key);
+    }
 
     const updatedCurrencies = currency.map(item => {
         return {
@@ -55,16 +67,20 @@ const EditPersonalization = () => {
     })
 
     return (
-        <div className='h-full w-full p-4
+        <div className='h-full w-full p-4 pb-18 md:pb-0
         bg-light-background dark:bg-dark-background
         '>
-            <div className='border rounded-md h-full w- p-4
+            <div className='border rounded-md h-full w-full p-4
             border-light-border dark:border-dark-border
             bg-light-surface-background dark:bg-dark-surface-background
             '>
-                <CustomSelect label='Select Language' onSelect={handleSelect} options={lanData} />
+                <div>
+                    <CustomSelect label={nav.selectLanguage} selectedKey={selectedLanId} onSelect={handleSelect} options={lanData} />
 
-                <CustomSelect label='Select Currency' onSelect={handleCurrencySelect} options={updatedCurrencies} />
+                </div>
+                <div className='mt-4'>
+                    <CustomSelect label={nav.selectCurrency} selectedKey={selectedCurId} onSelect={handleCurrencySelect} options={updatedCurrencies} />
+                </div>
             </div>
         </div>
 

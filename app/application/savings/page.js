@@ -6,7 +6,24 @@ import { ClipLoader } from 'react-spinners';
 
 import SavingsDataTable from '@/components/savings-data-table';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
+export async function fetchSavings(lan, setData) {
+    const fetchData = async () => {
+        try {
+            const params = new URLSearchParams({
+                lanId: lan,
+            });
+            const res = await fetch(`/api/savings?${params.toString()}`);
+            if (!res.ok) throw new Error("Failed to fetch");
+            const json = await res.json();
+            setData(json);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    fetchData();
+}
 
 const TransactionsPage = () => {
     const [data, setData] = useState();
@@ -14,26 +31,13 @@ const TransactionsPage = () => {
 
     const tableTitles = [nav.date, nav.name, nav.type, nav.amount, nav.remarks];
 
-
-    async function fetchSavings(){
-        const fetchData = async () => {
-            try {
-                const res = await fetch("/api/savings");
-                if (!res.ok) throw new Error("Failed to fetch");
-                const json = await res.json();
-                setData(json);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchData();
-    }
+    const searchParams = useSearchParams();
 
     useEffect(() => {
-        fetchSavings();
-    }, []);
+        fetchSavings(lan, setData);
+    }, [lan, searchParams]);
 
-    const filteredData = data?.savings.filter(item => item.lanId == lan).map(item => ({
+    const filteredData = data?.savings.map(item => ({
         isSelected: false,
         id: item.id,
         first: item.date,
@@ -48,21 +52,19 @@ const TransactionsPage = () => {
     console.log(filteredData);
 
     return (
-        <div className='h-full w-full p-4
+        <div className='h-full w-full p-4 pb-18 md:pb-0
         bg-light-background dark:bg-dark-background
         '>
-
-            {!data && <div className='bg-light-background dark:bg-dark-surface-background
-                     rounded-md m-auto
-                    flex flex-col justify-center items-center gap-2 p-4
+            <div className='h-full flex flex-col'>
+                {!data && <div className='w-full flex justify-center items-center border p-4 rounded-md h-full
+                        border-light-border dark:border-dark-border
+                        bg-light-surface-background dark:bg-dark-surface-background 
                     '>
-                <ClipLoader color='gray' size={30} className='' />
-                <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
-            </div>}
-            {data && <div className='h-full flex flex-col'>
-
-                <SavingsDataTable titleArray={tableTitles} tableData={filteredData} onRefresh={fetchSavings} />
-            </div>}
+                    <ClipLoader color='gray' size={30} className='' />
+                    <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
+                </div>}
+                {data && <SavingsDataTable titleArray={tableTitles} tableData={filteredData} onRefresh={fetchSavings} />}
+            </div>
         </div>
     )
 }

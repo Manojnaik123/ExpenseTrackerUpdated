@@ -1,6 +1,7 @@
 import { serverSideSavingDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { auth } from '@/auth';
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
@@ -10,9 +11,19 @@ const supabase = createClient(
 export async function GET(req) {
     try {
 
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const { searchParams } = new URL(req.url);
 
         const id = searchParams.get('id');
+        const lanId = searchParams.get('lanId');
 
         var userSaving;
 
@@ -23,9 +34,6 @@ export async function GET(req) {
             ]);
             userSaving = userBudgetRes.data;
         }
-
-        console.log(userSaving);
-
 
         const [typesRes, typesTranslationsRes, languagesRes] = await Promise.all([
             supabase.from("SavingType").select("*"),
@@ -43,8 +51,6 @@ export async function GET(req) {
 
         // saving types 
         const transTypes = typesTranslations.map(tt => {
-            const type = types.find(t => t.id === tt.saving_type_id);
-            const language = languages.find(l => l.id === tt.language_id);
             return {
                 id: tt.saving_type_id,
                 lanid: tt.language_id,
@@ -53,7 +59,7 @@ export async function GET(req) {
         });
 
         return NextResponse.json({
-            types: transTypes,
+            types: transTypes.filter(i => i.lanid == lanId),
             userSaving: userSaving,
         });
     } catch (error) {
@@ -67,6 +73,15 @@ export async function GET(req) {
 
 export async function POST(request) {
     try {
+
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
         const body = await request.json();
         const { id, name, typeId, amount, date, notes } = body;
 

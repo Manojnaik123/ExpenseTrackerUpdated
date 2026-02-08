@@ -1,16 +1,19 @@
 'use client';
 
-import React from 'react'
+import React from 'react';
+
 import { useLanguage } from '../context/LanguageContext';
 import { useEffect, useState } from 'react';
-
 import { ClipLoader } from 'react-spinners';
+import { cross } from '@/lib/icons';
+import { useCurrency } from '../context/CurrencyContext';
+import { useSearchParams } from 'next/navigation';
+
 
 import GoalCard from '@/components/goal-card';
 import AddVerificaltionModal from '@/components/verification-modal/add-modal';
-import { cross } from '@/lib/icons';
 import AddModal from '@/components/add-components/add-modal';
-import { useCurrency } from '../context/CurrencyContext';
+
 
 const GoalsPage = () => {
     const { nav, lan } = useLanguage();
@@ -25,11 +28,17 @@ const GoalsPage = () => {
     const [buttonActive, setButtonActive] = useState(1);
     const [isCompleted, setIsCompleted] = useState(false);
 
+    const searchParams = useSearchParams();
 
     async function fetchGoals() {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/goals");
+
+                const params = new URLSearchParams({
+                    lanId: lan,
+                });
+
+                const res = await fetch(`/api/goals?${params.toString()}`);
                 if (!res.ok) throw new Error("Failed to fetch");
                 const json = await res.json();
                 setData(json);
@@ -42,7 +51,7 @@ const GoalsPage = () => {
 
     useEffect(() => {
         fetchGoals();
-    }, [lan]);
+    }, [lan, searchParams]);
 
     function handleVerifyModalClose() {
         setVerifyModalVisibility(false);
@@ -64,9 +73,6 @@ const GoalsPage = () => {
 
     async function handleDeletionOfGoal() {
         const id = selectedId;
-        console.log('here');
-        console.log(id);
-
         const res = await fetch("/api/goals", {
             method: "POST",
             headers: {
@@ -103,7 +109,6 @@ const GoalsPage = () => {
     today.setHours(0, 0, 0, 0);
 
     const filteredData = data?.goals
-        .filter(item => item.lanId == lan)
         .filter(item => {
             const goalDate = new Date(item.date);
             goalDate.setHours(0, 0, 0, 0);
@@ -118,7 +123,6 @@ const GoalsPage = () => {
         });
 
     const activeGoals = data?.goals
-        .filter(item => item.lanId == lan)
         .filter(item => {
             const goalDate = new Date(item.date);
             goalDate.setHours(0, 0, 0, 0);
@@ -126,7 +130,6 @@ const GoalsPage = () => {
         }).length;
 
     const completedGoals = data?.goals
-        .filter(item => item.lanId == lan)
         .filter(item => {
             const goalDate = new Date(item.date);
             goalDate.setHours(0, 0, 0, 0);
@@ -151,7 +154,7 @@ const GoalsPage = () => {
         <>
             {isVerificationModalOpen && <AddVerificaltionModal>
 
-                <div className='flex flex-col  rounded-md gap-4
+                <div className='flex flex-col  rounded-md gap-4 
                                         bg-light-surface-background dark:bg-dark-surface-background
                                         border border-light-border dark:border-dark-border
                                         '>
@@ -199,49 +202,47 @@ const GoalsPage = () => {
                 toggleModal={toggleEditModal}
                 isAddFundPage={isAddFundPage}
             />}
-            <div className='h-full w-full p-4
-        bg-light-background dark:bg-dark-background
-        '>
+
+            <div className='h-full w-full p-4 pb-18 md:pb-0
+                bg-light-background dark:bg-dark-background'>
                 <div className='h-full w-full'>
                     {!data && <div className='bg-light-background dark:bg-dark-surface-background
-                     rounded-md m-auto
-                    flex flex-col justify-center items-center gap-2 p-4
-                    '>
+                                    rounded-md m-auto w-full h-full
+                                    flex flex-col justify-center items-center gap-2 p-4
+                                    '>
                         <ClipLoader color='gray' size={30} className='' />
                         <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
                     </div>}
 
-
-
-
                     {data &&
                         <>
+                            <div className='flex flex-col md:flex-row gap-4 pb-4'>
 
-                            <div className='flex gap-4 pb-4'>
-
-                                <div className='p-4 flex flex-col gap-2 grow border rounded-md 
-                border-light-border dark:border-dark-border
-                bg-light-surface-background dark:bg-dark-surface-background
-                '>
+                                <div className='md:w-1/3 p-4 flex flex-col gap-2 border rounded-md 
+                                        border-light-border dark:border-dark-border
+                                        bg-light-surface-background dark:bg-dark-surface-background
+                                        '>
                                     <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.thisMonthSaving}</span>
                                     <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{currentCurrencySymbol} {thisMonthSavings}</span>
                                 </div>
 
-                                <div className='p-4 flex flex-col gap-2 grow border rounded-md 
-                border-light-border dark:border-dark-border
-                bg-light-surface-background dark:bg-dark-surface-background
-                '>
+                               <div className='flex grow gap-4 md:w-2/3'>
+                                 <div className='p-4 flex flex-col gap-2 grow border rounded-md 
+                                        border-light-border dark:border-dark-border
+                                        bg-light-surface-background dark:bg-dark-surface-background
+                                        '>
                                     <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.noOfActiveGoals}</span>
                                     <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{activeGoals}</span>
                                 </div>
 
                                 <div className='p-4 flex flex-col gap-2 grow border rounded-md 
-                border-light-border dark:border-dark-border
-                bg-light-surface-background dark:bg-dark-surface-background
-                '>
+                                        border-light-border dark:border-dark-border
+                                        bg-light-surface-background dark:bg-dark-surface-background
+                                        '>  
                                     <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.noOfCompletedGoals}</span>
                                     <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{completedGoals} </span>
                                 </div>
+                               </div>
 
                             </div>
 

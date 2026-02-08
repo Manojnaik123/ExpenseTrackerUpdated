@@ -13,11 +13,11 @@ import {
 } from "recharts"
 
 const data = [
-    { month: "Jan", income: 0, expense: 0 },
+    { month: "Jan", income: 50, expense: 0 },
     { month: "Feb", income: 0, expense: 150 },
-    { month: "Mar", income: 0, expense: 300 },
-    { month: "Apr", income: 0, expense: 450 },
-    { month: "May", income: 0, expense: 600 },
+    { month: "Mar", income: 50, expense: 300 },
+    { month: "Apr", income: 100, expense: 150 },
+    { month: "May", income: 250, expense: 200 },
 ]
 
 export default function SavingGraph() {

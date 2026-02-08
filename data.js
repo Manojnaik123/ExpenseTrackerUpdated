@@ -1,3 +1,5 @@
+import { register } from "next/dist/next-devtools/userspace/pages/pages-dev-overlay-setup";
+
 export const languageData = {
   1: "English",
   2: "हिन्दी",
@@ -147,7 +149,47 @@ export const navBarData = {
     daysLeft: 'days left',
     priority: 'Priority',
 
+    noRecords: 'No Records',
+    nothingToShow: 'There is nothing to show right now',
+    addTransactionToSeeData: 'Add new transaction to view here.',
+
+    //settings 
+    logout: 'Log out',
+    confirmationForLogout: 'Confirmation for logout',
+    areYouSureAboutLogout: 'Are you sure want to logout of this application',
+    chooseYourResponse: 'Choose your response below',
+
+    selectLanguage: 'Select Language',
+    selectCurrency: 'Select Currency',
+
+
+    personalize: 'Personalize',
+    appearance: 'Appearance',
+    selectTheme: 'Select Theme',
+
+    
+    noValues: 'No Values',
+    chooseCategoryToSeeValuesHere: 'Select a category to view options',
+
+    // settings 
+    accountSettings: 'Account Settings',
+    exportDesc: 'Export all your transaction and savings records for personal backup or reports',
+    clickToExport: 'Click here to export',
+    resetDesc: 'This will permanently delete all your data, including transactions, savings, budgets, and goals. This action cannot be undone.',
+    clickToReset: 'Click here to reset all data',
+
+    // need translation 
+    pages : 'pages',
+    of : 'of',
+    goToSettingsPage : 'Go to settings page',
+
   },
+
+
+
+
+
+
 
   2: {
     // Hindi
@@ -290,6 +332,28 @@ export const navBarData = {
     daysLeft: 'दिन शेष',
     priority: 'प्राथमिकता',
 
+    noRecords: 'कोई रिकॉर्ड नहीं',
+    nothingToShow: 'इस समय दिखाने के लिए कुछ नहीं है',
+    addTransactionToSeeData: 'यहाँ डेटा देखने के लिए नया लेन-देन जोड़ें।',
+
+    logout: 'लॉग आउट',
+    confirmationForLogout: 'लॉग आउट की पुष्टि',
+    areYouSureAboutLogout: 'क्या आप इस एप्लिकेशन से लॉग आउट करना चाहते हैं?',
+    chooseYourResponse: 'नीचे अपना विकल्प चुनें',
+
+    selectLanguage: 'भाषा चुनें',
+    selectCurrency: 'मुद्रा चुनें',
+    personalize: 'व्यक्तिगत करें',
+    appearance: 'दिखावट',
+    selectTheme: 'थीम चुनें',
+    noValues: 'कोई मान नहीं',
+    chooseCategoryToSeeValuesHere: 'विकल्प देखने के लिए श्रेणी चुनें',
+
+    accountSettings: 'खाता सेटिंग्स',
+    exportDesc: 'अपने लेन-देन और बचत रिकॉर्ड को बैकअप या रिपोर्ट के लिए निर्यात करें।',
+    clickToExport: 'निर्यात करने के लिए यहाँ क्लिक करें',
+    resetDesc: 'यह आपकी सभी जानकारी को स्थायी रूप से हटा देगा, जिसमें लेन-देन, बचत, बजट और लक्ष्य शामिल हैं। यह क्रिया वापस नहीं की जा सकती।',
+    clickToReset: 'सभी डेटा रीसेट करने के लिए यहाँ क्लिक करें',
 
   },
 
@@ -446,6 +510,29 @@ export const navBarData = {
     daysLeft: 'Tage übrig',
     priority: 'Priorität',
 
+    noRecords: 'Keine Einträge',
+    nothingToShow: 'Zurzeit gibt es nichts anzuzeigen',
+    addTransactionToSeeData: 'Fügen Sie eine neue Transaktion hinzu, um Daten anzuzeigen.',
+
+    logout: 'Abmelden',
+    confirmationForLogout: 'Abmeldebestätigung',
+    areYouSureAboutLogout: 'Möchten Sie sich wirklich von dieser Anwendung abmelden?',
+    chooseYourResponse: 'Wählen Sie unten Ihre Option',
+
+    selectLanguage: 'Sprache auswählen',
+    selectCurrency: 'Währung auswählen',
+    personalize: 'Personalisieren',
+    appearance: 'Erscheinungsbild',
+    selectTheme: 'Thema auswählen',
+
+    noValues: 'Keine Werte',
+    chooseCategoryToSeeValuesHere: 'Kategorie auswählen, um Optionen anzuzeigen',
+
+    accountSettings: 'Kontoeinstellungen',
+    exportDesc: 'Exportieren Sie alle Transaktions- und Sparaufzeichnungen für Backups oder Berichte.',
+    clickToExport: 'Hier klicken zum Exportieren',
+    resetDesc: 'Alle Ihre Daten, einschließlich Transaktionen, Ersparnisse, Budgets und Ziele, werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.',
+    clickToReset: 'Hier klicken, um alle Daten zurückzusetzen',
   },
 
 
@@ -600,6 +687,31 @@ export const navBarData = {
     outOf: 'sur',
     daysLeft: 'jours restants',
     priority: 'Priorité',
+
+    noRecords: 'Aucun enregistrement',
+    nothingToShow: "Il n'y a rien à afficher pour le moment",
+    addTransactionToSeeData: 'Ajoutez une nouvelle transaction pour voir les données ici.',
+
+    logout: 'Se déconnecter',
+    confirmationForLogout: 'Confirmation de déconnexion',
+    areYouSureAboutLogout: 'Êtes-vous sûr de vouloir vous déconnecter de cette application ?',
+    chooseYourResponse: 'Choisissez votre réponse ci-dessous',
+
+    selectLanguage: 'Sélectionner la langue',
+    selectCurrency: 'Sélectionner la devise',
+
+    personalize: 'Personnaliser',
+    appearance: 'Apparence',
+    selectTheme: 'Sélectionner le thème',
+
+    noValues: 'Aucune valeur',
+    chooseCategoryToSeeValuesHere: 'Sélectionnez une catégorie pour voir les options',
+
+    accountSettings: 'Paramètres du compte',
+    exportDesc: 'Exportez toutes vos transactions et économies pour sauvegarde ou rapports.',
+    clickToExport: 'Cliquez ici pour exporter',
+    resetDesc: 'Cela supprimera définitivement toutes vos données, y compris les transactions, économies, budgets et objectifs. Cette action est irréversible.',
+    clickToReset: 'Cliquez ici pour tout réinitialiser',
   },
 
 
@@ -757,6 +869,29 @@ export const navBarData = {
     daysLeft: 'días restantes',
     priority: 'Prioridad',
 
+    noRecords: 'Sin registros',
+    nothingToShow: 'No hay nada que mostrar en este momento',
+    addTransactionToSeeData: 'Agrega una nueva transacción para ver los datos aquí.',
+
+    logout: 'Cerrar sesión',
+    confirmationForLogout: 'Confirmación de cierre de sesión',
+    areYouSureAboutLogout: '¿Estás seguro de que deseas cerrar sesión de esta aplicación?',
+    chooseYourResponse: 'Elige tu respuesta a continuación',
+
+    selectLanguage: 'Seleccionar idioma',
+    selectCurrency: 'Seleccionar moneda',
+    personalize: 'Personalizar',
+    appearance: 'Apariencia',
+    selectTheme: 'Seleccionar tema',
+    noValues: 'Sin valores',
+    chooseCategoryToSeeValuesHere: 'Seleccione una categoría para ver opciones',
+
+    accountSettings: 'Configuración de la cuenta',
+    exportDesc: 'Exporte todos sus registros de transacciones y ahorros para copias de seguridad o informes.',
+    clickToExport: 'Haga clic aquí para exportar',
+    resetDesc: 'Esto eliminará permanentemente todos sus datos, incluidas transacciones, ahorros, presupuestos y objetivos. Esta acción no se puede deshacer.',
+    clickToReset: 'Haga clic aquí para restablecer todos los datos',
+
   },
 
 
@@ -909,8 +1044,259 @@ export const navBarData = {
     outOf: 'のうち',
     daysLeft: '残り日数',
     priority: '優先度',
+
+    noRecords: '記録がありません',
+    nothingToShow: '現在表示するものがありません',
+    addTransactionToSeeData: 'ここに表示するには新しい取引を追加してください。',
+
+    logout: 'ログアウト',
+    confirmationForLogout: 'ログアウトの確認',
+    areYouSureAboutLogout: 'このアプリケーションからログアウトしてもよろしいですか？',
+    chooseYourResponse: '以下から選択してください',
+
+    selectLanguage: '言語を選択',
+    selectCurrency: '通貨を選択',
+
+    personalize: 'カスタマイズ',
+    appearance: '外観',
+    selectTheme: 'テーマを選択',
+
+    noValues: '値がありません',
+    chooseCategoryToSeeValuesHere: 'カテゴリを選択してオプションを表示',
+
+    accountSettings: 'アカウント設定',
+    exportDesc: 'バックアップやレポート用に、すべての取引と貯蓄データをエクスポートします。',
+    clickToExport: 'ここをクリックしてエクスポート',
+    resetDesc: '取引、貯蓄、予算、目標を含むすべてのデータが完全に削除されます。この操作は元に戻せません。',
+    clickToReset: 'すべてのデータをリセット',
   },
 };
+
+export const themeOptionLabels = {
+  1: { // English
+    dark: 'Dark',
+    light: 'Light',
+    system: 'System',
+  },
+
+  2: { // Hindi
+    dark: 'डार्क',
+    light: 'लाइट',
+    system: 'सिस्टम',
+  },
+
+  3: { // German
+    dark: 'Dunkel',
+    light: 'Hell',
+    system: 'System',
+  },
+
+  4: { // French
+    dark: 'Sombre',
+    light: 'Clair',
+    system: 'Système',
+  },
+
+  5: { // Spanish
+    dark: 'Oscuro',
+    light: 'Claro',
+    system: 'Sistema',
+  },
+
+  6: { // Japanese
+    dark: 'ダーク',
+    light: 'ライト',
+    system: 'システム',
+  },
+};
+
+
+export const exportTableHeaders = {
+  1: { // English
+    slno: 'Sl. No.',
+    date: 'Date',
+    type: 'Type',
+    title: 'Title',
+    amount: 'Amount',
+    notes: 'Notes',
+    subCategory: 'Sub Category',
+    category: 'Category',
+    expenseReport: 'Expense_Report',
+    transactions: 'Transactions',
+    savings: 'Savings',
+  },
+
+  2: { // Hindi
+    slno: 'क्रम संख्या',
+    date: 'तारीख',
+    type: 'प्रकार',
+    title: 'शीर्षक',
+    amount: 'राशि',
+    notes: 'टिप्पणियाँ',
+    subCategory: 'उप-श्रेणी',
+    category: 'श्रेणी',
+    expenseReport: 'खर्च_रिपोर्ट',
+    transactions: 'लेन-देन',
+    savings: 'बचत',
+  },
+
+  3: { // German
+    slno: 'Nr.',
+    date: 'Datum',
+    type: 'Typ',
+    title: 'Titel',
+    amount: 'Betrag',
+    notes: 'Notizen',
+    subCategory: 'Unterkategorie',
+    category: 'Kategorie',
+    expenseReport: 'Ausgabenbericht',
+    transactions: 'Transaktionen',
+    savings: 'Ersparnisse',
+  },
+
+  4: { // French
+    slno: 'N°',
+    date: 'Date',
+    type: 'Type',
+    title: 'Titre',
+    amount: 'Montant',
+    notes: 'Notes',
+    subCategory: 'Sous-catégorie',
+    category: 'Catégorie',
+    expenseReport: 'Rapport_des_dépenses',
+    transactions: 'Transactions',
+    savings: 'Économies',
+  },
+
+  5: { // Spanish
+    slno: 'N.º',
+    date: 'Fecha',
+    type: 'Tipo',
+    title: 'Título',
+    amount: 'Monto',
+    notes: 'Notas',
+    subCategory: 'Subcategoría',
+    category: 'Categoría',
+    expenseReport: 'Informe_de_gastos',
+    transactions: 'Transacciones',
+    savings: 'Ahorros',
+  },
+
+  6: { // Japanese
+    slno: '番号',
+    date: '日付',
+    type: '種類',
+    title: 'タイトル',
+    amount: '金額',
+    notes: 'メモ',
+    subCategory: 'サブカテゴリ',
+    category: 'カテゴリ',
+    expenseReport: '支出レポート',
+    transactions: '取引',
+    savings: '貯蓄',
+  },
+};
+
+
+export const loginPageData = {
+  1: {
+    // English
+    email: 'Email',
+    password: 'Password',
+    logIn: 'Log In',
+    forgotPassword: 'Forgot password',
+    orLoginWith: 'Or, Login with',
+    signUpWithGoogle: 'Sign up with Google',
+    dontHaveAnAccount: "Don't have an account",
+    registerHere: 'Register here',
+    welcomeBack: 'Welcome Back',
+    welcome: 'Welcome',
+    enterYourEmailAndPasswordToAccessYourAccount:
+      'Enter your email and password to access your account.',
+  },
+
+  2: {
+    // Hindi
+    email: 'ईमेल',
+    password: 'पासवर्ड',
+    logIn: 'लॉग इन',
+    forgotPassword: 'पासवर्ड भूल गए?',
+    orLoginWith: 'या, इसके साथ लॉग इन करें',
+    signUpWithGoogle: 'गूगल के साथ साइन अप करें',
+    dontHaveAnAccount: 'खाता नहीं है?',
+    registerHere: 'यहाँ रजिस्टर करें',
+    welcomeBack: 'वापसी पर स्वागत है',
+    welcome: 'स्वागत है',
+    enterYourEmailAndPasswordToAccessYourAccount:
+      'अपने खाते तक पहुँचने के लिए अपना ईमेल और पासवर्ड दर्ज करें।',
+  },
+
+  3: {
+    // German
+    email: 'E-Mail',
+    password: 'Passwort',
+    logIn: 'Anmelden',
+    forgotPassword: 'Passwort vergessen?',
+    orLoginWith: 'Oder anmelden mit',
+    signUpWithGoogle: 'Mit Google registrieren',
+    dontHaveAnAccount: 'Noch kein Konto?',
+    registerHere: 'Hier registrieren',
+    welcomeBack: 'Willkommen zurück',
+    welcome: 'Willkommen',
+    enterYourEmailAndPasswordToAccessYourAccount:
+      'Geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein, um auf Ihr Konto zuzugreifen.',
+  },
+
+  4: {
+    // French
+    email: 'E-mail',
+    password: 'Mot de passe',
+    logIn: 'Se connecter',
+    forgotPassword: 'Mot de passe oublié ?',
+    orLoginWith: 'Ou se connecter avec',
+    signUpWithGoogle: "S'inscrire avec Google",
+    dontHaveAnAccount: "Vous n'avez pas de compte ?",
+    registerHere: 'Inscrivez-vous ici',
+    welcomeBack: 'Bon retour',
+    welcome: 'Bienvenue',
+    enterYourEmailAndPasswordToAccessYourAccount:
+      'Entrez votre e-mail et votre mot de passe pour accéder à votre compte.',
+  },
+
+  5: {
+    // Spanish
+    email: 'Correo electrónico',
+    password: 'Contraseña',
+    logIn: 'Iniciar sesión',
+    forgotPassword: '¿Olvidaste tu contraseña?',
+    orLoginWith: 'O iniciar sesión con',
+    signUpWithGoogle: 'Registrarse con Google',
+    dontHaveAnAccount: '¿No tienes una cuenta?',
+    registerHere: 'Regístrate aquí',
+    welcomeBack: 'Bienvenido de nuevo',
+    welcome: 'Bienvenido',
+    enterYourEmailAndPasswordToAccessYourAccount:
+      'Introduce tu correo electrónico y contraseña para acceder a tu cuenta.',
+  },
+
+  6: {
+    // Japanese
+    email: 'メールアドレス',
+    password: 'パスワード',
+    logIn: 'ログイン',
+    forgotPassword: 'パスワードを忘れましたか？',
+    orLoginWith: 'または次でログイン',
+    signUpWithGoogle: 'グーグルで登録',
+    dontHaveAnAccount: 'アカウントをお持ちでないですか？',
+    registerHere: 'こちらから登録',
+    welcomeBack: 'おかえりなさい',
+    welcome: 'ようこそ',
+    enterYourEmailAndPasswordToAccessYourAccount:
+      'アカウントにアクセスするには、メールアドレスとパスワードを入力してください。',
+  },
+};
+
+
 
 
 

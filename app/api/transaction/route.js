@@ -1,6 +1,8 @@
 import { serverSideTransactionDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
+
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
@@ -10,10 +12,21 @@ const supabase = createClient(
 export async function GET(req) {
     try {
 
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         // edit mode 
         const { searchParams } = new URL(req.url);
 
         const id = searchParams.get('id');
+        const lanId = searchParams.get('lanId');
+
         var userTransaction;
 
         if (id > 0) {
@@ -57,14 +70,12 @@ export async function GET(req) {
 
         // transaction types 
         const transTypes = typesTranslations.map(tt => {
-            const type = types.find(t => t.id === tt.transaction_type_id);
-            const language = languages.find(l => l.id === tt.language_id);
+            // const type = types.find(t => t.id === tt.transaction_type_id);
+            // const language = languages.find(l => l.id === tt.language_id);
             return {
                 transaction_type_id: tt.transaction_type_id,
                 lanid: tt.language_id,
-                saving_type_name: type?.name || null, // optional, from SavingType
-                translation: tt.label,          // assuming this field exists
-                language_name: language?.name || null // optional, from Language
+                translation: tt.label,          
             };
         });
 
@@ -76,9 +87,7 @@ export async function GET(req) {
             return {
                 category_id: t.category_id,
                 lanid: t.language_id,
-                category_name: category?.category_name || null,
                 translation: t.translation,
-                language_name: language?.name || null
             };
         });
 
@@ -91,20 +100,19 @@ export async function GET(req) {
                 subcategory_id: t.subcategory_id,
                 category_id: subcategory?.category_id || null,
                 lanid: t.language_id,
-                base_name: subcategory?.subcategory_name || null, // main subcategory name
-                translation: t.subcategory_name,                  // language-specific translation
-                language_name: language?.name || null
+                translation: t.subcategory_name,  
             };
         });
 
-
         return NextResponse.json({
-            types: transTypes,
-            categories: transCategories,
-            subCategories: transSubCategories,
+            types: transTypes.filter(item => item.lanid == lanId),
+            categories: transCategories.filter(item => item.lanid == lanId),
+            subCategories: transSubCategories.filter(item => item.lanid == lanId),
             userTransaction: userTransaction
         });
     } catch (error) {
+        console.log('reached');
+        
         return NextResponse.json(
             { error: error.message },
             { status: 500 }
@@ -115,6 +123,16 @@ export async function GET(req) {
 
 export async function POST(request) {
     try {
+
+        const session = await auth();
+
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const body = await request.json();
         const { id, typeId, categoryId, subCategoryId, amount, date, notes } = body;
         const errors = serverSideTransactionDataValidator({
@@ -148,6 +166,7 @@ export async function POST(request) {
                     notes,
                 })
                 .eq("id", id)
+                .eq("user_id", session.user.id)
                 .select()
                 .single();
 
@@ -160,6 +179,7 @@ export async function POST(request) {
                 .insert([
                     {
                         type_id: typeId,
+                        user_id: session.user.id,
                         category_id: categoryId,
                         subcategory_id: subCategoryId,
                         date,

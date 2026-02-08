@@ -1,6 +1,7 @@
 import { serverSideGoalDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { auth } from '@/auth';
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
@@ -10,11 +11,19 @@ const supabase = createClient(
 export async function GET(req) {
     try {
 
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const { searchParams } = new URL(req.url);
 
         const id = searchParams.get('id');
-
-        console.log(id);
+        const lanId = searchParams.get('lanId');
 
         var userGoal;
 
@@ -42,17 +51,11 @@ export async function GET(req) {
             throw new Error("Supabase fetch failed");
         }
 
-        const priorities = prioritiesRes.data;
         const prioritiesTranslation = prioritiesTranslationsRes.data;
-        const languages = languagesRes.data;
-
-        const categories = categoriesRes.data;
         const categoryTranslations = catTranslationsRes.data;
 
         // priorities
         const prioritiesData = prioritiesTranslation.map(tt => {
-            const type = priorities.find(t => t.id === tt.priority_id);
-            const language = languages.find(l => l.id === tt.language_id);
             return {
                 id: tt.priority_id,
                 lanid: tt.language_id,
@@ -62,8 +65,6 @@ export async function GET(req) {
 
         // categories 
         const categoriesData = categoryTranslations.map(tt => {
-            const type = categories.find(t => t.id === tt.goal_category_id);
-            const language = languages.find(l => l.id === tt.language_id);
             return {
                 id: tt.goal_category_id,
                 lanid: tt.language_id,
@@ -72,8 +73,8 @@ export async function GET(req) {
         });
 
         return NextResponse.json({
-            priorities: prioritiesData,
-            categories: categoriesData,
+            priorities: prioritiesData.filter(item => item.lanid == lanId),
+            categories: categoriesData.filter(item => item.lanid == lanId),
             userGoal: userGoal
         });
     } catch (error) {
@@ -87,6 +88,16 @@ export async function GET(req) {
 
 export async function POST(request) {
     try {
+
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const body = await request.json();
         const { id, title, categoryId, amount, priorityId, date, remarks, fund } = body;
 
@@ -110,7 +121,7 @@ export async function POST(request) {
 
         if (id && id > 0) {
 
-             const { data: existingRow, error: fetchError } = await supabase
+            const { data: existingRow, error: fetchError } = await supabase
                 .from("UserGoal")
                 .select("fund")
                 .eq("id", id)
@@ -147,7 +158,8 @@ export async function POST(request) {
                         amount,
                         priority_id: priorityId,
                         date,
-                        remarks
+                        remarks,
+                        user_id: session.user.id,
                     },
                 ])
                 .select()

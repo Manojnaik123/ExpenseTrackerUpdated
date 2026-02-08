@@ -1,6 +1,7 @@
 import { serverSideBudgetDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { auth } from '@/auth';
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
@@ -9,6 +10,15 @@ const supabase = createClient(
 
 export async function GET(req) {
     try {
+
+        const session = await auth();
+
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
 
         const { searchParams } = new URL(req.url);
 
@@ -19,33 +29,24 @@ export async function GET(req) {
         if (id > 0) {
             const [userBudgetRes] = await Promise.all([
                 supabase.from("UserBudget").select("*")
-                    .eq("id", id),
+                    .eq("id", id).eq("user_id", session.user.id),
             ]);
             userBudget = userBudgetRes.data;
             userBudget[0].amountSpent = '';
-            console.log(userBudget);
-
         }
 
-        const [languagesRes, categoriesRes, translationsRes] = await Promise.all([
-            supabase.from("Language").select("*"),
-            supabase.from("BudgetTransactionCategory").select("*"),
+        const [ translationsRes] = await Promise.all([
             supabase.from("BudgetTransactionCategoryTranslation").select("*"),
         ]);
 
-        if (languagesRes.error || categoriesRes.error || translationsRes.error) {
+        if (translationsRes.error) {
             throw new Error("Supabase fetch failed");
         }
 
-        const languages = languagesRes.data;
-        const categories = categoriesRes.data;
         const translations = translationsRes.data;
 
         // categories 
         const transCategories = translations.map(t => {
-            const category = categories.find(c => c.category_id === t.category_id);
-            const language = languages.find(l => l.id === t.language_id);
-
             return {
                 id: t.category_id,
                 lanid: t.language_id,
@@ -68,6 +69,16 @@ export async function GET(req) {
 
 export async function POST(request) {
     try {
+
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const body = await request.json();
         console.log(body);
         const { id, title, categoryId, amount, date, notes, amountSpent } = body;
@@ -96,6 +107,7 @@ export async function POST(request) {
                 .from("UserBudget")
                 .select("amountSpent")
                 .eq("id", id)
+                .eq("user_id", session.user.id)
                 .single();
 
             const updatedAmountSpent = Number(existingRow.amountSpent || 0) + Number(amountSpent);
@@ -114,7 +126,7 @@ export async function POST(request) {
                 .eq("id", id)
                 .select()
                 .single();
-            
+
             if (error) throw error;
             result = data;
         } else {
@@ -126,7 +138,8 @@ export async function POST(request) {
                         budget_category_id: categoryId,
                         amount,
                         date,
-                        notes
+                        notes,
+                        user_id: session.user.id
                     },
                 ])
                 .select()

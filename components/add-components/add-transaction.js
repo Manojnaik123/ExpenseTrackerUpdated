@@ -47,6 +47,7 @@ const AddTransaction = ({ toggleModal, id }) => {
             try {
                 const payload = {
                     id: id ? id : 0,
+                    lanId: lan
                 }
                 const params = new URLSearchParams(payload).toString();
                 const res = await fetch(`/api/transaction?${params}`);
@@ -76,7 +77,7 @@ const AddTransaction = ({ toggleModal, id }) => {
 
             setSubCategoriesData(
                 data.subCategories
-                    .filter(item => item.lanid == lan && item.category_id === tx.category_id)
+                    .filter(item => item.category_id === tx.category_id)
                     .map(item => ({
                         id: item.subcategory_id,
                         category_id: item.category_id,
@@ -99,17 +100,17 @@ const AddTransaction = ({ toggleModal, id }) => {
         userTransaction = data?.userTransaction[0];
     }
 
-    const types = data?.types.filter(item => item.lanid == lan).map(item => ({
+    const types = data?.types.map(item => ({
         id: item.transaction_type_id,
         value: item.translation
     }));
 
-    const categories = data?.categories.filter(item => item.lanid == lan).map(item => ({
+    const categories = data?.categories.map(item => ({
         id: item.category_id,
         value: item.translation
     }))
 
-    const subCategories = data?.subCategories.filter(item => item.lanid == lan).map(item => ({
+    const subCategories = data?.subCategories.map(item => ({
         id: item.subcategory_id,
         category_id: item.category_id,
         value: item.translation
@@ -140,6 +141,9 @@ const AddTransaction = ({ toggleModal, id }) => {
             [identifier]: selected.id
         }));
     }
+
+    console.log(userData);
+    
 
     function handleInputChange(event, identifier) {
         let value = event.target.value;
@@ -181,7 +185,6 @@ const AddTransaction = ({ toggleModal, id }) => {
 
     return (
         <>
-
             <div className='relative h-full w-full'>
                 <div className={`${showSpinner ? 'absolute' : 'hidden'} z-30 h-full w-full flex justify-center items-center 
                     
@@ -220,6 +223,7 @@ const AddTransaction = ({ toggleModal, id }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    isRequired={true}
                                     label={nav.type}
                                     options={types}
                                     onSelect={(e) => handleSelectChange(e, 'typeId')}
@@ -229,6 +233,7 @@ const AddTransaction = ({ toggleModal, id }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    isRequired={true}
                                     selectedKey={userData.categoryId}
                                     label={nav.category}
                                     options={categories}
@@ -240,15 +245,19 @@ const AddTransaction = ({ toggleModal, id }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    isRequired={true}
+                                    message={`( ${nav.chooseCategoryToSeeValuesHere} )`}
                                     selectedKey={userData.subCategoryId}
                                     label={nav.subCategory}
                                     options={subCategoriesData}
                                     onSelect={(e) => handleSelectChange(e, 'subCategoryId')}
                                     isValid={errors.subCategoryId}
                                 />
+
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                    isRequired={true}
                                     value={userData.amount}
                                     label={nav.amount}
                                     type='number'
@@ -260,6 +269,7 @@ const AddTransaction = ({ toggleModal, id }) => {
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <CustomInput
+                                isRequired={true}
                                 value={userData.date}
                                 label={nav.date} type='date'
                                 placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'date')}
@@ -290,7 +300,7 @@ const AddTransaction = ({ toggleModal, id }) => {
                         <div className='hidden md:flex justify-end items-center gap-3 pt-10 mt-auto'>
                             <button className='text-lg
                     text-blue-700
-                    '>{nav.cancel}</button>
+                    ' onClick={toggleModal}>{nav.cancel}</button>
                             <button className='text-lg
                     text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}

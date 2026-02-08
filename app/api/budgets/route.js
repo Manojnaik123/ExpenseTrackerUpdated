@@ -1,17 +1,29 @@
-import { transaction } from '@/lib/icons';
+import { budget, transaction } from '@/lib/icons';
 import { serverSideTransactionDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { auth } from '@/auth';
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
-export async function GET() {
+export async function GET(request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const lanId = searchParams.get('lanId');
+
+        const session = await auth();
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const [userBudgetsRes, budgetsCategoryTranslationRes] = await Promise.all([
-            supabase.from("UserBudget").select("*"),
+            supabase.from("UserBudget").select("*").eq("user_id", session.user.id),
             supabase.from("BudgetTransactionCategoryTranslation").select("*"),
         ]);
 
@@ -37,10 +49,11 @@ export async function GET() {
                     categoryId: tx.budget_category_id,
                 }))
         );
-
+        
         return NextResponse.json({
-            budgets: budgets
+            budgets: budgets.filter(item => item.lanId == lanId)
         });
+
     } catch (error) {
         return NextResponse.json(
             { error: error.message },
@@ -49,9 +62,17 @@ export async function GET() {
     }
 }
 
-
 export async function POST(request) {
     try {
+
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
 
         const id = await request.json();
 

@@ -9,7 +9,8 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { budgetDataValidator } from '@/util/form-validation';
-import BudgetDropDown from '../budget-dropdown';
+import { useRouter, usePathname } from 'next/navigation';
+
 
 const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
     const [data, setData] = useState();
@@ -32,6 +33,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
     })
 
     const { lan, nav } = useLanguage();
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -116,6 +118,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                 return;
             }
             setShowSpinner(false);
+            router.replace('/application/budgets?reload=' + Date.now());
             toggleModal();
         }
     }

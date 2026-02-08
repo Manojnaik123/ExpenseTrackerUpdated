@@ -21,13 +21,14 @@ const AddModal = ({ toggleModal, modalId, id, isAddExpensePage, isAddFundPage })
     return (
         <>
             <div
-                className="md:fixed md:inset-0 md:bg-black/10 md:backdrop-blur-[2px] md:z-40"
+                className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40"
             // close when clicking overlay
             ></div>
-            <dialog ref={dialog} className='fixed z-50 flex flex-col h-full w-full md:h-[80lvh] md:w-[600px] m-auto rounded-lg
-    bg-light-background dark:bg-dark-background border 
-    border-light-border dark:border-dark-border
-    '>
+            <dialog ref={dialog} className={`fixed z-50 flex flex-col h-full w-full md:h-[80lvh] md:w-[600px] m-auto rounded-lg scrollbar-custom
+                bg-light-background dark:bg-dark-background border 
+                border-light-border dark:border-dark-border
+
+                `}>
                 {modalId === 1 && <AddTransaction toggleModal={toggleModal} id={id}/>}
                 {modalId === 2 && <AddBudget toggleModal={toggleModal} id={id} isAddExpensePage={isAddExpensePage}/> }
                 {modalId === 3 && <AddSaving toggleModal={toggleModal} id={id}/>}

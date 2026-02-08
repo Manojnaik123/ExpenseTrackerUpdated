@@ -2,24 +2,41 @@ import { transaction } from '@/lib/icons';
 import { serverSideTransactionDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { auth } from '@/auth';
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
-export async function GET() {
+export async function GET(request) {
     try {
+
+        const { searchParams } = new URL(request.url);
+        const lanId = searchParams.get('lanId');
+
+        if (!lanId) {
+            return NextResponse.json(
+                { error: 'Language ID not found from get request' },
+                { status: 500 }
+            )
+        }
+
+        const session = await auth();
+
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
+
         const [userGoalsRes, goalCategoryRes, goalPriorityRes] = await Promise.all([
             supabase.from("UserGoal").select("*"),
-            supabase.from("GoalCategoryTranslation").select("*"),
-            supabase.from("GoalPriorityTranslation").select("*"),
+            supabase.from("GoalCategoryTranslation").select("*").eq("language_id", lanId),
+            supabase.from("GoalPriorityTranslation").select("*").eq("language_id", lanId),
 
         ]);
-
-        if (userGoalsRes.error || goalCategoryRes.error || goalPriorityRes.error) {
-            throw new Error("Supabase fetch failed");
-        }
 
         const userGoals = userGoalsRes.data;
         const goalCategories = goalCategoryRes.data;
@@ -28,16 +45,15 @@ export async function GET() {
         // user goals
         const goals = userGoals.flatMap(ug =>
             goalCategories
-                .filter(c => c.goal_category_id === ug.goal_category_id)
+                .filter(c => c.goal_category_id === ug.goal_category_id && c.language_id == lanId)
                 .map(t => ({
                     id: ug.id,
-                    lanId: t.language_id, 
                     title: ug.title,
                     category: t.label,
                     categoryId: ug.goal_category_id,
                     amount: ug.amount,
                     priorityId: ug.priority_id,
-                    fund:ug.fund,
+                    fund: ug.fund,
                     date: ug.date,
                 }))
         );
@@ -45,10 +61,9 @@ export async function GET() {
         // updated goals 
         const updatedGoals = goals.flatMap(ug =>
             goalPriorities
-                .filter(c => c.priority_id === ug.priorityId && ug.lanId === c.language_id)
+                .filter(c => c.priority_id === ug.priorityId && c.language_id == lanId)
                 .map(t => ({
                     id: ug.id,
-                    lanId: ug.lanId,
                     title: ug.title,
                     category: ug.category,
                     categoryId: ug.categoryId,
@@ -56,9 +71,12 @@ export async function GET() {
                     priority: t.label,
                     priorityId: ug.priorityId,
                     date: ug.date,
-                    fund:ug.fund
+                    fund: ug.fund
                 }))
         );
+
+        console.log(updatedGoals);
+        
 
         return NextResponse.json({
             goals: updatedGoals,
@@ -74,11 +92,18 @@ export async function GET() {
 
 export async function POST(request) {
     try {
+        const session = await auth();
 
+        if (!session) {
+            return NextResponse.json(
+                { error: 'Unauthroized' },
+                { status: 401 }
+            )
+        }
         const id = await request.json();
 
         console.log(id);
-        
+
 
         const { data, error } = await supabase
             .from('UserGoal')

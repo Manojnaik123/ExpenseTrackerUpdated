@@ -22,9 +22,9 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showVerificationModal, setShowVerificationModal] = useState(false);
 
-     const dialog = useRef();
+    const dialog = useRef();
 
-     const router = useRouter();
+    const router = useRouter();
 
     const rowsPerPage = 5;
 
@@ -36,7 +36,7 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [buttonActive, setButtonActive] = useState(1);
 
     const { nav, lan } = useLanguage();
-    const {currentCurrencySymbol} = useCurrency();
+    const { currentCurrencySymbol } = useCurrency();
 
     const filterdData = tableData.slice(indexofFirstRow, indexOfLastRow)
         .filter(item => {
@@ -143,7 +143,7 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
     }
 
     function handleinputclick(id) {
-        if(!filterdData.some(item => item.isSelected === true)){
+        if (!filterdData.some(item => item.isSelected === true)) {
             setAllSelected(false);
         }
         filterdData.find(item => item.id == id).isSelected === true ?
@@ -168,47 +168,47 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
         }
     }
 
-    function toggleModal(){
+    function toggleModal() {
         setIsModalOpen(prev => !prev);
     }
 
-    function handleEditTransaction(){
+    function handleEditTransaction() {
         toggleModal();
     }
 
-    async function handleMultipleDelete(){
+    async function handleMultipleDelete() {
         const selectedIds = filterdData.filter(item => item.isSelected === true).map(item => item.id);
         const res = await fetch("/api/transactions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(selectedIds),
-            });
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds),
+        });
 
-            const data = await res.json();
+        const data = await res.json();
 
-            if (!res.ok) {
-                console.error(data.error);
-                return;
-            }
+        if (!res.ok) {
+            console.error(data.error);
+            return;
+        }
         onRefresh();
         setShowVerificationModal(false);
     }
 
-    async function showConfirmationModal(){
-         setShowVerificationModal(true);
+    async function showConfirmationModal() {
+        setShowVerificationModal(true);
     }
 
-    function handleVerifyDialog(){
+    function handleVerifyDialog() {
         setShowVerificationModal(false);
     }
 
-     function handleTransactionExport(transactions){
-        exportTransactionsToExcel(transactions);
+    function handleTransactionExport(transactions) {
+        exportTransactionsToExcel(transactions, lan);
     }
 
-    function handleUnSelectAllRows(){
+    function handleUnSelectAllRows() {
         filterdData.map(item => item.isSelected = false);
         setAllSelected(false);
     }
@@ -216,121 +216,121 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
 
     return (
         <>
-         {showVerificationModal && <AddVerificaltionModal ref={dialog}>
-            <div className='flex flex-col  rounded-md gap-4
+            {showVerificationModal && <AddVerificaltionModal ref={dialog}>
+                <div className='flex flex-col  rounded-md gap-4
             bg-light-surface-background dark:bg-dark-surface-background
             border border-light-border dark:border-dark-border
             '>
-                <div className='flex justify-between items-center border-b p-4
+                    <div className='flex justify-between items-center border-b p-4
                 border-light-border dark:border-dark-border'>
-                    <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
-                    >{nav.confirmDeletionOfTransaction}</span>
-                    <button className='text-light-secondary-text dark:text-dark-secondary-text'
-                    onClick={handleVerifyDialog}
-                    >
-                        {cross}
-                    </button>
-                </div>
-                <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
-                    <p>
-                        {nav.areYouSureWantToDeleteTheSelectedRows}
-                    </p>
-                    <p className='text-sm
+                        <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
+                        >{nav.confirmDeletionOfTransaction}</span>
+                        <button className='text-light-secondary-text dark:text-dark-secondary-text'
+                            onClick={handleVerifyDialog}
+                        >
+                            {cross}
+                        </button>
+                    </div>
+                    <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
+                        <p>
+                            {nav.areYouSureWantToDeleteTheSelectedRows}
+                        </p>
+                        <p className='text-sm
                                     text-light-muted-text dark:text-dark-muted-text'>
-                        {nav.thisActionCannotBeUnDone}
-                    </p>
-                </div>
-                <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
-                    <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
+                            {nav.thisActionCannotBeUnDone}
+                        </p>
+                    </div>
+                    <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
+                        <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
                     text-light-secondary-text dark:text-dark-secondary-text
                     hover:bg-hover-gray/30
                     ' onClick={handleVerifyDialog}>
-                        {nav.cancel}
-                    </button>
-                    <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
+                            {nav.cancel}
+                        </button>
+                        <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
                     text-light-secondary-text dark:text-dark-secondary-text
                     hover:border-warning-primary hover:bg-warning-secondary/60
                     ' onClick={handleMultipleDelete}>
-                        {nav.delete}
-                    </button>
+                            {nav.delete}
+                        </button>
+                    </div>
                 </div>
-            </div>
             </AddVerificaltionModal>}
             <div className="w-full ">
 
                 {/* edit box */}
                 {filterdData.some(item => item.isSelected === true) &&
                     <div className='w-full h-[43.9px] rounded-full flex justify-start items-center px-4 gap-2
-                bg-light-muted-text/15 dark:bg-light-surface-background/5
-                text-light-secondary-text dark:text-dark-secondary-text
-                text-[13px] border
-                border-light-muted-text/15 dark:border-dark-surface-background/5
-                '>
+                        bg-light-muted-text/15 dark:bg-light-surface-background/5
+                        text-light-secondary-text dark:text-dark-secondary-text
+                        text-[13px] border
+                        border-light-muted-text/15 dark:border-dark-surface-background/5'>
+
                         <button className='py-2'
-                        onClick={handleUnSelectAllRows}
+                            onClick={handleUnSelectAllRows}
                         >{cross}
                         </button>
                         <span> {filterdData.filter(i => i.isSelected === true).length} {nav.selected} </span>
                         <button onClick={handleEditTransaction}>
-                            {filterdData.filter(item=> item.isSelected).length === 1&& edit}
-                            </button>
+                            {filterdData.filter(item => item.isSelected).length === 1 && edit}
+                        </button>
                         <button onClick={showConfirmationModal}>
                             {deleteIcon}
-                            </button>
+                        </button>
                     </div>
                 }
 
-                { isModalOpen && <AddModal id={filterdData.find(item => item.isSelected === true).id} modalId={1} toggleModal={toggleModal}/>}
+                {isModalOpen && <AddModal id={filterdData.find(item => item.isSelected === true).id} modalId={1} toggleModal={toggleModal} />}
 
                 {/* button box all income epense */}
                 {!filterdData.some(item => item.isSelected === true) &&
-                    <div className=' flex flex-col sm:flex sm:flex-row justify-between gap-4'>
-                        <div className='flex grow  sm:max-w-[340px]'>
+                    <div className='flex flex-col sm:flex sm:flex-row justify-between gap-4'>
+                        <div className='flex grow  sm:max-w-[340px] h-10'>
                             <button className={`px-4 py-2 border rounded-l-full w-1/3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                      
-                         ${buttonActive === 1 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
-                         `}
+                                border-light-border dark:border-dark-border
+                                text-light-secondary-text dark:text-dark-secondary-text
+                            
+                                ${buttonActive === 1 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
+                                `}
                                 onClick={() => handleTypeSelection(1)}
                             >{nav.all}</button>
                             <button className={`
-                            px-4 py-2 border-y w-1/3
-                        border-light-border dark:border-dark-border
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        ${buttonActive === 2 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
-                            `}
+                                    px-4 py-2 border-y w-1/3
+                                border-light-border dark:border-dark-border
+                                text-light-secondary-text dark:text-dark-secondary-text
+                                ${buttonActive === 2 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
+                                    `}
                                 onClick={() => handleTypeSelection(2)}
                             >{nav.income}</button>
 
                             <button className={`
-                            px-4 py-2 border rounded-r-full w-1/3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                         ${buttonActive === 3 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
-                            `}
-                                onClick={() => handleTypeSelection(3)}
-                            >
+                                    px-4 py-2 border rounded-r-full w-1/3
+                                border-light-border dark:border-dark-border
+                                text-light-secondary-text dark:text-dark-secondary-text
+                                ${buttonActive === 3 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
+                                    `}
+                                onClick={() => handleTypeSelection(3)}>
                                 {nav.expense}
                             </button>
                         </div>
-                        <div className='flex gap-3 justify-between items-center md:justify-end bg-red400'>
+                        <div className='flex gap-3 justify-between items-center md:justify-end'>
                             <div className='w-44'>
-                                <CustomSelect options={transactionTimeSpan[lan]}
+                                <CustomSelect
+                                    options={transactionTimeSpan[lan]}
                                     onSelect={(e) => handleTimeSpanSelect(e.key)}
                                     selectedKey={1}
                                     height={10}
+                                    showLabel={false}
                                 />
                             </div>
 
                             <button className='px-4 py-2 border rounded-full flex justify-between items-center gap-3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                         hover:bg-hover-gray/30'
-                         onClick={()=> handleTransactionExport(tableData)}
-                         >
-                            {nav.export} {download}
-                        </button>
+                                border-light-border dark:border-dark-border
+                                text-light-secondary-text dark:text-dark-secondary-text
+                                hover:bg-hover-gray/30'
+                                onClick={() => handleTransactionExport(tableData)}>
+                                {nav.export} {download}
+                            </button>
                         </div>
                     </div>
                 }
@@ -352,7 +352,7 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                                         onClick={() => handleAllSelect()}
                                     >
                                         {(allSelected && filterdData.every(item => item.isSelected === true)) ?
-                                         <span>{tick}</span> : ''}
+                                            <span>{tick}</span> : ''}
                                     </button>
                                 </th>
                                 <th className='text-left p-3 
@@ -410,12 +410,12 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>
                                         <span className={`${item.typeId == 1 ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
-                                        {item.fourth}
+                                            {item.fourth}
                                         </span>
                                     </td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
-                    '> {currentCurrencySymbol +' '+item.fifth}</td>
+                    '> {currentCurrencySymbol + ' ' + item.fifth}</td>
                                     <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>{item.sixth}</td>
@@ -495,7 +495,7 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                     </button>
                 </div>
                 <div className='flex text-light-muted-text dark:text-dark-muted-text'>
-                    {currentPage} of {totalPages} pages
+                    {currentPage} {nav.of} {totalPages} {nav.pages}
                 </div>
             </footer>
         </>

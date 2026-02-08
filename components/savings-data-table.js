@@ -358,7 +358,7 @@ import { getWeekStartDate, toLocalDate } from '@/util/time-related-date';
 import AddModal from './add-components/add-modal';
 import AddVerificaltionModal from './verification-modal/add-modal';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { exportSavingsToExcel, exportTransactionsToExcel } from '@/util/xl-export';
+import { exportSavingsToExcel } from '@/util/xl-export';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
 
 const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
@@ -575,7 +575,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     }
 
     function handleSavingsExport(savings) {
-        exportSavingsToExcel(savings);
+        exportSavingsToExcel(savings, lan);
     }
 
     function handleUnSelectAllRows() {
@@ -584,7 +584,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     }
 
     console.log('rerendered');
-    
+
 
     return (
         <>
@@ -630,18 +630,18 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
             </AddVerificaltionModal>}
             <div className='flex gap-4 pb-4'>
                 <div className='p-4 flex flex-col gap-2 grow border rounded-md 
-                border-light-border dark:border-dark-border
-                bg-light-surface-background dark:bg-dark-surface-background
-                '>
+                    border-light-border dark:border-dark-border
+                    bg-light-surface-background dark:bg-dark-surface-background
+                    '>
                     <h1 className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.totalSavings}</h1>
-                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'> {currentCurrencySymbol + ' ' + new Intl.NumberFormat('en-IN').format(totalAmount)}</span>
+                    <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'> {currentCurrencySymbol + ' ' + new Intl.NumberFormat('en-IN').format(totalAmount)}</span>
                 </div>
                 <div className='p-4 flex flex-col gap-2 grow border rounded-md 
-                border-light-border dark:border-dark-border
-                bg-light-surface-background dark:bg-dark-surface-background
-                '>
+                    border-light-border dark:border-dark-border
+                    bg-light-surface-background dark:bg-dark-surface-background
+                    '>
                     <h1 className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.thisMonthSaving}</h1>
-                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'> {currentCurrencySymbol + ' ' + new Intl.NumberFormat('en-IN').format(thisMonthSavings)}</span>
+                    <span className='text-lg  md:text-2xl text-light-primary-text dark:text-dark-primary-text'> {currentCurrencySymbol + ' ' + new Intl.NumberFormat('en-IN').format(thisMonthSavings)}</span>
                 </div>
             </div>
             <div className='w-full  border p-4 rounded-md h-full
@@ -678,28 +678,28 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                         <div className=' flex flex-col sm:flex sm:flex-row justify-between gap-4'>
                             <div className='flex grow  sm:max-w-[340px]'>
                                 <button className={`px-4 py-2 border rounded-l-full w-1/3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                      
-                         ${buttonActive === 1 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
-                         `}
+                                    border-light-border dark:border-dark-border
+                                    text-light-secondary-text dark:text-dark-secondary-text
+                                
+                                    ${buttonActive === 1 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
+                                    `}
                                     onClick={() => handleTypeSelection(1)}
                                 >{nav.all}</button>
                                 <button className={`
-                            px-4 py-2 border-y w-1/3
-                        border-light-border dark:border-dark-border
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        ${buttonActive === 2 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
-                            `}
+                                    px-4 py-2 border-y w-1/3
+                                border-light-border dark:border-dark-border
+                                text-light-secondary-text dark:text-dark-secondary-text
+                                ${buttonActive === 2 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
+                                    `}
                                     onClick={() => handleTypeSelection(2)}
                                 >{nav.deposit}</button>
 
                                 <button className={`
-                            px-4 py-2 border rounded-r-full w-1/3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                         ${buttonActive === 3 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
-                            `}
+                                    px-4 py-2 border rounded-r-full w-1/3
+                                border-light-border dark:border-dark-border
+                                text-light-secondary-text dark:text-dark-secondary-text
+                                ${buttonActive === 3 ? 'bg-accent-hover text-white' : 'hover:bg-hover-gray/30'}
+                                    `}
                                     onClick={() => handleTypeSelection(3)}
                                 >
                                     {nav.withdraw}
@@ -707,10 +707,12 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                             </div>
                             <div className='flex gap-3 justify-between items-center md:justify-end bg-red400'>
                                 <div className='w-44'>
-                                    <CustomSelect options={transactionTimeSpan[lan]}
+                                    <CustomSelect
+                                        options={transactionTimeSpan[lan]}
                                         onSelect={(e) => handleTimeSpanSelect(e.key)}
                                         selectedKey={1}
                                         height={10}
+                                        showLabel={false}
                                     />
                                 </div>
 
@@ -886,7 +888,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                         </button>
                     </div>
                     <div className='flex text-light-muted-text dark:text-dark-muted-text'>
-                        {currentPage} of {totalPages} pages
+                        {currentPage} {nav.of} {totalPages} {nav.pages}
                     </div>
                 </footer>
             </div>

@@ -10,6 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { savingDataValidator } from '@/util/form-validation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const AddSaving = ({ toggleModal, id }) => {
     const [data, setData] = useState();
@@ -31,6 +32,8 @@ const AddSaving = ({ toggleModal, id }) => {
     })
 
     const { lan, nav } = useLanguage();
+        const router = useRouter();
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,6 +41,7 @@ const AddSaving = ({ toggleModal, id }) => {
 
                 const payload = {
                     id: id ? id : 0,
+                    lanId: lan
                 }
                 const params = new URLSearchParams(payload).toString();
                 const res = await fetch(`/api/saving?${params}`);
@@ -73,13 +77,10 @@ const AddSaving = ({ toggleModal, id }) => {
         }
     }, [id, data, lan]);
 
-    const types = data?.types.filter(item => item.lanid == lan).map(item => ({
+    const types = data?.types.map(item => ({
         id: item.id,
         value: item.translation
     }));
-
-    console.log(types);
-
 
     function handleSelectChange(selected, identifier) {
         setUserData(prev => ({
@@ -116,6 +117,7 @@ const AddSaving = ({ toggleModal, id }) => {
                 return;
             }
             setShowSpinner(false);
+            router.replace('/application/savings?reload=' + Date.now());
             toggleModal();
         }
     }

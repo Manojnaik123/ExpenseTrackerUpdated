@@ -1,12 +1,16 @@
 import React from 'react'
 
-const CustomInput = ({value, label, type, placeHolder, onChange, isValid, max, disabled=false }) => {
+const CustomInput = ({value, label, type, placeHolder, onChange, isValid, max, disabled=false, isRequired=false }) => {
   return (
     <div className='relative flex flex-col grow gap-1'>
       <label className='text-[13px]
         text-light-secondary-text dark:text-dark-secondary-text
-        '>{label}</label>
+        '>
+          {label}
+          {isRequired && <span className='pl-1 text-warning-primary'>*</span> }
+        </label>
       <input className={` ${disabled ? 'bg-hover-gray/40 text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}
+     
       border rounded-md p-3
         border-light-border dark:border-dark-border
         focus:outline-none

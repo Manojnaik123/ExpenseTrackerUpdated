@@ -1,9 +1,9 @@
+'use client';
 import { useCurrency } from '@/app/application/context/CurrencyContext'
 import { expense, income, savings, savingsBig, wallet } from '@/lib/icons'
 import React from 'react'
 
 const FirstComponent = () => {
-
     const { currentCurrencySymbol } = useCurrency();
     return (
         <div className='w-full py-4 flex gap-4'>

@@ -3,21 +3,30 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { downArrow } from '@/lib/icons';
 import { useEffect, useRef, useState } from 'react';
 
-const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height, disabled=false }) => {
+const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height, disabled = false, message, isRequired = false, showLabel = true }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const dropdownRef = useRef(null);
 
   const { nav } = useLanguage();
 
-  useEffect(() => {
-    setSelected(selectedKey ?? null);
-  }, [selectedKey]);
+  // useEffect(() => {
+  //   setSelected(selectedKey ?? null);
+  // }, [selectedKey]);
 
-  // Set default selected based on selectedKey
+  // // Set default selected based on selectedKey
+  // useEffect(() => {
+  //   if (options && selectedKey !== undefined) {
+  //     const defaultOption = options.find((opt) => opt.key === selectedKey || opt.id === selectedKey);
+  //     if (defaultOption) setSelected(defaultOption);
+  //   }
+  // }, [options, selectedKey]);
+
   useEffect(() => {
     if (options && selectedKey !== undefined) {
-      const defaultOption = options.find((opt) => opt.key === selectedKey || opt.id === selectedKey);
+      const defaultOption = options.find(
+        (opt) => opt.key === selectedKey || opt.id === selectedKey
+      );
       if (defaultOption) setSelected(defaultOption);
     }
   }, [options, selectedKey]);
@@ -34,10 +43,15 @@ const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height, 
   }, []);
 
   return (
+
     <div ref={dropdownRef} className="relative flex flex-col grow gap-1">
-      <label className="text-[13px] text-light-secondary-text dark:text-dark-secondary-text">
-        {label}
-      </label>
+      {showLabel && (
+        <label className="text-[13px] text-light-secondary-text dark:text-dark-secondary-text">
+          {label}
+          {isRequired && <span className='pl-1 text-warning-primary'>*</span>}
+          <span className=' pl-1 text-[10px] text-light-muted-text dark:text-dark-muted-text'>{message}</span>
+        </label>
+      )}
 
       {/* Trigger */}
       <button
@@ -50,13 +64,13 @@ const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height, 
         ${isValid && 'ring-3 ring-warning-primary/30'}
         ${height ? `h-${height}` : ''}
         ${isValid && 'focus:ring-3 focus:ring-warning-primary/30'}
-        ${disabled ? 'bg-hover-gray/40 text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}
+        ${disabled ? 'bg-hover-gray/40 text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'}
         `}
       >
-        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}`}>
+        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'}`}>
           {selected ? selected.value : nav.selectOption}
         </span>
-        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
+        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
           {downArrow}
         </span>
       </button>
@@ -79,6 +93,13 @@ const CustomSelect = ({ label, options, onSelect, isValid, selectedKey, height, 
               {opt.value}
             </li>
           ))}
+          {(!options || options.length == 1) && (
+            <li className="px-4 py-2 cursor-pointer text-light-secondary-text dark:text-dark-secondary-text 
+              hover:bg-hover-gray dark:hover:bg-hover-gray"
+            >
+              {nav.noValues}
+            </li>
+          )}
         </ul>
       )}
     </div>

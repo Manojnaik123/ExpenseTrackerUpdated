@@ -1,36 +1,14 @@
-'use client';
+import { auth, signIn } from '@/auth';
+import PageClient from './pageClient';
 
-import { useState } from "react";
-import FirstComponent from "@/components/dashboard/first-comp";
-import SecondComponent from "@/components/dashboard/second-comp";
-import ThirdComponent from "@/components/dashboard/third-comp";
-import FourthComponent from "@/components/dashboard/fourth-comp";
+export default async function Home() {
+  const session = await auth();
 
-export default function Home() {
-
-  const [isDark, setIsDark] = useState(false);
-
+  if (!session) return;
 
   return (
     <>
-      <div className="w-full flex flex-col gap-4
-      bg-light-surface-background  dark:bg-dark-surface-background">
-        {/* <div className="h-[calc(100lvh-64px)] w-full flex flex-col grow px-4">
-          <div className="shrink-0">
-            <FirstComponent />
-          </div>
-
-          <div className="flex-1 min-h-0">
-            <SecondComponent />
-          </div>
-        </div>
-        <div className="h-[80lvh] px-4 pt-0">
-          <ThirdComponent />
-        </div>
-        <div className="h-[70lvh] p-4 pt-0 flex gap-4">
-          <FourthComponent />
-        </div> */}
-      </div>
+      <PageClient name={session.user.name} image={session.user.image} email={session.user.email}/>
     </>
   );
 }

@@ -12,10 +12,13 @@
     "@supabase-js/source": "github:supabase/supabase-js",
     "@supabase/supabase-js": "^2.93.2",
     "next": "16.1.4",
+    "next-auth": "^5.0.0-beta.30",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-spinners": "^0.17.0",
+    "react-tsparticles": "^2.12.2",
     "recharts": "^3.7.0",
+    "tsparticles": "^3.9.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

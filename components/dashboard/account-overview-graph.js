@@ -13,11 +13,11 @@ import {
 } from "recharts"
 
 const data = [
-    { month: "Jan", income: 0, expense: 0 },
-    { month: "Feb", income: 0, expense: 150 },
-    { month: "Mar", income: 0, expense: 300 },
-    { month: "Apr", income: 0, expense: 450 },
-    { month: "May", income: 0, expense: 600 },
+    { month: "Jan", income: 50, expense: 0 },
+    { month: "Feb", income: 1000, expense: 150 },
+    { month: "Mar", income: 20, expense: 10 },
+    { month: "Apr", income: 250, expense: 450 },
+    { month: "May", income: 0, expense: 20 },
 ]
 
 export default function HomeGraph() {

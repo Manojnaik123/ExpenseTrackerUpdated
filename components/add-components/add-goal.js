@@ -9,6 +9,8 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { goalDataValidator } from '@/util/form-validation';
+import { useRouter, usePathname } from 'next/navigation';
+
 
 const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
     const [data, setData] = useState();
@@ -33,12 +35,15 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
     })
 
     const { lan, nav } = useLanguage();
+        const router = useRouter();
+    
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const payload = {
                     id: id ? id : 0,
+                    lanId: lan
                 }
                 const params = new URLSearchParams(payload).toString();
                 const res = await fetch(`/api/goal?${params}`);
@@ -79,12 +84,12 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
         }
     }, [id, data, lan])
 
-    const priorities = data?.priorities.filter(item => item.lanid == lan).map(item => ({
+    const priorities = data?.priorities.map(item => ({
         id: item.id,
         value: item.translation
     }));
 
-    const categories = data?.categories.filter(item => item.lanid == lan).map(item => ({
+    const categories = data?.categories.map(item => ({
         id: item.id,
         value: item.translation
     }));
@@ -122,6 +127,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                 return;
             }
             setShowSpinner(false);
+            router.replace('/application/goals?reload=' + Date.now());
             toggleModal();
         }
     }
