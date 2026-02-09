@@ -8,7 +8,7 @@ import CustomTimeSpanSelect from '../add-components/custom-timespan-picker'
 const FourthComponent = () => {
     return (
         <>
-            <div className='h-full w-1/2 border rounded-md p-4 flex flex-col
+            <div className='h-full md:w-1/2 border rounded-md p-4 flex flex-col
                border-light-border dark:border-dark-border'>
                 <div className='flex justify-between items-center pb-2'>
                     <span className='text-light-primary-text dark:text-dark-primary-text'>
@@ -28,7 +28,29 @@ const FourthComponent = () => {
                     <ActiveGoal />
                 </div>
             </div>
-            <div className='h-full w-1/2 border rounded-md p-4 flex flex-col
+
+            {/* x0x0x0x */}
+            <div className='h-full md:w-1/2 border rounded-md p-4 flex flex-col
+               border-light-border dark:border-dark-border'>
+               <div className='flex justify-between items-center'>
+                    <span className='text-light-primary-text dark:text-dark-primary-text'>
+                        Saving Growth
+                    </span>
+                    <span className='text-button-blue'>
+                        View more
+                    </span>
+                </div>
+                <div className='flex justify-end py-4'>
+                    <div className=''>
+                        <CustomTimeSpanSelect height={10} />
+                    </div>
+                </div>
+                <div className='flex-1'>
+                    <SavingGraph />
+                </div>
+            </div>
+            {/* x0x0x0x */}
+            {/* <div className='h-full w-1/2 border rounded-md p-4 flex flex-col
                 border-light-border dark:border-dark-border'>
                 <div className='flex justify-between items-center'>
                     <span className='text-light-primary-text dark:text-dark-primary-text'>
@@ -46,7 +68,7 @@ const FourthComponent = () => {
                 <div className='flex-1'>
                     <SavingGraph />
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

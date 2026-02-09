@@ -28,7 +28,7 @@ export default function SavingGraph() {
     const labelColor = '#6c757d';
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     data={data}

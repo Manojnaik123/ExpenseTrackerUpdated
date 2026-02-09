@@ -11,8 +11,10 @@ const SecondComponent = () => {
   const [activeButton, setActiveButton] = useState(1);
 
   return (
-    <div className='w-full h-full pt-0 flex gap-4'>
-      <div className='w-2/3 border rounded-md p-4 flex flex-col
+    <div className='w-full h-auto md:h-full pt-0 flex flex-col md:flex-row gap-4'>
+
+      {/* first  */}
+      <div className='md:w-2/3 border rounded-md p-4 flex flex-col
         border-light-border dark:border-dark-border
         bg-light-surface-background dark:bg-dark-surface-background'>
         <div className='flex justify-between items-center'>
@@ -33,15 +35,18 @@ const SecondComponent = () => {
               Expense
             </button>
           </div>
-          <div>
+          {/* here added hiddedn */}
+
+          <div className='hidden'>
             <CustomSelect height={10} />
           </div>
         </div>
         <div className='h-full w-full flex-1 flex items-center justify-center'>
-          <div className='h-[75%] w-7/10  flex justify-center items-center'>
+          <div className='h-[300px]  md:h-[75%] md:w-7/10  flex justify-center items-center'>
             <PieChartComp />
           </div>
-          <div className='w-3/10 h-[75%] flex flex-col justify-center items-start  '>
+          {/* here added hiddedn */}
+          <div className=' hidden w-3/10 h-[75%] flex flex-col justify-center items-start  '>
             <ul className='w-full max-w-52 text-light-secondary-text dark:text-dark-secondary-text'>
               <li className='flex justify-between items-center gap-2 '>
                 <div className='flex justify-center items-center gap-2 '>
@@ -71,7 +76,9 @@ const SecondComponent = () => {
           </div>
         </div>
       </div>
-      <div className='w-1/3 h-full border rounded-md p-4 flex flex-col
+
+      {/* second  */}
+      <div className='md:w-1/3 h-full border rounded-md p-4 flex flex-col
         border-light-border dark:border-dark-border
         bg-light-surface-background dark:bg-dark-surface-background'>
         <div className='flex justify-between items-center pb-2'>

@@ -19,8 +19,8 @@ const COLORS = ["red", "yellow", "green"];
 
 export default function PieChartComp() {
   return (
-    <div className="w-full h-full  flex justify-center items-center">
-      <ResponsiveContainer className="h-full w-full max-w-175 max-h-125">
+    <div className="w-full h-[300px] md:h-full  flex justify-center items-center">
+      <ResponsiveContainer className=" h-[400px] md:h-full w-full max-w-175 max-h-125">
         <PieChart>
           <Pie
             data={data}
