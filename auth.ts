@@ -25,9 +25,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .single();
 
       if (!data) {
-        // User does not exist, insert into Supabase
-        console.log('entering user');
-
         await supabase.from("User").insert({
           name: user.name,
           email: user.email,
