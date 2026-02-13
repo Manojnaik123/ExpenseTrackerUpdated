@@ -167,7 +167,7 @@ export const navBarData = {
     appearance: 'Appearance',
     selectTheme: 'Select Theme',
 
-    
+
     noValues: 'No Values',
     chooseCategoryToSeeValuesHere: 'Select a category to view options',
 
@@ -179,9 +179,17 @@ export const navBarData = {
     clickToReset: 'Click here to reset all data',
 
     // need translation 
-    pages : 'pages',
-    of : 'of',
-    goToSettingsPage : 'Go to settings page',
+    pages: 'pages',
+    of: 'of',
+    goToSettingsPage: 'Go to settings page',
+
+    financialOverview: 'Financial Overview',
+    recentTransaction: 'Recent Transaction',
+    accountOverview: 'Account Overview',
+    activeGoals: 'Active Goals',
+    savingGrowth: 'Saving Growth',
+    viewMore: 'View More',
+    balance: 'Balance',
 
   },
 
@@ -354,6 +362,18 @@ export const navBarData = {
     clickToExport: 'निर्यात करने के लिए यहाँ क्लिक करें',
     resetDesc: 'यह आपकी सभी जानकारी को स्थायी रूप से हटा देगा, जिसमें लेन-देन, बचत, बजट और लक्ष्य शामिल हैं। यह क्रिया वापस नहीं की जा सकती।',
     clickToReset: 'सभी डेटा रीसेट करने के लिए यहाँ क्लिक करें',
+
+    pages: 'पेज',
+    of: 'का',
+    goToSettingsPage: 'सेटिंग्स पेज पर जाएँ',
+
+    financialOverview: 'वित्तीय अवलोकन',
+    recentTransaction: 'हाल की लेन-देन',
+    accountOverview: 'खाता अवलोकन',
+    activeGoals: 'सक्रिय लक्ष्य',
+    savingGrowth: 'बचत वृद्धि',
+    viewMore: 'और देखें',
+    balance: 'शेष राशि'
 
   },
 
@@ -533,6 +553,18 @@ export const navBarData = {
     clickToExport: 'Hier klicken zum Exportieren',
     resetDesc: 'Alle Ihre Daten, einschließlich Transaktionen, Ersparnisse, Budgets und Ziele, werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.',
     clickToReset: 'Hier klicken, um alle Daten zurückzusetzen',
+
+    pages: 'Seiten',
+    of: 'von',
+    goToSettingsPage: 'Zur Einstellungsseite gehen',
+
+    financialOverview: 'Finanzübersicht',
+    recentTransaction: 'Letzte Transaktionen',
+    accountOverview: 'Kontoübersicht',
+    activeGoals: 'Aktive Ziele',
+    savingGrowth: 'Sparwachstum',
+    viewMore: 'Mehr anzeigen',
+    balance: 'Kontostand'
   },
 
 
@@ -712,6 +744,18 @@ export const navBarData = {
     clickToExport: 'Cliquez ici pour exporter',
     resetDesc: 'Cela supprimera définitivement toutes vos données, y compris les transactions, économies, budgets et objectifs. Cette action est irréversible.',
     clickToReset: 'Cliquez ici pour tout réinitialiser',
+
+    pages: 'pages',
+    of: 'de',
+    goToSettingsPage: 'Aller à la page des paramètres',
+
+    financialOverview: 'Aperçu financier',
+    recentTransaction: 'Transactions récentes',
+    accountOverview: 'Aperçu du compte',
+    activeGoals: 'Objectifs actifs',
+    savingGrowth: 'Croissance de l’épargne',
+    viewMore: 'Voir plus',
+    balance: 'Solde'
   },
 
 
@@ -891,7 +935,17 @@ export const navBarData = {
     clickToExport: 'Haga clic aquí para exportar',
     resetDesc: 'Esto eliminará permanentemente todos sus datos, incluidas transacciones, ahorros, presupuestos y objetivos. Esta acción no se puede deshacer.',
     clickToReset: 'Haga clic aquí para restablecer todos los datos',
+    pages: 'páginas',
+    of: 'de',
+    goToSettingsPage: 'Ir a la página de configuración',
 
+    financialOverview: 'Resumen financiero',
+    recentTransaction: 'Transacciones recientes',
+    accountOverview: 'Resumen de la cuenta',
+    activeGoals: 'Metas activas',
+    savingGrowth: 'Crecimiento de ahorros',
+    viewMore: 'Ver más',
+    balance: 'Saldo'
   },
 
 
@@ -1069,6 +1123,18 @@ export const navBarData = {
     clickToExport: 'ここをクリックしてエクスポート',
     resetDesc: '取引、貯蓄、予算、目標を含むすべてのデータが完全に削除されます。この操作は元に戻せません。',
     clickToReset: 'すべてのデータをリセット',
+
+    pages: 'ページ',
+    of: 'の',
+    goToSettingsPage: '設定ページへ移動',
+
+    financialOverview: '財務概要',
+    recentTransaction: '最近の取引',
+    accountOverview: '口座概要',
+    activeGoals: '進行中の目標',
+    savingGrowth: '貯蓄の成長',
+    viewMore: 'もっと見る',
+    balance: '残高'
   },
 };
 
@@ -1296,23 +1362,6 @@ export const loginPageData = {
   },
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const transactionTimeSpan = {
   1: [ // English
     { key: 1, value: 'All' },
@@ -1374,4 +1423,87 @@ export const currency = [
   { key: 7, code: 'CAD', value: '$' },
   { key: 8, code: 'CNY', value: '¥' }
 ]
+
+export const savingsGrowthDropDownValues = {
+  1: [ // English
+    { key: 1, value: "Last 6 Months" },
+    { key: 2, value: "Last 3 Months" },
+    { key: 3, value: "This Month" },
+  ],
+
+  2: [ // Hindi
+    { key: 1, value: "पिछले 6 महीने" },
+    { key: 2, value: "पिछले 3 महीने" },
+    { key: 3, value: "इस महीने" },
+  ],
+
+  3: [ // German
+    { key: 1, value: "Letzte 6 Monate" },
+    { key: 2, value: "Letzte 3 Monate" },
+    { key: 3, value: "Dieser Monat" },
+  ],
+
+  4: [ // French
+    { key: 1, value: "6 derniers mois" },
+    { key: 2, value: "3 derniers mois" },
+    { key: 3, value: "Ce mois-ci" },
+  ],
+
+  5: [ // Spanish
+    { key: 1, value: "Últimos 6 meses" },
+    { key: 2, value: "Últimos 3 meses" },
+    { key: 3, value: "Este mes" },
+  ],
+
+  6: [ // Japanese
+    { key: 1, value: "過去6か月" },
+    { key: 2, value: "過去3か月" },
+    { key: 3, value: "今月" },
+  ],
+};
+
+
+export const financialOverviewDropDOwnValues = {
+  1: [ // English
+    { key: 1, value: "This Month" },
+    { key: 2, value: "This Year" },
+    { key: 3, value: "Last Year" },
+    { key: 4, value: "Last 6 Months" },
+  ],
+
+  2: [ // Hindi
+    { key: 1, value: "यह महीना" },
+    { key: 2, value: "यह वर्ष" },
+    { key: 3, value: "पिछला वर्ष" },
+    { key: 4, value: "पिछले 6 महीने" },
+  ],
+
+  3: [ // German
+    { key: 1, value: "Dieser Monat" },
+    { key: 2, value: "Dieses Jahr" },
+    { key: 3, value: "Letztes Jahr" },
+    { key: 4, value: "Letzte 6 Monate" },
+  ],
+
+  4: [ // French
+    { key: 1, value: "Ce mois-ci" },
+    { key: 2, value: "Cette année" },
+    { key: 3, value: "L’année dernière" },
+    { key: 4, value: "Les 6 derniers mois" },
+  ],
+
+  5: [ // Spanish
+    { key: 1, value: "Este mes" },
+    { key: 2, value: "Este año" },
+    { key: 3, value: "El año pasado" },
+    { key: 4, value: "Últimos 6 meses" },
+  ],
+
+  6: [ // Japanese
+    { key: 1, value: "今月" },
+    { key: 2, value: "今年" },
+    { key: 3, value: "昨年" },
+    { key: 4, value: "過去6か月" },
+  ],
+};
 

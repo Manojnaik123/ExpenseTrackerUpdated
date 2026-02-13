@@ -1,64 +1,56 @@
-import { budget, transaction } from '@/lib/icons';
+import { transaction } from '@/lib/icons';
 import { serverSideTransactionDataValidator } from '@/util/form-validation';
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { auth } from '@/auth';
+import { fetchTransactions } from '../transactions/route';
+import { fetchBudgets } from '../budgets/route';
+import { fetchGoals } from '../goals/route';
+import { fetchSavings } from '../savings/route';
 
 const supabase = createClient(
     "https://oikjefdnymfghsbtznub.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
-export async function fetchBudgets(userId, lanId) {
-    const [userBudgetsRes, budgetsCategoryTranslationRes] = await Promise.all([
-        supabase.from("UserBudget").select("*").eq("user_id",userId),
-        supabase.from("BudgetTransactionCategoryTranslation").select("*").eq("language_id", lanId),
-    ]);
-
-    if (userBudgetsRes.error || budgetsCategoryTranslationRes.error) {
-        throw new Error("Supabase fetch failed");
-    }
-
-    const userBudgets = userBudgetsRes.data;
-    const categoryTranslations = budgetsCategoryTranslationRes.data;
-
-    // user budgets 
-    const budgets = userBudgets.flatMap(tx =>
-        categoryTranslations
-            .filter(t => t.category_id === tx.budget_category_id)
-            .map(t => ({
-                id: tx.id,
-                // lanId: t.language_id,
-                title: tx.title,
-                category: t.translation,
-                amount: tx.amount,
-                date: tx.date,
-                amountSpent: tx.amountSpent,
-                categoryId: tx.budget_category_id,
-            }))
-    );
-    return budgets;
-}
-
 export async function GET(request) {
     try {
+
         const { searchParams } = new URL(request.url);
         const lanId = searchParams.get('lanId');
+        
+        if (!lanId) {
+            return NextResponse.json(
+                { error: 'Language ID not found from get request' },
+                { status: 500 }
+            )
+        }
 
         const session = await auth();
-        if (!session) {
+
+        if (!session?.user?.id) {
             return NextResponse.json(
                 { error: 'Unauthroized' },
                 { status: 401 }
             )
         }
 
-        const budgets = await fetchBudgets(session.user.id, lanId);
-        
-        return NextResponse.json({
-            budgets: budgets
-        });
+        // transactions 
+        const { rows: transactions, error: transactionsError } = await fetchTransactions(session?.user?.id, lanId);
 
+        // goals 
+        const goals = await fetchGoals(session?.user?.id, lanId);
+
+        // savings 
+        const savings = await fetchSavings(session?.user?.id, lanId);
+
+        if (transactionsError || '') throw error;
+
+        return NextResponse.json({
+            transactions: transactions,
+            goals: goals,
+            savings: savings,
+        });
     } catch (error) {
         return NextResponse.json(
             { error: error.message },
@@ -69,23 +61,18 @@ export async function GET(request) {
 
 export async function POST(request) {
     try {
-
         const session = await auth();
-
         if (!session) {
             return NextResponse.json(
                 { error: 'Unauthroized' },
                 { status: 401 }
             )
         }
-
-        const id = await request.json();
-
+        const idsToDelete = await request.json();
         const { data, error } = await supabase
-            .from('UserBudget')
+            .from('UserTransaction')
             .delete()
-            .eq('id', id)
-            .select();
+            .in('id', idsToDelete);
 
         if (error) throw error;
 
@@ -101,3 +88,4 @@ export async function POST(request) {
         );
     }
 }
+

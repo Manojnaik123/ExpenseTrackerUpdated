@@ -40,7 +40,7 @@ export default function PieChartComp() {
               const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
               return (
-                <text
+                 <text
                   x={x}
                   y={y}
                   fill="white"

@@ -1,5 +1,6 @@
 "use client"
 
+import { useCurrency } from "@/app/application/context/CurrencyContext";
 import {
     AreaChart,
     Area,
@@ -12,27 +13,103 @@ import {
     CartesianGrid,
 } from "recharts"
 
-const data = [
-    { month: "Jan", income: 50, expense: 0 },
-    { month: "Feb", income: 0, expense: 150 },
-    { month: "Mar", income: 50, expense: 300 },
-    { month: "Apr", income: 100, expense: 150 },
-    { month: "May", income: 250, expense: 200 },
-]
+export const generateSavingsChartData = (savings = [], timeSpanId) => {
+    const now = new Date();
 
-export default function SavingGraph() {
+    // =====================================
+    // 🔹 THIS MONTH → Daily Data
+    // =====================================
+    if (timeSpanId === 3) {
+        const currentMonth = now.getMonth(); // 0-based
+        const currentYear = now.getFullYear();
 
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+        // Create array with all days of this month
+        const chartData = Array.from({ length: daysInMonth }, (_, i) => ({
+            xAxisVal: i + 1,
+            value: 0,
+        }));
+
+        savings.forEach((saving) => {
+            if (!saving.date) return;
+
+            const [savingYear, savingMonth, savingDay] =
+                saving.date.split("-").map(Number);
+
+            // savingMonth is 1-based → convert to 0-based
+            if (
+                savingYear === currentYear &&
+                savingMonth - 1 === currentMonth
+            ) {
+                const amount = Number(saving.amount) || 0;
+
+                const value = amount;
+
+                chartData[savingDay - 1].value += value;
+            }
+        });
+
+        return chartData;
+    }
+
+    // =====================================
+    // 🔹 LAST 3 / 6 MONTHS → Monthly Data
+    // =====================================
+    const monthCountMap = { 1: 6, 2: 3 };
+    const monthCount = monthCountMap[timeSpanId] || 6;
+
+    const chartData = [];
+
+    for (let i = monthCount - 1; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        const monthLabel = date.toLocaleString("default", {
+            month: "short",
+        });
+
+        let total = 0;
+
+        savings.forEach((saving) => {
+            if (!saving.date) return;
+
+            const [savingYear, savingMonth] =
+                saving.date.split("-").map(Number);
+
+            if (savingYear === year && savingMonth - 1 === month) {
+                const amount = Number(saving.amount) || 0;
+                total += amount
+            }
+        });
+
+        chartData.push({
+            xAxisVal: monthLabel,
+            value: total,
+        });
+    }
+
+    return chartData;
+};
+
+export default function SavingGraph({ values, timeSpanId }) {
 
     const axisColor = "#9CA3AF4D";
 
     const labelColor = '#6c757d';
 
+    const {currentCurrencySymbol} = useCurrency();
+
+    const data = generateSavingsChartData(values, timeSpanId);
+
     return (
-        <div className="w-full h-[350px]">
+        <div className="w-full h-[350px] md:h-full">
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     data={data}
-                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                    margin={{ top: 0, right: 0, bottom: 0, left: 10 }}
                 >
                     {/* 🎨 Gradients */}
                     <defs>
@@ -48,24 +125,31 @@ export default function SavingGraph() {
                     </defs>
 
                     <CartesianGrid horizontal vertical={false} stroke={axisColor} />
-                    <XAxis dataKey="month" tick={{ fill: labelColor, fontSize: 12 }} stroke={axisColor}  />
-                    <YAxis tick={{ fill: labelColor, fontSize: 12 }} width={35} stroke={axisColor} />
-                    <Tooltip />
-
-                    {/* Income */}
-                    <Area
-                        type="monotone"
-                        dataKey="income"
-                        stroke="#60a5fa"
-                        fill="url(#incomeGradient)"
-                        strokeWidth={1}
-                        dot={false}
+                    <XAxis dataKey="xAxisVal" tick={{ fill: labelColor, fontSize: 12 }} stroke={axisColor} />
+                    <YAxis
+                        tick={{ fill: labelColor, fontSize: 12 }}
+                        width={35}
+                        stroke={axisColor}
+                        tickFormatter={(value) => {
+                            if (value >= 1000)
+                                return currentCurrencySymbol + (value / 1000).toFixed(1).replace(/\.0$/, '') + "K";
+                            return currentCurrencySymbol +  value;
+                        }}
                     />
 
-                    {/* Expense */}
+                    {/* <Tooltip /> */}
+                    <Tooltip
+                        formatter={(value) => {
+                            if (value >= 1000)
+                                return (value / 1000).toFixed(1).replace(/\.0$/, '') + "K";
+                            return value;
+                        }}
+                    />
+
+
                     <Area
                         type="monotone"
-                        dataKey="expense"
+                        dataKey="value"
                         stroke="#c084fc"
                         fill="url(#expenseGradient)"
                         strokeWidth={1}

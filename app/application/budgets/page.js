@@ -18,10 +18,8 @@ const BudgetsPage = () => {
     const [buttonActive, setButtonActive] = useState(1);
     const [isVerificationModalOpen, setVerificationModalOpen] = useState(false);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
-
     const [selectedId, setSelectedId] = useState(0);
     const [isAddExpensePage, setIsExpensePage] = useState(false);
-
     const [isCompleted, setIsCompleted] = useState(false);
     const searchParams = useSearchParams();
 
@@ -101,9 +99,7 @@ const BudgetsPage = () => {
     }
 
     const filteredData = data?.budgets
-        .filter(item => item.lanId == lan && (!isCompleted ? (((item.amountSpent / item.amount) * 100) < 100) : (((item.amountSpent / item.amount) * 100) >= 100)));
-
-    console.log(filteredData);
+        .filter(item => (!isCompleted ? (((item.amountSpent / item.amount) * 100) < 100) : (((item.amountSpent / item.amount) * 100) >= 100)));
 
     return (
         <>

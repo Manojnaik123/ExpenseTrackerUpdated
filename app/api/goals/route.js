@@ -9,6 +9,59 @@ const supabase = createClient(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
+export async function fetchGoals(userId, lanId) {
+    const [userGoalsRes, goalCategoryRes, goalPriorityRes] = await Promise.all([
+        supabase.from("UserGoal").select("*").eq("user_id", userId),
+        supabase.from("GoalCategoryTranslation").select("*").eq("language_id", lanId),
+        supabase.from("GoalPriorityTranslation").select("*").eq("language_id", lanId),
+
+    ]);
+
+    if (userGoalsRes.error || goalCategoryRes.error || goalPriorityRes.error) {
+        throw new Error("Supabase fetch failed");
+    }
+
+    const userGoals = userGoalsRes.data;
+    const goalCategories = goalCategoryRes.data;
+    const goalPriorities = goalPriorityRes.data;
+
+    // user goals
+    const goals = userGoals.flatMap(ug =>
+        goalCategories
+            .filter(c => c.goal_category_id === ug.goal_category_id && c.language_id == lanId)
+            .map(t => ({
+                id: ug.id,
+                title: ug.title,
+                category: t.label,
+                categoryId: ug.goal_category_id,
+                amount: ug.amount,
+                priorityId: ug.priority_id,
+                fund: ug.fund,
+                date: ug.date,
+            }))
+    );
+
+    // updated goals 
+    const updatedGoals = goals.flatMap(ug =>
+        goalPriorities
+            .filter(c => c.priority_id === ug.priorityId && c.language_id == lanId)
+            .map(t => ({
+                id: ug.id,
+                title: ug.title,
+                category: ug.category,
+                categoryId: ug.categoryId,
+                amount: ug.amount,
+                priority: t.label,
+                priorityId: ug.priorityId,
+                date: ug.date,
+                fund: ug.fund
+            }))
+    );
+
+    return updatedGoals;
+}
+
+
 export async function GET(request) {
     try {
 
@@ -24,64 +77,26 @@ export async function GET(request) {
 
         const session = await auth();
 
-        if (!session) {
+        console.log(session);
+        
+
+        if (!session?.user?.id) {
             return NextResponse.json(
                 { error: 'Unauthroized' },
                 { status: 401 }
             )
         }
 
-        const [userGoalsRes, goalCategoryRes, goalPriorityRes] = await Promise.all([
-            supabase.from("UserGoal").select("*"),
-            supabase.from("GoalCategoryTranslation").select("*").eq("language_id", lanId),
-            supabase.from("GoalPriorityTranslation").select("*").eq("language_id", lanId),
-
-        ]);
-
-        const userGoals = userGoalsRes.data;
-        const goalCategories = goalCategoryRes.data;
-        const goalPriorities = goalPriorityRes.data;
-
-        // user goals
-        const goals = userGoals.flatMap(ug =>
-            goalCategories
-                .filter(c => c.goal_category_id === ug.goal_category_id && c.language_id == lanId)
-                .map(t => ({
-                    id: ug.id,
-                    title: ug.title,
-                    category: t.label,
-                    categoryId: ug.goal_category_id,
-                    amount: ug.amount,
-                    priorityId: ug.priority_id,
-                    fund: ug.fund,
-                    date: ug.date,
-                }))
-        );
-
-        // updated goals 
-        const updatedGoals = goals.flatMap(ug =>
-            goalPriorities
-                .filter(c => c.priority_id === ug.priorityId && c.language_id == lanId)
-                .map(t => ({
-                    id: ug.id,
-                    title: ug.title,
-                    category: ug.category,
-                    categoryId: ug.categoryId,
-                    amount: ug.amount,
-                    priority: t.label,
-                    priorityId: ug.priorityId,
-                    date: ug.date,
-                    fund: ug.fund
-                }))
-        );
-
-        console.log(updatedGoals);
+        const goals = await fetchGoals(session?.user?.id, lanId);
+        // console.log(goals);
         
 
         return NextResponse.json({
-            goals: updatedGoals,
+            goals: goals,
         });
     } catch (error) {
+        console.log(error.message);
+
         return NextResponse.json(
             { error: error.message },
             { status: 500 }

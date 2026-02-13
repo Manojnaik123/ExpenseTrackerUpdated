@@ -25,7 +25,7 @@ export async function fetchSavings(lan, setData) {
     fetchData();
 }
 
-const TransactionsPage = () => {
+const SavingsPage = () => {
     const [data, setData] = useState();
     const { nav, lan } = useLanguage();
 
@@ -36,6 +36,9 @@ const TransactionsPage = () => {
     useEffect(() => {
         fetchSavings(lan, setData);
     }, [lan, searchParams]);
+
+    console.log(data);
+    
 
     const filteredData = data?.savings.map(item => ({
         isSelected: false,
@@ -69,4 +72,4 @@ const TransactionsPage = () => {
     )
 }
 
-export default TransactionsPage
+export default SavingsPage

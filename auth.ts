@@ -19,6 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+
   callbacks: {
     async signIn({ user, account }) {
       // Check if the user already exists
@@ -27,6 +28,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .select("*")
         .eq("email", user.email)
         .single();
+
+      console.log('-------data--error-------');
+
+      console.log(data);
+      console.log(error);
+
+      console.log('-------data--error-------');
+
 
       if (!data) {
         await supabase.from("User").insert({
@@ -41,7 +50,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      // Optionally attach your Supabase user ID to the session
       const { data } = await supabase
         .from("User")
         .select("id")

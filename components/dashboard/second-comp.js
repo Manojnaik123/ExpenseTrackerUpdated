@@ -5,10 +5,12 @@ import React, { useState } from 'react'
 import RecentTransaction from './recent-transaction'
 import PieChartComp from './pie-chart'
 import CustomSelect from '../add-components/custom-dropdown'
+import { useLanguage } from '@/app/application/context/LanguageContext';
 
-const SecondComponent = () => {
+const SecondComponent = ({ transactions }) => {
 
   const [activeButton, setActiveButton] = useState(1);
+  const { nav } = useLanguage();
 
   return (
     <div className='w-full h-auto md:h-full pt-0 flex flex-col md:flex-row gap-4'>
@@ -19,7 +21,7 @@ const SecondComponent = () => {
         bg-light-surface-background dark:bg-dark-surface-background'>
         <div className='flex justify-between items-center'>
           <span className='text-light-primary-text dark:text-dark-primary-text'>
-            Financial Overview
+            {nav.financialOverview}
           </span>
         </div>
         <div className='flex justify-between items-center py-2'>
@@ -27,12 +29,12 @@ const SecondComponent = () => {
             <button className='border px-6 rounded-l-full py-2 
             border-light-border dark:border-dark-border
             text-light-secondary-text dark:text-dark-secondary-text'>
-              Income
+              {nav.income}
             </button>
             <button className='border px-6 rounded-r-full py-2
             border-light-border dark:border-dark-border
             text-light-secondary-text dark:text-dark-secondary-text'>
-              Expense
+              {nav.income}
             </button>
           </div>
           {/* here added hiddedn */}
@@ -83,23 +85,16 @@ const SecondComponent = () => {
         bg-light-surface-background dark:bg-dark-surface-background'>
         <div className='flex justify-between items-center pb-2'>
           <span className='text-light-primary-text dark:text-dark-primary-text'>
-            Recent Transactions
+            {nav.recentTransaction}
           </span>
           <span className='text-button-blue'>
-            View more
+            {nav.viewMore}
           </span>
         </div>
         <div className='flex-1 max-h-full overflow-y-auto scrollbar-custom pr-2'>
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
-          <RecentTransaction />
+          {transactions?.map(item => (
+            <RecentTransaction prop={item} />
+          ))}
         </div>
       </div>
     </div>

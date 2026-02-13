@@ -1,5 +1,7 @@
 "use client"
 
+import { useCurrency } from "@/app/application/context/CurrencyContext";
+import { useLanguage } from "@/app/application/context/LanguageContext";
 import {
     AreaChart,
     Area,
@@ -12,29 +14,28 @@ import {
     CartesianGrid,
 } from "recharts"
 
-const data = [
-    { month: "Jan", income: 50, expense: 0 },
-    { month: "Feb", income: 1000, expense: 150 },
-    { month: "Mar", income: 20, expense: 10 },
-    { month: "Apr", income: 250, expense: 450 },
-    { month: "May", income: 0, expense: 20 },
-]
+export default function HomeGraph({ income = [], expense = [] }) {
 
-export default function HomeGraph() {
-
+    const { currentCurrencySymbol } = useCurrency();
 
     const axisColor = "#9CA3AF4D";
-
     const labelColor = '#6c757d';
+
+    // 🔥 Merge both arrays
+    const mergedData = income.map((incItem, index) => ({
+        xAxisVal: incItem.xAxisVal,
+        income: incItem.value || 0,
+        expense: expense[index]?.value || 0,
+    }));
 
     return (
         <div className="w-full h-full">
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
-                    data={data}
-                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                    data={mergedData}
+                    margin={{ top: 0, right: 0, bottom: 0, left: 20 }}
                 >
-                    {/* 🎨 Gradients */}
+
                     <defs>
                         <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#60a5fa" stopOpacity={0.6} />
@@ -48,10 +49,31 @@ export default function HomeGraph() {
                     </defs>
 
                     <CartesianGrid horizontal vertical={false} stroke={axisColor} />
-                    <XAxis dataKey="month" tick={{ fill: labelColor, fontSize: 12 }} stroke={axisColor}  />
-                    <YAxis tick={{ fill: labelColor, fontSize: 12 }} width={35} stroke={axisColor} />
-                    <Tooltip />
 
+                    <XAxis
+                        dataKey="xAxisVal"
+                        tick={{ fill: labelColor, fontSize: 12 }}
+                        stroke={axisColor}
+                    />
+
+                    <YAxis
+                        tick={{ fill: labelColor, fontSize: 12 }}
+                        width={35}
+                        stroke={axisColor}
+                        tickFormatter={(value) => {
+                            if (value >= 1000)
+                                return currentCurrencySymbol + (value / 1000).toFixed(1).replace(/\.0$/, '') + "K";
+                            return currentCurrencySymbol + value;
+                        }}
+                    />
+
+                    <Tooltip
+                        formatter={(value) => {
+                            if (value >= 1000)
+                                return (value / 1000).toFixed(1).replace(/\.0$/, '') + "K";
+                            return value;
+                        }}
+                    />
                     {/* Income */}
                     <Area
                         type="monotone"
@@ -71,8 +93,9 @@ export default function HomeGraph() {
                         strokeWidth={1}
                         dot={false}
                     />
+
                 </AreaChart>
             </ResponsiveContainer>
         </div>
-    )
+    );
 }

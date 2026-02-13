@@ -130,7 +130,8 @@ export async function POST(request) {
                         saving_type_id: typeId,
                         amount,
                         date,
-                        notes
+                        notes,
+                        user_id: session.user.id,
                     },
                 ])
                 .select()

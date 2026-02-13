@@ -1,10 +1,13 @@
 'use client';
 import { useCurrency } from '@/app/application/context/CurrencyContext'
+import { useLanguage } from '@/app/application/context/LanguageContext';
 import { expense, income, savings, savingsBig, wallet } from '@/lib/icons'
 import React from 'react'
 
 const FirstComponent = () => {
     const { currentCurrencySymbol } = useCurrency();
+    const {nav} = useLanguage();
+
     return (
         <div className='w-full py-4 flex gap-4'>
             <div className='flex flex-col md:flex-row gap-4 w-1/2'>
@@ -18,7 +21,7 @@ const FirstComponent = () => {
                     </span>
                     <div className='flex flex-col'>
                         <span className='md:text-lg text-light-secondary-text dark:text-dark-secondary-text'>
-                            Balance
+                            {nav.balance}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
                             {currentCurrencySymbol} 10,400
@@ -35,7 +38,7 @@ const FirstComponent = () => {
                     </span>
                     <div className='flex flex-col'>
                         <span className='md:text-lg text-light-secondary-text dark:text-dark-secondary-text'>
-                            Income
+                            {nav.income}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
                             {currentCurrencySymbol} 10,400
@@ -53,7 +56,7 @@ const FirstComponent = () => {
                     </span>
                     <div className='flex flex-col'>
                         <span className='md:text-lg text-light-secondary-text dark:text-dark-secondary-text'>
-                            Expense
+                            {nav.expense}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
                             {currentCurrencySymbol} 10,400
@@ -70,7 +73,7 @@ const FirstComponent = () => {
                     </span>
                     <div className='flex flex-col'>
                         <span className='md:text-lg text-light-secondary-text dark:text-dark-secondary-text'>
-                            Savings
+                            {nav.savings}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
                             {currentCurrencySymbol} 10,400
