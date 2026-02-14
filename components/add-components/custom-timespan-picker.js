@@ -3,7 +3,7 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { calender, downArrow } from '@/lib/icons';
 import { useEffect, useRef, useState } from 'react';
 
-const CustomTimeSpanSelect = ({ label, options, onSelect, isValid, selectedKey, height, disabled=false }) => {
+const CustomTimeSpanSelect = ({ label, options, onSelect, isValid, selectedKey, height, disabled = false, showLabel = true, isMobileView = false }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const dropdownRef = useRef(null);
@@ -35,9 +35,11 @@ const CustomTimeSpanSelect = ({ label, options, onSelect, isValid, selectedKey, 
 
   return (
     <div ref={dropdownRef} className="relative flex flex-col grow gap-1">
-      <label className="text-[13px] text-light-secondary-text dark:text-dark-secondary-text">
-        {label}
-      </label>
+      {showLabel && (
+        <label className="text-[13px] text-light-secondary-text dark:text-dark-secondary-text">
+          {label}
+        </label>
+      )}
 
       {/* Trigger */}
       <button
@@ -50,16 +52,16 @@ const CustomTimeSpanSelect = ({ label, options, onSelect, isValid, selectedKey, 
         ${isValid && 'ring-3 ring-warning-primary/30'}
         ${height ? `h-${height}` : ''}
         ${isValid && 'focus:ring-3 focus:ring-warning-primary/30'}
-        ${disabled ? 'bg-hover-gray/40 text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}
+        ${disabled ? 'bg-hover-gray/40 text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'}
         `}
       >
-         <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
+        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
           {calender}
         </span>
-        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'}`}>
+        <span className={` ${isMobileView? 'hidden': undefined}  ${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'}`}>
           {selected ? selected.value : nav.selectOption}
         </span>
-        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50': 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
+        <span className={`${disabled ? 'text-light-muted-text/50 dark:text-dark-muted-text/50' : 'text-light-secondary-text dark:text-dark-secondary-text'} text-sm`}>
           {downArrow}
         </span>
       </button>

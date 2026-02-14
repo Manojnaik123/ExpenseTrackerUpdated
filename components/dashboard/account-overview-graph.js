@@ -33,7 +33,7 @@ export default function HomeGraph({ income = [], expense = [] }) {
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     data={mergedData}
-                    margin={{ top: 0, right: 0, bottom: 0, left: 20 }}
+                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                 >
 
                     <defs>
@@ -58,7 +58,7 @@ export default function HomeGraph({ income = [], expense = [] }) {
 
                     <YAxis
                         tick={{ fill: labelColor, fontSize: 12 }}
-                        width={35}
+                        width='auto'
                         stroke={axisColor}
                         tickFormatter={(value) => {
                             if (value >= 1000)
