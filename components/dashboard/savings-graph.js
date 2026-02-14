@@ -109,7 +109,7 @@ export default function SavingGraph({ values, timeSpanId }) {
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     data={data}
-                    margin={{ top: 0, right: 0, bottom: 0, left: 10 }}
+                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                 >
                     {/* 🎨 Gradients */}
                     <defs>
@@ -128,7 +128,7 @@ export default function SavingGraph({ values, timeSpanId }) {
                     <XAxis dataKey="xAxisVal" tick={{ fill: labelColor, fontSize: 12 }} stroke={axisColor} />
                     <YAxis
                         tick={{ fill: labelColor, fontSize: 12 }}
-                        width={35}
+                        width='auto'
                         stroke={axisColor}
                         tickFormatter={(value) => {
                             if (value >= 1000)

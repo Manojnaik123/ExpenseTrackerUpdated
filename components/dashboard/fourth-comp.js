@@ -19,7 +19,7 @@ const FourthComponent = ({ goals, savings }) => {
 
     return (
         <>
-            <div className='h-full md:w-1/2 border rounded-md p-4 flex flex-col
+            <div className='h-[60lvh] md:h-full md:w-1/2 border rounded-md p-4 flex flex-col
                border-light-border dark:border-dark-border'>
                 <div className='flex justify-between items-center pb-2'>
                     <span className='text-light-primary-text dark:text-dark-primary-text'>

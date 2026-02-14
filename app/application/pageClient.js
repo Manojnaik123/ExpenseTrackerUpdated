@@ -45,7 +45,7 @@ const PageClient = ({ name, image, email }) => {
                 <div className="w-full flex flex-col grow px-4
                          md:h-[calc(100lvh-64px)]">
                     <div className="shrink-0">
-                        <FirstComponent />
+                        <FirstComponent data={data} />
                     </div>
 
                     <div className="flex-1 min-h-0">

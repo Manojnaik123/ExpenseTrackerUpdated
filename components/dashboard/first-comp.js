@@ -4,10 +4,18 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { expense, income, savings, savingsBig, wallet } from '@/lib/icons'
 import React from 'react'
 
-const FirstComponent = () => {
+const FirstComponent = ({data}) => {
     const { currentCurrencySymbol } = useCurrency();
     const {nav} = useLanguage();
 
+    const incomeTotal = data?.transactions?.filter(i => i.typeId == 1)
+    .reduce((sum, item) => sum + item.amount, 0);
+
+    const expenseTotal = data?.transactions?.filter(i => i.typeId == 2)
+    .reduce((sum, item) => sum + item.amount, 0);
+
+    console.log(data?.savings);
+    
     return (
         <div className='w-full py-4 flex gap-4'>
             <div className='flex flex-col md:flex-row gap-4 w-1/2'>
@@ -41,7 +49,7 @@ const FirstComponent = () => {
                             {nav.income}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol} 10,400
+                            {currentCurrencySymbol} {incomeTotal}
                         </span>
                     </div>
                 </div>
@@ -59,7 +67,7 @@ const FirstComponent = () => {
                             {nav.expense}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol} 10,400
+                            {currentCurrencySymbol} {expenseTotal}
                         </span>
                     </div>
                 </div>

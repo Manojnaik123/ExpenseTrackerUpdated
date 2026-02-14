@@ -133,12 +133,12 @@ const ThirdComponent = ({ transactions }) => {
   const { nav, lan } = useLanguage();
   const { currentCurrencySymbol } = useCurrency();
 
-  function handleSelect(e){
+  function handleSelect(e) {
     setTimeSpanId(e.key);
   }
   const filteredIncome = generateTransactionsChartData(transactions?.filter(item => item.typeId == 1), timeSpanId);
   const filteredExpense = generateTransactionsChartData(transactions?.filter(item => item.typeId == 2), timeSpanId);
-  
+
   return (
     <div className='h-full w-full border rounded-md p-4 flex flex-col
         border-light-border dark:border-dark-border
@@ -156,7 +156,7 @@ const ThirdComponent = ({ transactions }) => {
         </div>
       </div>
       <div className='flex-1 w-full pt-4'>
-        <HomeGraph income={filteredIncome} expense={filteredExpense}/>
+        <HomeGraph income={filteredIncome} expense={filteredExpense} />
       </div>
       <div className='w-full flex justify-center items-center'>
         <div className='flex gap-4'>

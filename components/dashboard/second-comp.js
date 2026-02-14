@@ -15,8 +15,34 @@ const SecondComponent = ({ transactions }) => {
   const { nav, lan } = useLanguage();
 
   function handleButtonActive(id) {
-    setActiveButton(id)
+    setActiveButton(id);
   }
+
+  const typeFilteredData = (transactions || []).filter( item=> item.typeId == activeButton);
+
+  const finalData = Object.values(
+    (typeFilteredData || []).reduce((acc, curr) => {
+      const category = curr?.category?.name || curr?.category;
+      if (!category) return acc;
+
+      acc[category] = {
+        name: category,
+        value: (acc[category]?.value || 0) + (curr.amount || 0)
+      };
+
+      return acc;
+    }, {})
+  )
+    .sort((a, b) => b.value - a.value)
+    .reduce((acc, curr, index) => {
+      if (index < 2) {
+        acc.push(curr);
+      } else {
+        acc[2] = acc[2] || { name: "Others", value: 0 };
+        acc[2].value += curr.value;
+      }
+      return acc;
+    }, []);
 
   return (
     <div className='w-full h-auto md:h-full pt-0 flex flex-col md:flex-row gap-4'>
@@ -71,12 +97,12 @@ const SecondComponent = ({ transactions }) => {
           </div>
         </div>
         <div className='w-full h-[450px] md:h-full'>
-          <PieChartParent transactions={transactions} />
+          <PieChartParent data={finalData} />
         </div>
       </div>
 
       {/* second  */}
-      <div className='md:w-1/3 h-full border rounded-md p-4 flex flex-col
+      <div className='md:w-1/3 h-[60lvh] md:h-full border rounded-md p-4 flex flex-col
         border-light-border dark:border-dark-border
         bg-light-surface-background dark:bg-dark-surface-background'>
         <div className='flex justify-between items-center pb-2'>

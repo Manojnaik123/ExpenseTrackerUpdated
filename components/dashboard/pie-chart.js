@@ -9,15 +9,9 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-const data = [
-  { name: "Housing", value: 400 },
-  { name: "Social Events", value: 800 },
-  { name: "Education", value: 300 },
-];
+export const PIECOLORS = ["#EC6B56", "#FFC154", "#47B39C"];
 
-const COLORS = ["red", "yellow", "green"];
-
-export default function PieChartComp() {
+export default function PieChartComp({data}) {
   return (
 
     <ResponsiveContainer className="h-full w-full">
@@ -29,7 +23,7 @@ export default function PieChartComp() {
           cy="50%"
           outerRadius="100%"
           innerRadius="50%"
-          paddingAngle={3}
+          // paddingAngle={3}
           stroke="none"
           labelLine={false}
           label={({ cx, cy, midAngle, innerRadius, outerRadius, value }) => {
@@ -57,7 +51,7 @@ export default function PieChartComp() {
           {data.map((_, index) => (
             <Cell
               key={index}
-              fill={COLORS[index % COLORS.length]}
+              fill={PIECOLORS[index % PIECOLORS.length]}
             />
           ))}
 
