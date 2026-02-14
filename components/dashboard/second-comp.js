@@ -7,6 +7,36 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import CustomTimeSpanSelect from '../add-components/custom-timespan-picker';
 import PieChartParent from './pie-chart-parent';
 import { financialOverviewDropDOwnValues } from '@/data';
+import MobileCalenderCustom from '../mobile-calender-custom';
+
+
+const filterTransactionsByTimeSpan = (transactions = [], timeSpanKey) => {
+  const now = new Date();
+
+  return transactions.filter(transaction => {
+    const txnDate = new Date(transaction.date);
+
+    switch(timeSpanKey) {
+      case 1: // This Month
+        return txnDate.getMonth() === now.getMonth() && txnDate.getFullYear() === now.getFullYear();
+
+      case 2: // This Year
+        return txnDate.getFullYear() === now.getFullYear();
+
+      case 3: // Last Year
+        return txnDate.getFullYear() === now.getFullYear() - 1;
+
+      case 4: // Last 6 Months
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(now.getMonth() - 5); // include current month
+        return txnDate >= sixMonthsAgo && txnDate <= now;
+
+      default:
+        return true; // fallback: return all
+    }
+  });
+};
+
 
 const SecondComponent = ({ transactions }) => {
 
@@ -18,10 +48,12 @@ const SecondComponent = ({ transactions }) => {
     setActiveButton(id);
   }
 
-  const typeFilteredData = (transactions || []).filter( item=> item.typeId == activeButton);
+  const timeSpanBasedData = filterTransactionsByTimeSpan(transactions, timeSpanId);
+
+  const filteredData = (timeSpanBasedData || []).filter(item => item.typeId == activeButton);
 
   const finalData = Object.values(
-    (typeFilteredData || []).reduce((acc, curr) => {
+    (filteredData || []).reduce((acc, curr) => {
       const category = curr?.category?.name || curr?.category;
       if (!category) return acc;
 
@@ -43,6 +75,10 @@ const SecondComponent = ({ transactions }) => {
       }
       return acc;
     }, []);
+
+  function handleTimeSpanSelect(e) {
+    setTimeSpanId(e);
+  }
 
   return (
     <div className='w-full h-auto md:h-full pt-0 flex flex-col md:flex-row gap-4'>
@@ -93,11 +129,12 @@ const SecondComponent = ({ transactions }) => {
           </div> */}
           {/* mobile */}
           <div className=''>
-            <CustomTimeSpanSelect options={financialOverviewDropDOwnValues[lan]} height={10} showLabel={false} isMobileView={true} />
+            <MobileCalenderCustom options={financialOverviewDropDOwnValues[lan]} handleOnSelectClick={handleTimeSpanSelect} />
+            {/* <CustomTimeSpanSelect options={financialOverviewDropDOwnValues[lan]} height={10} showLabel={false} isMobileView={true} /> */}
           </div>
         </div>
         <div className='w-full h-[450px] md:h-full'>
-          <PieChartParent data={finalData} />
+          <PieChartParent data={finalData} expenseOrIncome={activeButton}/>
         </div>
       </div>
 

@@ -4,18 +4,26 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { expense, income, savings, savingsBig, wallet } from '@/lib/icons'
 import React from 'react'
 
-const FirstComponent = ({data}) => {
+const FirstComponent = ({ data }) => {
     const { currentCurrencySymbol } = useCurrency();
-    const {nav} = useLanguage();
+    const { nav } = useLanguage();
 
     const incomeTotal = data?.transactions?.filter(i => i.typeId == 1)
-    .reduce((sum, item) => sum + item.amount, 0);
+        .reduce((sum, item) => sum + item.amount, 0);
 
     const expenseTotal = data?.transactions?.filter(i => i.typeId == 2)
-    .reduce((sum, item) => sum + item.amount, 0);
+        .reduce((sum, item) => sum + item.amount, 0);
 
     console.log(data?.savings);
-    
+
+    const depositAmount = data?.savings.filter(i => i.typeId == 1)
+        .reduce((sum, item) => sum + item.amount, 0);
+
+    const withdrawAmount = data?.savings.filter(i => i.typeId == 2)
+        .reduce((sum, item) => sum + item.amount, 0);
+
+    const totalSavings = depositAmount - withdrawAmount;
+
     return (
         <div className='w-full py-4 flex gap-4'>
             <div className='flex flex-col md:flex-row gap-4 w-1/2'>
@@ -32,7 +40,7 @@ const FirstComponent = ({data}) => {
                             {nav.balance}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol} 10,400
+                            {currentCurrencySymbol +' '+(incomeTotal - expenseTotal) }
                         </span>
                     </div>
                 </div>
@@ -84,7 +92,7 @@ const FirstComponent = ({data}) => {
                             {nav.savings}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol} 10,400
+                            {currentCurrencySymbol + totalSavings} 
                         </span>
                     </div>
                 </div>

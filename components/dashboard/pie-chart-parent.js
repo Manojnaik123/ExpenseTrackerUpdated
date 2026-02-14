@@ -3,13 +3,13 @@ import PieChartComp from './pie-chart'
 import { useCurrency } from '@/app/application/context/CurrencyContext';
 import { PIECOLORS } from './pie-chart';
 
-const PieChartParent = ({ data }) => {
+const PieChartParent = ({ data, expenseOrIncome }) => {
     const { currentCurrencySymbol } = useCurrency();
 
     return (
         <div className='w-full flex flex-col md:flex-row h-full '>
             <div className='h-2/3 md:h-full w-full md:w-2/3'>
-                <PieChartComp data={data} />
+                <PieChartComp expenseOrIncome={expenseOrIncome}   data={data} />
             </div>
             <div className='h-1/3 md:h-full w-full md:w-1/3 flex justify-center items-center'>
                 <ul className='flex flex-col w-full gap-2 md:max-w-44'>

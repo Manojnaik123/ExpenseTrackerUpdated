@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/app/application/context/LanguageContext";
 import {
   PieChart,
   Pie,
@@ -11,7 +12,8 @@ import {
 
 export const PIECOLORS = ["#EC6B56", "#FFC154", "#47B39C"];
 
-export default function PieChartComp({data}) {
+export default function PieChartComp({data, expenseOrIncome}) {
+  const {nav} = useLanguage();
   return (
 
     <ResponsiveContainer className="h-full w-full">
@@ -56,7 +58,7 @@ export default function PieChartComp({data}) {
           ))}
 
           {/* Center label */}
-          <Label value="Expenses" position="center" className="text-light-primary-text dark:text-dark-primary-text" />
+          <Label value={`${expenseOrIncome == 2? nav.expense : nav.income }`} position="center" className="text-light-primary-text dark:text-dark-primary-text" />
         </Pie>
         <Tooltip />
       </PieChart>
