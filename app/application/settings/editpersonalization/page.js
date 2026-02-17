@@ -75,11 +75,19 @@ const EditPersonalization = () => {
             bg-light-surface-background dark:bg-dark-surface-background
             '>
                 <div>
-                    <CustomSelect label={nav.selectLanguage} selectedKey={selectedLanId} onSelect={handleSelect} options={lanData} />
+                    <CustomSelect 
+                    label={nav.selectLanguage} 
+                    selectedKey={nav} 
+                    onSelect={handleSelect} 
+                    options={lanData} />
 
                 </div>
                 <div className='mt-4'>
-                    <CustomSelect label={nav.selectCurrency} selectedKey={selectedCurId} onSelect={handleCurrencySelect} options={updatedCurrencies} />
+                    <CustomSelect 
+                    label={nav.selectCurrency} 
+                    selectedKey={selectedCurId} 
+                    onSelect={handleCurrencySelect} 
+                    options={updatedCurrencies} />
                 </div>
             </div>
         </div>

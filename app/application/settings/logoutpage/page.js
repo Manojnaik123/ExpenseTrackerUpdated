@@ -24,7 +24,7 @@ const LogoutPage = () => {
 
     async function handleAllExport() {
         console.log('reached');
-        
+
         const transactions = await dataFetcher(lan, 'transactions');
         const savings = await dataFetcher(lan, 'savings');
         exportTransactionAndSavingsToExcel(transactions.transactions, savings.savings, lan)
@@ -33,45 +33,47 @@ const LogoutPage = () => {
 
     return (
         <>
-            {showComfirmationModal && <AddVerificaltionModal>
-                <div className='flex flex-col  rounded-md gap-4
+            {showComfirmationModal && <div className=''>
+                <AddVerificaltionModal>
+                    <div className='flex flex-col rounded-md gap-4
                         bg-light-surface-background dark:bg-dark-surface-background
                         border border-light-border dark:border-dark-border
                         '>
-                    <div className='flex justify-between items-center border-b p-4
+                        <div className='flex justify-between items-center border-b p-4
                             border-light-border dark:border-dark-border'>
-                        <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
-                        >{nav.confirmationForLogout}</span>
-                        <button className='text-light-secondary-text dark:text-dark-secondary-text'
-                            onClick={() => showConfirmationDialog(false)}>
-                            {cross}
-                        </button>
-                    </div>
-                    <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
-                        <p>
-                            {nav.areYouSureAboutLogout}?
-                        </p>
-                        <p className='text-sm
+                            <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
+                            >{nav.confirmationForLogout}</span>
+                            <button className='text-light-secondary-text dark:text-dark-secondary-text'
+                                onClick={() => showConfirmationDialog(false)}>
+                                {cross}
+                            </button>
+                        </div>
+                        <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
+                            <p>
+                                {nav.areYouSureAboutLogout}?
+                            </p>
+                            <p className='text-sm
                                                 text-light-muted-text dark:text-dark-muted-text'>
-                            {nav.chooseYourResponse}.
-                        </p>
-                    </div>
-                    <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
-                        <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
+                                {nav.chooseYourResponse}.
+                            </p>
+                        </div>
+                        <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
+                            <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
                                 text-light-secondary-text dark:text-dark-secondary-text
                                 hover:bg-hover-gray/30
                                 ' onClick={() => showConfirmationDialog(false)}>
-                            {nav.cancel}
-                        </button>
-                        <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
+                                {nav.cancel}
+                            </button>
+                            <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
                                 text-light-secondary-text dark:text-dark-secondary-text
                                 hover:border-warning-primary hover:bg-warning-secondary/60
                                 ' onClick={handleLogout} >
-                            {nav.logout}
-                        </button>
+                                {nav.logout}
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </AddVerificaltionModal>}
+                </AddVerificaltionModal>
+            </div>}
 
             <div className='h-full w-full p-4 pb-18 md:pb-0
                 bg-light-background dark:bg-dark-background
@@ -94,7 +96,7 @@ const LogoutPage = () => {
                                 {nav.exportDesc}
                             </span>
                             <button className='text-sm text-accent-hover underline pl-'
-                                onClick={()=> handleAllExport()}>
+                                onClick={() => handleAllExport()}>
                                 {nav.clickToExport}
                             </button>
                         </div>

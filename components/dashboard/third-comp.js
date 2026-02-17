@@ -5,6 +5,7 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
 import { financialOverviewDropDOwnValues } from '@/data';
 import CustomTimeSpanSelect from '../add-components/custom-timespan-picker';
+import MobileCalenderCustom from '../mobile-calender-custom';
 
 export const generateTransactionsChartData = (transactions = [], timeSpanId) => {
   const now = new Date();
@@ -134,10 +135,24 @@ const ThirdComponent = ({ transactions }) => {
   const { currentCurrencySymbol } = useCurrency();
 
   function handleSelect(e) {
+    setTimeSpanId(e);
+  }
+  function handleSelectWeb(e){
     setTimeSpanId(e.key);
   }
+
   const filteredIncome = generateTransactionsChartData(transactions?.filter(item => item.typeId == 1), timeSpanId);
   const filteredExpense = generateTransactionsChartData(transactions?.filter(item => item.typeId == 2), timeSpanId);
+
+  console.log(filteredIncome);
+
+  const depositAmount = filteredIncome
+    .reduce((sum, item) => sum + item.value, 0);
+
+  const withdrawAmount = filteredExpense
+    .reduce((sum, item) => sum + item.value, 0);
+
+  const totalSavings = depositAmount - withdrawAmount;
 
   return (
     <div className='h-full w-full border rounded-md p-4 flex flex-col
@@ -149,10 +164,13 @@ const ThirdComponent = ({ transactions }) => {
       </span>
       <div className='flex justify-between items-center py-4'>
         <span className='grow font-semibold text-light-secondary-text dark:text-dark-secondary-text'>
-          {nav.balance} : {currentCurrencySymbol} 10,444
+          {nav.balance} : {currentCurrencySymbol + ' ' + new Intl.NumberFormat().format(totalSavings)}
         </span>
-        <div>
-          <CustomTimeSpanSelect height={10} onSelect={handleSelect} selectedKey={timeSpanId} options={financialOverviewDropDOwnValues[lan]} />
+        <div className='hidden md:flex'>
+          <CustomTimeSpanSelect key={timeSpanId} height={10} onSelect={handleSelectWeb} selectedKey={timeSpanId} options={financialOverviewDropDOwnValues[lan]} />
+        </div>
+        <div className='flex md:hidden'>
+          <MobileCalenderCustom handleOnSelectClick={handleSelect} options={financialOverviewDropDOwnValues[lan]} />
         </div>
       </div>
       <div className='flex-1 w-full pt-4'>

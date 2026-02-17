@@ -178,7 +178,7 @@ export const navBarData = {
     resetDesc: 'This will permanently delete all your data, including transactions, savings, budgets, and goals. This action cannot be undone.',
     clickToReset: 'Click here to reset all data',
 
-    // need translation 
+    
     pages: 'pages',
     of: 'of',
     goToSettingsPage: 'Go to settings page',
@@ -190,6 +190,17 @@ export const navBarData = {
     savingGrowth: 'Saving Growth',
     viewMore: 'View More',
     balance: 'Balance',
+    
+    // need translation 
+    import: 'Import',
+    toBegin : 'To begin using the app, you can start with sample data or opt out. We have also provided the option to reset the data anytime.',
+    sampleData: 'Sample Data',
+    finish: 'Finish',
+    toBeginDesc: 'We recommend starting with sample data to get a better feel for the app’s structure and functionality.',
+    continueWithSampleData: 'Continue with Sample Data',
+    finovex: 'Finovex',
+    
+
 
   },
 

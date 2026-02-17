@@ -14,8 +14,8 @@ const BudgetCard = ({ deleteHandler, toggleEditModal, toggleModal, id, title, su
 
     const { nav } = useLanguage();
 
-    const {currentCurrencySymbol} = useCurrency();
- 
+    const { currentCurrencySymbol } = useCurrency();
+
     function handleDropDown() {
         setDropDownOpen(prev => !prev);
     }
@@ -83,7 +83,7 @@ const BudgetCard = ({ deleteHandler, toggleEditModal, toggleModal, id, title, su
                 text-light-muted-text dark:text-dark-muted-text
                 '>
                         <span>{(amount - amountSpent) > 0 ? nav.remainingFrom + ' ' : 'Spent over '}
-                           {currentCurrencySymbol} {amount}</span>
+                            {currentCurrencySymbol} {amount}</span>
                         <span>{nav.createdOn}</span>
                     </div>
                     <div className='flex justify-between items-center pt-4
@@ -95,7 +95,7 @@ const BudgetCard = ({ deleteHandler, toggleEditModal, toggleModal, id, title, su
                     <div className='flex justify-between items-center py-1
                 text-light-secondary-text dark:text-light-secondary-text
                 '>
-                        <span>${amountSpent}</span>
+                        <span>{currentCurrencySymbol}{amountSpent ? amountSpent : 0}</span>
                         <span>{`${Math.floor((amountSpent / amount) * 100)}%`}</span>
                     </div>
                     {/* <progress value='40' max='100' className='w-full h-3 rounded-full overflow-hidden'></progress> */}

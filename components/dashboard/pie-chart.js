@@ -12,8 +12,8 @@ import {
 
 export const PIECOLORS = ["#EC6B56", "#FFC154", "#47B39C"];
 
-export default function PieChartComp({data, expenseOrIncome}) {
-  const {nav} = useLanguage();
+export default function PieChartComp({ data, expenseOrIncome }) {
+  const { nav } = useLanguage();
   return (
 
     <ResponsiveContainer className="h-full w-full">
@@ -45,7 +45,7 @@ export default function PieChartComp({data, expenseOrIncome}) {
                 fontSize={12}
                 fontWeight="bold"
               >
-                {value}
+                {new Intl.NumberFormat().format(value)}
               </text>
             );
           }}
@@ -58,11 +58,10 @@ export default function PieChartComp({data, expenseOrIncome}) {
           ))}
 
           {/* Center label */}
-          <Label value={`${expenseOrIncome == 2? nav.expense : nav.income }`} position="center" className="text-light-primary-text dark:text-dark-primary-text" />
+          <Label value={`${expenseOrIncome == 2 ? nav.expense : nav.income}`} position="center" className="text-light-primary-text dark:text-dark-primary-text" />
         </Pie>
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
-
   );
 }

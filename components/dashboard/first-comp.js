@@ -40,7 +40,7 @@ const FirstComponent = ({ data }) => {
                             {nav.balance}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol +' '+(incomeTotal - expenseTotal) }
+                            {currentCurrencySymbol + ' ' + new Intl.NumberFormat().format((incomeTotal - expenseTotal))}
                         </span>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ const FirstComponent = ({ data }) => {
                             {nav.income}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol} {incomeTotal}
+                            {currentCurrencySymbol +' '+new Intl.NumberFormat().format(incomeTotal)}
                         </span>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ const FirstComponent = ({ data }) => {
                             {nav.expense}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol} {expenseTotal}
+                            {currentCurrencySymbol+' '+new Intl.NumberFormat().format(expenseTotal)}
                         </span>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ const FirstComponent = ({ data }) => {
                             {nav.savings}
                         </span>
                         <span className='text-lg md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                            {currentCurrencySymbol + totalSavings} 
+                            {currentCurrencySymbol +' '+new Intl.NumberFormat().format(totalSavings)}
                         </span>
                     </div>
                 </div>

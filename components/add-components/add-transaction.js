@@ -143,7 +143,7 @@ const AddTransaction = ({ toggleModal, id }) => {
     }
 
     console.log(userData);
-    
+
 
     function handleInputChange(event, identifier) {
         let value = event.target.value;
@@ -181,39 +181,43 @@ const AddTransaction = ({ toggleModal, id }) => {
         }
     }
 
-    if (!data) return <ClipLoader color='gray' size={30} className='m-auto' />
+    if (!data) return (<div className='bg-light-surface-background dark:bg-dark-surface-background
+                        rounded-md  flex flex-col justify-center items-center gap-2 p-4 grow'>
+        <ClipLoader color='gray' size={30} className='' />
+        <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
+    </div>)
 
     return (
         <>
-            <div className='relative h-full w-full'>
+            <div className='relative h-full w-full '>
                 <div className={`${showSpinner ? 'absolute' : 'hidden'} z-30 h-full w-full flex justify-center items-center 
                     
                     bg-light-primary-text/10 dark:bg-dark-primary-text/10`}>
 
                     <div className='bg-light-surface-background dark:bg-dark-surface-background
-                    w-20 h-20 rounded-md
-                    flex flex-col justify-center items-center
+                     rounded-md
+                    flex flex-col justify-center items-center gap-4 p-4
                     '>
                         <ClipLoader color='gray' size={30} className='' />
                         <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.savingData}</p>
                     </div>
                 </div>
-                <div className='absolute h-full w-full' >
+                <div className='absolute h-full w-full flex flex-col justify-between'>
                     <div className=' h-16 border-b flex justify-between items-center p-4 md:flex-row-reverse
-        border-light-border dark:border-dark-border
-        '>
+                        border-light-border dark:border-dark-border
+                        '>
                         <button
                             onClick={toggleModal}
                             className='text-light-primary-text dark:text-dark-primary-text'>
                             {cross}
                         </button>
                         <span className='grow pl-4 text-lg md:p-0
-            text-light-primary-text dark:text-dark-primary-text
-            '>
-                            {nav.create} {nav.transaction}
+                            text-light-primary-text dark:text-dark-primary-text
+                            '>
+                            {!id? nav.create : nav.edit} {nav.transaction}
                         </span>
                         <button className='md:hidden text-sm
-            text-light-secondary-text dark:text-dark-secondary-text'
+                            text-light-secondary-text dark:text-dark-secondary-text'
                             onClick={handleSubmit}
                         >
                             {nav.create}
@@ -245,6 +249,7 @@ const AddTransaction = ({ toggleModal, id }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    key={userData.categoryId}
                                     isRequired={true}
                                     message={`( ${nav.chooseCategoryToSeeValuesHere} )`}
                                     selectedKey={userData.subCategoryId}
@@ -287,22 +292,22 @@ const AddTransaction = ({ toggleModal, id }) => {
                         </div>
                         <div className='p-4'>
                             <li className={` ${errors.typeId ? undefined : 'hidden'}
-                        text-warning-secondary/80 text-sm`}>{nav.typeValidationLabel}</li>
+                            text-warning-secondary/80 text-sm`}>{nav.typeValidationLabel}</li>
                             <li className={` ${errors.categoryId ? undefined : 'hidden'}
-                        text-warning-secondary/80 text-sm`}>{nav.categoryValidationLabel}</li>
+                            text-warning-secondary/80 text-sm`}>{nav.categoryValidationLabel}</li>
                             <li className={` ${errors.subCategoryId ? undefined : 'hidden'}
-                        text-warning-secondary/80 text-sm`}>{nav.subCategoryValidationLabel}</li>
+                            text-warning-secondary/80 text-sm`}>{nav.subCategoryValidationLabel}</li>
                             <li className={` ${errors.date ? undefined : 'hidden'}
-                        text-warning-secondary/80 text-sm`}>{nav.dateValidationLabel}</li>
+                            text-warning-secondary/80 text-sm`}>{nav.dateValidationLabel}</li>
                             <li className={` ${errors.amount ? undefined : 'hidden'}
-                        text-warning-secondary/80 text-sm`}>{nav.amountValidationLabel}</li>
+                            text-warning-secondary/80 text-sm`}>{nav.amountValidationLabel}</li>
                         </div>
                         <div className='hidden md:flex justify-end items-center gap-3 pt-10 mt-auto'>
                             <button className='text-lg
-                    text-blue-700
-                    ' onClick={toggleModal}>{nav.cancel}</button>
+                            text-blue-700
+                            ' onClick={toggleModal}>{nav.cancel}</button>
                             <button className='text-lg
-                    text-light-secondary-text dark:text-dark-secondary-text'
+                            text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}
                             >{nav.create}</button>
                         </div>

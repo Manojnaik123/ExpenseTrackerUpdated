@@ -35,8 +35,8 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
     })
 
     const { lan, nav } = useLanguage();
-        const router = useRouter();
-    
+    const router = useRouter();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -155,20 +155,20 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                 </div>
                 <div className='absolute h-full w-full flex flex-col' >
                     <div className=' h-16 border-b flex justify-between items-center p-4 md:flex-row-reverse
-        border-light-border dark:border-dark-border
-        '>
+                        border-light-border dark:border-dark-border
+                        '>
                         <button
                             onClick={toggleModal}
                             className='text-light-primary-text dark:text-dark-primary-text'>
                             {cross}
                         </button>
                         <span className='grow pl-4 text-lg md:p-0
-            text-light-primary-text dark:text-dark-primary-text
-            '>
-                            {nav.create} {nav.goal}
+                            text-light-primary-text dark:text-dark-primary-text
+                            '>
+                            {isAddFundPage ? nav.addFund : (id ? nav.edit : nav.create) + ' ' + nav.goal}
                         </span>
                         <button className='md:hidden text-sm
-            text-light-secondary-text dark:text-dark-secondary-text'
+                         text-light-secondary-text dark:text-dark-secondary-text'
                             onClick={handleSubmit}
                         >
                             {nav.create}
@@ -178,6 +178,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                    isRequired={true}
                                     value={userData.title}
                                     label={nav.title}
                                     type='text'
@@ -188,6 +189,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    isRequired={true}
                                     selectedKey={userData.categoryId}
                                     label={nav.category}
                                     options={categories} onSelect={(e) => handleSelectChange(e, 'categoryId')}
@@ -198,6 +200,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <CustomInput
+                                isRequired={true}
                                 value={isAddFundPage ? userData.fund : userData.amount}
                                 label={isAddFundPage ? nav.addFund : nav.targetAmount}
                                 type='number' placeHolder={nav.amount}
@@ -208,6 +211,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    isRequired={true}
                                     selectedKey={userData.priorityId}
                                     label={nav.priority}
                                     options={priorities}
@@ -218,6 +222,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                    isRequired={true}
                                     value={userData.date}
                                     label={nav.deadLine}
                                     type='date' placeHolder={nav.enterSomething}
@@ -232,9 +237,9 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                                 value={userData.notes}
                                 label={nav.notes}
                                 placeHolder={nav.enterSomething}
-                                onChange={(e) => handleInputChange(e, 'remarks')}
+                                onChange={(e) => handleInputChange(e, 'notes')}
                                 disabled={isAddFundPage}
-                                />
+                            />
                         </div>
                         <div className='p-4'>
                             <li className={` ${errors.title ? undefined : 'hidden'}

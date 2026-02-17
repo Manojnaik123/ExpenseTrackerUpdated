@@ -24,7 +24,7 @@ const RecentTransaction = ({ prop }) => {
                             {prop.category}
                         </span>
                         <span className='text-sm text-warning-primary'>
-                            {currentCurrencySymbol + ' ' + prop.amount}
+                            {currentCurrencySymbol + ' ' + new Intl.NumberFormat().format(prop.amount)}
                         </span>
                     </div>
                     <div className='flex justify-between'>

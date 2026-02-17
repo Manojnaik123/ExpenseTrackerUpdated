@@ -8,6 +8,7 @@ import CustomTimeSpanSelect from '../add-components/custom-timespan-picker';
 import PieChartParent from './pie-chart-parent';
 import { financialOverviewDropDOwnValues } from '@/data';
 import MobileCalenderCustom from '../mobile-calender-custom';
+import Link from 'next/link';
 
 
 const filterTransactionsByTimeSpan = (transactions = [], timeSpanKey) => {
@@ -16,7 +17,7 @@ const filterTransactionsByTimeSpan = (transactions = [], timeSpanKey) => {
   return transactions.filter(transaction => {
     const txnDate = new Date(transaction.date);
 
-    switch(timeSpanKey) {
+    switch (timeSpanKey) {
       case 1: // This Month
         return txnDate.getMonth() === now.getMonth() && txnDate.getFullYear() === now.getFullYear();
 
@@ -80,6 +81,10 @@ const SecondComponent = ({ transactions }) => {
     setTimeSpanId(e);
   }
 
+  function handleSelectWeb(e) {
+    setTimeSpanId(e.key);
+  }
+
   return (
     <div className='w-full h-auto md:h-full pt-0 flex flex-col md:flex-row gap-4'>
 
@@ -123,18 +128,24 @@ const SecondComponent = ({ transactions }) => {
               {expenseSmall}
             </button>
           </div>
-          {/* web
-          <div className='hidden md:flex'>
-            <CustomTimeSpanSelect height={10} showLabel={false} />
-          </div> */}
-          {/* mobile */}
-          <div className=''>
+          <div className='flex md:hidden'>
             <MobileCalenderCustom options={financialOverviewDropDOwnValues[lan]} handleOnSelectClick={handleTimeSpanSelect} />
-            {/* <CustomTimeSpanSelect options={financialOverviewDropDOwnValues[lan]} height={10} showLabel={false} isMobileView={true} /> */}
+          </div>
+          <div className='hidden md:flex'>
+            <CustomTimeSpanSelect key={timeSpanId} height={10} onSelect={handleSelectWeb} selectedKey={timeSpanId} options={financialOverviewDropDOwnValues[lan]} />
           </div>
         </div>
         <div className='w-full h-[450px] md:h-full'>
-          <PieChartParent data={finalData} expenseOrIncome={activeButton}/>
+          {finalData && finalData.length > 0 ? (
+            <PieChartParent
+              data={finalData}
+              expenseOrIncome={activeButton}
+            />
+          ) : (
+            <div className='w-full h-full flex justify-center items-center'>
+              <span className='text-light-muted-text dark:text-dark-muted-text text-xs'>{nav.noRecords}</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -146,14 +157,21 @@ const SecondComponent = ({ transactions }) => {
           <span className='text-light-primary-text dark:text-dark-primary-text'>
             {nav.recentTransaction}
           </span>
-          <span className='text-button-blue'>
+          <Link href={'/application/transactions'} className='text-button-blue'>
             {nav.viewMore}
-          </span>
+          </Link>
         </div>
         <div className='flex-1 max-h-full overflow-y-auto scrollbar-custom pr-2'>
-          {transactions?.map(item => (
-            <RecentTransaction prop={item} />
-          ))}
+          {transactions && transactions.length > 0 ? (
+            transactions.map((item) => (
+              <RecentTransaction key={item.id} prop={item} />
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-full text-sm text-gray-500">
+              <span className='text-light-muted-text dark:text-dark-muted-text text-xs'>{nav.noRecords}</span>
+
+            </div>
+          )}
         </div>
       </div>
     </div>

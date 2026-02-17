@@ -7,14 +7,21 @@ import CustomTimeSpanSelect from '../add-components/custom-timespan-picker'
 import AddGoal from '../add-components/add-goal'
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import { savingsGrowthDropDownValues } from '@/data';
+import Link from 'next/link'
+import MobileCalenderCustom from '../mobile-calender-custom'
 
 const FourthComponent = ({ goals, savings }) => {
     const [timeSpanId, setTimeSpanId] = useState(1);
 
     const { nav, lan } = useLanguage();
 
-    function handleSelect(e){
+    function handleSelect(e) {
         setTimeSpanId(e.key);
+    }
+
+
+    function handleSelectMob(e){
+        setTimeSpanId(e);
     }
 
     return (
@@ -25,14 +32,20 @@ const FourthComponent = ({ goals, savings }) => {
                     <span className='text-light-primary-text dark:text-dark-primary-text'>
                         {nav.activeGoals}
                     </span>
-                    <span className='text-button-blue'>
+                    <Link href={'/application/goals'} className='text-button-blue'>
                         {nav.viewMore}
-                    </span>
+                    </Link>
                 </div>
                 <div className='flex-1 max-h-full overflow-y-auto scrollbar-custom pr-2'>
-                    {goals?.map(item => (
-                        <ActiveGoal prop={item} />
-                    ))}
+                    {goals && goals.length > 0 ? (
+                        goals?.map(item => (
+                            <ActiveGoal prop={item} />
+                        ))
+                    ) : (
+                        <div className="flex items-center justify-center h-full text-sm text-gray-500">
+                            <span className='text-light-muted-text dark:text-dark-muted-text text-xs'>{nav.noRecords}</span>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -43,13 +56,16 @@ const FourthComponent = ({ goals, savings }) => {
                     <span className='text-light-primary-text dark:text-dark-primary-text'>
                         {nav.savingGrowth}
                     </span>
-                    <span className='text-button-blue'>
+                    <Link href={'/application/savings'} className='text-button-blue'>
                         {nav.viewMore}
-                    </span>
+                    </Link>
                 </div>
                 <div className='flex justify-end py-4'>
-                    <div className=''>
-                        <CustomTimeSpanSelect selectedKey={timeSpanId} height={10} options={savingsGrowthDropDownValues[lan]} onSelect={handleSelect} />
+                    <div className='hidden md:flex'>
+                        <CustomTimeSpanSelect key={timeSpanId} selectedKey={timeSpanId} height={10} options={savingsGrowthDropDownValues[lan]} onSelect={handleSelect} />
+                    </div>
+                    <div className='flex md:hidden'>
+                        <MobileCalenderCustom options={savingsGrowthDropDownValues[lan]} handleOnSelectClick={handleSelectMob} />
                     </div>
                 </div>
                 <div className='flex-1 min-h-auto'>

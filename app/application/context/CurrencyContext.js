@@ -9,7 +9,10 @@ const CurrencyContext = createContext(null);
 export function CurrencyProvider({ children }) {
   const [curCurrency, setCurrency] = useState(1); 
 
-  const currentCurrencySymbol = currency.find(item => item.key === curCurrency).value;
+  console.log(curCurrency);
+  
+
+  const currentCurrencySymbol = currency.find(item => item.key == curCurrency).value;
 
   const value = {
     currency,

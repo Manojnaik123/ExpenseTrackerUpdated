@@ -1,6 +1,6 @@
 'use client';
 
-import { arrowFirst, budget, downArrow, goals, leftArrow, moveRight, rightArrow, savings, transaction, upArrow } from '@/lib/icons';
+import { arrowFirst, budget, downArrow, goals, leftArrow, moveRight, plus, rightArrow, savings, transaction, upArrow } from '@/lib/icons';
 import { useLanguage } from '@/app/application/context/LanguageContext';
 import { redirect, usePathname } from 'next/navigation';
 import { useMediaQuery } from '@/mediaMatch';
@@ -139,176 +139,174 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
     }
 
     return (
-        <div>
-            {/* <div className='w-full bg-green-400 flex justify-center items-center'>
+        <>
+            {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier} />}
+            <div>
+                {/* <div className='w-full bg-green-400 flex justify-center items-center'>
                 <span className='text-[12px] p-0 text-green-900' >Data saved successfully</span>
         </div> */}
-            <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
+                <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
     h-16 border-b border-light-border dark:border-dark-border
     flex
     '>
-                <div className={` ${sideBarOpen ? 'w-60' : 'w-20'} hidden h-16 border-r border-light-border dark:border-dark-border
+                    <div className={` ${sideBarOpen ? 'w-60' : 'w-20'} hidden h-16 border-r border-light-border dark:border-dark-border
         md:flex justify-between items-center p-4`}>
-                    <div>
-                        <span className='text-light-primary-text dark:text-dark-primary-text'>
+                        <div>
+                            <span className='text-light-primary-text dark:text-dark-primary-text'>
+                                <Image src='/images/pngegg.png'
+                                    alt="Logo"
+                                    width={40}
+                                    height={40}
+                                />
+                            </span>
+                        </div>
+                        <span className={`${sideBarOpen ? 'flex' : 'hidden'} text-light-primary-text dark:text-dark-primary-text
+                            text-lg font-semibold`}>{nav.finovex}</span>
+                        <button className='text-light-primary-text dark:text-dark-primary-text'
+                            onClick={sideBarToggle} disabled={isSmallScreen}
+                        >
+                            {sideBarOpen ? leftArrow : rightArrow}
+                        </button>
+                    </div>
+                    <div className='grow flex md:justify-between items-center p-4 pr-0
+                    bg-light-background dark:bg-dark-background'>
+                        <Link href={'/application'} className='md:hidden pr-2 text-light-primary-text dark:text-dark-primary-text'>
                             <Image src='/images/pngegg.png'
                                 alt="Logo"
                                 width={40}
                                 height={40}
                             />
+                        </Link>
+                        <span className='md:text-lg text-md
+                            text-light-primary-text dark:text-dark-primary-text
+                            '>
+                            {(titleFinder(path, nav) != 'Personalize' &&
+                                titleFinder(path, nav) != 'Appearance' &&
+                                titleFinder(path, nav) != 'Logout') && titleFinder(path, nav)}
+
+                            {(titleFinder(path, nav) == 'Personalize' ||
+                                titleFinder(path, nav) == 'Appearance' ||
+                                titleFinder(path, nav) == 'Logout') && (
+                                    <div className='flex justify-start items-center'>
+                                        <Link href={'/application/settings'} className='text-accent-hover underline'>
+                                            {nav.settings}
+                                        </Link>
+                                        {rightArrow}
+                                        {titleFinder(path, nav) == 'Appearance' && nav.appearance}
+                                        {titleFinder(path, nav) == 'Personalize' && nav.personalize}
+                                        {titleFinder(path, nav) == 'Logout' && nav.logout}
+                                    </div>
+                                )}
+
                         </span>
+
                     </div>
-                    <span className={`${sideBarOpen ? 'flex' : 'hidden'} text-light-primary-text dark:text-dark-primary-text
-            text-md font-semibold`}>{nav.companyName}</span>
-                    <button className='text-light-primary-text dark:text-dark-primary-text'
-                        onClick={sideBarToggle} disabled={isSmallScreen}
-                    >
-                        {sideBarOpen ? leftArrow : rightArrow}
-                    </button>
-                </div>
-                <div className='grow flex md:justify-between items-center p-4 pr-0
-                    bg-light-background dark:bg-dark-background'>
-                    <span className='md:hidden pr-2 text-light-primary-text dark:text-dark-primary-text'>
-                        <Image src='/images/pngegg.png'
-                            alt="Logo"
-                            width={40}
-                            height={40}
-                        />
-                    </span>
-                    <span className='md:text-[20px] text-lg
-            text-light-primary-text dark:text-dark-primary-text
-            '>
-                        {(titleFinder(path, nav) != 'Personalize' &&
-                            titleFinder(path, nav) != 'Appearance' &&
-                            titleFinder(path, nav) != 'Logout') && titleFinder(path, nav)}
 
-                        {(titleFinder(path, nav) == 'Personalize' ||
-                            titleFinder(path, nav) == 'Appearance' ||
-                            titleFinder(path, nav) == 'Logout') && (
-                                <div className='flex justify-start items-center'>
-                                    <Link href={'/application/settings'} className='text-accent-hover underline'>
-                                        {nav.settings}
-                                    </Link>
-                                    {rightArrow}
-                                    {titleFinder(path, nav) == 'Appearance' && nav.appearance}
-                                    {titleFinder(path, nav) == 'Personalize' && nav.personalize}
-                                    {titleFinder(path, nav) == 'Logout' && nav.logout}
-                                </div>
-                            )}
+                    <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
+                        <button className='fixed bottom-18 right-4 md:bottom-0 md:static flex justify-between items-center gap-1 p-4 md:px-4 md:py-2 rounded-full
+                        text-white bg-primary-accent hover:bg-accent-hover'
+                            onClick={() => dropDownToggle()}>
+                            <span className='hidden md:flex'>{nav.create} {isDropDownOpen ? upArrow : downArrow}</span>
+                            <span className='flex md:hidden'>{plus}</span>
+                            {/* dropdown on top navbar */}
+                            {isDropDownOpen && <div className='fixed slide-down w-44 right-6 bottom-35 md:bottom-auto md:right-20 md:top-14  border rounded-sm py-4 flex flex-col gap-5
+                                            bg-light-surface-background dark:bg-dark-sidebar-background
+                                            border-light-border dark:border-dark-border'>
+                                <button className='flex justify-start items-center py-2 px-4 gap-2
+                            hover:bg-hover-gray
+                                text-light-secondary-text dark:text-dark-secondary-text'
+                                    onClick={() => handleCreateClick(1)}>
+                                    {transaction}
+                                    <span>{nav.transactions}</span>
+                                </button>
+                                <button className='flex justify-start items-center py-2 px-4 gap-2
+                            hover:bg-hover-gray
+                                text-light-secondary-text dark:text-dark-secondary-text'
+                                    onClick={() => handleCreateClick(2)}
+                                >
+                                    {budget}
+                                    <span>{nav.budget}</span>
+                                </button>
+                                <button className='flex justify-start items-center py-2 px-4 gap-2
+                            hover:bg-hover-gray
+                                text-light-secondary-text dark:text-dark-secondary-text'
+                                    onClick={() => handleCreateClick(3)}
+                                >
+                                    {savings}
+                                    <span>{nav.saving}</span>
+                                </button>
+                                <button className='flex justify-start items-center py-2 px-4 gap-2
+                            hover:bg-hover-gray
+                                text-light-secondary-text dark:text-dark-secondary-text'
+                                    onClick={() => handleCreateClick(4)}
+                                >
+                                    {goals}
+                                    <span>{nav.goal}</span>
+                                </button>
+                            </div>}
+                        </button>
 
-                    </span>
-
-                </div>
-
-                <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
-                    <button className='flex justify-between items-center gap-1 px-4 py-2 rounded-full
-                text-white
-            bg-primary-accent hover:bg-accent-hover'
-                        onClick={() => dropDownToggle()}
-                    >
-                        {nav.create} {isDropDownOpen ? upArrow : downArrow}
-                    </button>
-
-                    {isProfileDropDownOpen && <div className='slide-down fixed right-4 top-14 border rounded-sm p-4 flex flex-col
+                        {isProfileDropDownOpen && <div className='slide-down fixed right-4 top-14 border rounded-sm p-4 flex flex-col
                                                 bg-light-surface-background dark:bg-dark-sidebar-background
                                                 border-light-border dark:border-dark-border
                                                 '>
-                        <div className='flex gap-2 pb-4'>
-                            <Image
-                                src={profileImage}
-                                alt="Profile"
-                                width={40}
-                                height={40}
-                                className="rounded-full md:flex"
-                                onClick={toggleProfileDrowDown}
-                            />
-                            <div className='flex flex-col'>
-                                <span className='text-light-secondary-text dark:text-dark-secondary-text'>
-                                    {userName}
-                                </span>
-                                <span className='text-sm text-light-muted-text dark:text-dark-muted-text'>
-                                    {email}
-                                </span>
+                            <div className='flex gap-2 pb-4'>
+                                <Image
+                                    src={profileImage}
+                                    alt="Profile"
+                                    width={40}
+                                    height={40}
+                                    className="rounded-full md:flex"
+                                    onClick={toggleProfileDrowDown}
+                                />
+                                <div className='flex flex-col'>
+                                    <span className='text-light-secondary-text dark:text-dark-secondary-text'>
+                                        {userName}
+                                    </span>
+                                    <span className='text-sm text-light-muted-text dark:text-dark-muted-text'>
+                                        {email}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div className='border-t border-light-border dark:border-dark-border pt-2'>
-                            <Link href={'/application/settings'} className="flex justify-center items-center gap-2 underline
+                            <div className='border-t border-light-border dark:border-dark-border pt-2'>
+                                <Link href={'/application/settings'} className="flex justify-center items-center gap-2 underline
                                  text-accent-hover"
-                            >
-                                {nav.goToSettingsPage}
-                                <span className="relative top-[2px]">
-                                    {moveRight}
-                                </span>
-                            </Link>
-                        </div>
-                        <div>
+                                >
+                                    {nav.goToSettingsPage}
+                                    <span className="relative top-[2px]">
+                                        {moveRight}
+                                    </span>
+                                </Link>
+                            </div>
+                            <div>
 
-                        </div>
-                    </div>}
+                            </div>
+                        </div>}
 
-                    {/* dropdown on top navbar */}
-                    {isDropDownOpen && <div className='slide-down fixed w-44 right-20 top-14 border rounded-sm py-4 flex flex-col gap-5
-                                            bg-light-surface-background dark:bg-dark-sidebar-background
-                                            border-light-border dark:border-dark-border
-                                            '>
-                        <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
-                                text-light-secondary-text dark:text-dark-secondary-text'
-                            onClick={() => handleCreateClick(1)}
-                        >
-                            {transaction}
-                            <span>{nav.transactions}</span>
-                        </button>
-                        <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
-                                text-light-secondary-text dark:text-dark-secondary-text'
-                            onClick={() => handleCreateClick(2)}
-                        >
-                            {budget}
-                            <span>{nav.budget}</span>
-                        </button>
-                        <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
-                                text-light-secondary-text dark:text-dark-secondary-text'
-                            onClick={() => handleCreateClick(3)}
-                        >
-                            {savings}
-                            <span>{nav.saving}</span>
-                        </button>
-                        <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
-                                text-light-secondary-text dark:text-dark-secondary-text'
-                            onClick={() => handleCreateClick(4)}
-                        >
-                            {goals}
-                            <span>{nav.goal}</span>
-                        </button>
-                    </div>}
-                </div>
 
-                {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier} />}
-
-                <div className='flex justify-center items-center pl-3 pr-4'>
-                    <span ref={profileDropdownWrapperRef}
-                        className='rounded-full border
+                    </div>
+                    <div className='flex justify-center items-center pl-3 pr-4'>
+                        <span ref={profileDropdownWrapperRef}
+                            className='rounded-full border
                         border-light-border dark:border-dark-border
                         text-light-secondary-text dark:text-dark-secondary-text
                         '>
-                        {profileImage && (
-                            <Image
-                                src={profileImage}
-                                alt="Profile"
-                                width={40}
-                                height={40}
-                                className="rounded-full md:flex"
-                                onClick={toggleProfileDrowDown}
-                            />
-                        )}
+                            {profileImage && (
+                                <Image
+                                    src={profileImage}
+                                    alt="Profile"
+                                    width={40}
+                                    height={40}
+                                    className="rounded-full md:flex"
+                                    onClick={toggleProfileDrowDown}
+                                />
+                            )}
 
-                    </span>
-                </div>
+                        </span>
+                    </div>
 
-            </nav>
-        </div>
+                </nav>
+            </div>
+        </>
     )
 }

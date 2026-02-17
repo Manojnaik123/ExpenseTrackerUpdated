@@ -9,11 +9,9 @@ import { cross } from '@/lib/icons';
 import { useCurrency } from '../context/CurrencyContext';
 import { useSearchParams } from 'next/navigation';
 
-
 import GoalCard from '@/components/goal-card';
 import AddVerificaltionModal from '@/components/verification-modal/add-modal';
 import AddModal from '@/components/add-components/add-modal';
-
 
 const GoalsPage = () => {
     const { nav, lan } = useLanguage();
@@ -70,7 +68,7 @@ const GoalsPage = () => {
     function toggleEditModal() {
         setEditModalOpen(prev => !prev)
     }
-
+    
     async function handleDeletionOfGoal() {
         const id = selectedId;
         const res = await fetch("/api/goals", {
@@ -226,69 +224,71 @@ const GoalsPage = () => {
                                     <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{currentCurrencySymbol} {thisMonthSavings}</span>
                                 </div>
 
-                               <div className='flex grow gap-4 md:w-2/3'>
-                                 <div className='p-4 flex flex-col gap-2 grow border rounded-md 
+                                <div className='flex grow gap-4 md:w-2/3'>
+                                    <div className='p-4 flex flex-col gap-2 grow border rounded-md 
                                         border-light-border dark:border-dark-border
                                         bg-light-surface-background dark:bg-dark-surface-background
                                         '>
-                                    <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.noOfActiveGoals}</span>
-                                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{activeGoals}</span>
-                                </div>
+                                        <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.noOfActiveGoals}</span>
+                                        <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{activeGoals}</span>
+                                    </div>
 
-                                <div className='p-4 flex flex-col gap-2 grow border rounded-md 
+                                    <div className='p-4 flex flex-col gap-2 grow border rounded-md 
                                         border-light-border dark:border-dark-border
                                         bg-light-surface-background dark:bg-dark-surface-background
-                                        '>  
-                                    <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.noOfCompletedGoals}</span>
-                                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{completedGoals} </span>
+                                        '>
+                                        <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.noOfCompletedGoals}</span>
+                                        <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{completedGoals} </span>
+                                    </div>
                                 </div>
-                               </div>
 
                             </div>
 
                             <div className='flex grow md:grow-0'>
                                 <button className={`px-4 py-2 border rounded-l-full w-28
-                    border-light-border dark:border-dark-border
-                    text-light-secondary-text dark:text-dark-secondary-text
-                     
-                    ${buttonActive === 1 ? 'bg-accent-hover text-white' :
-                                        'hover:bg-hover-gray/30'}
-                    `}
+                                        border-light-border dark:border-dark-border
+                                        text-light-secondary-text dark:text-dark-secondary-text
+                                        ${buttonActive === 1 ? 'bg-accent-hover text-white' :
+                                        'hover:bg-hover-gray/30'}`}
                                     onClick={() => handleButtonClick(1)}>
                                     {nav.active}
                                 </button>
                                 <button className={`px-4 py-2 border rounded-r-full w-28
-                    border-light-border dark:border-dark-border
-                    text-light-secondary-text dark:text-dark-secondary-text
-                     
-                    ${buttonActive === 2 ? 'bg-accent-hover text-white' :
-                                        'hover:bg-hover-gray/30'}
-                    `}
+                                        border-light-border dark:border-dark-border
+                                        text-light-secondary-text dark:text-dark-secondary-text
+                                        ${buttonActive === 2 ? 'bg-accent-hover text-white' :
+                                        'hover:bg-hover-gray/30'}`}
                                     onClick={() => handleButtonClick(2)}>
                                     {nav.completed}
                                 </button>
                             </div>
-                            <div className='grid grid-cols-1 md:grid-cols-2 
-                xl:grid-cols-3 2xl:grid-cols-4
-                 gap-4 pt-4'>
-
-                                {filteredData.map(item => (
-                                    <GoalCard
-                                        toggleModal={toggleModal}
-                                        toggleEditModal={openEditModal}
-                                        deleteHandler={handleDeletion}
-                                        id={item.id}
-                                        title={item.title}
-                                        subTitle={item.category}
-                                        amount={item.amount}
-                                        priority={item.priority}
-                                        priorityId={item.priorityId}
-                                        date={item.date}
-                                        fund={item.fund}
-                                        imgId={item.categoryId}
-                                    />
-                                ))}
-                            </div>
+                            {(filteredData && filteredData.length > 0) && (
+                                <div className='grid grid-cols-1 md:grid-cols-2 
+                                        xl:grid-cols-3 2xl:grid-cols-4
+                                        gap-4 pt-4'>
+                                    {filteredData.map(item => (
+                                        <GoalCard
+                                            toggleModal={toggleModal}
+                                            toggleEditModal={openEditModal}
+                                            deleteHandler={handleDeletion}
+                                            id={item.id}
+                                            title={item.title}
+                                            subTitle={item.category}
+                                            amount={item.amount}
+                                            priority={item.priority}
+                                            priorityId={item.priorityId}
+                                            date={item.date}
+                                            fund={item.fund}
+                                            imgId={item.categoryId}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                            {(!filteredData || filteredData.length === 0) && (
+                                <div className="flex items-center justify-center h-full text-sm text-gray-500">
+                                    <span className='text-light-muted-text dark:text-dark-muted-text text-xs'>{nav.noRecords}</span>
+                                </div>
+                            )}
                         </>
                     }
                 </div>

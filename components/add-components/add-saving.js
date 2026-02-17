@@ -32,8 +32,8 @@ const AddSaving = ({ toggleModal, id }) => {
     })
 
     const { lan, nav } = useLanguage();
-        const router = useRouter();
-    
+    const router = useRouter();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -96,9 +96,6 @@ const AddSaving = ({ toggleModal, id }) => {
         }))
     }
 
-    console.log(userData);
-
-
     async function handleSubmit() {
         if (savingDataValidator(userData, setErrors)) {
             setShowSpinner(true);
@@ -122,7 +119,11 @@ const AddSaving = ({ toggleModal, id }) => {
         }
     }
 
-    if (!data) return <ClipLoader color='gray' size={30} className='m-auto' />
+    if (!data) return (<div className='bg-light-surface-background dark:bg-dark-surface-background
+                        rounded-md  flex flex-col justify-center items-center gap-2 p-4 grow'>
+        <ClipLoader color='gray' size={30} className='' />
+        <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
+    </div>)
 
     return (
         <>
@@ -163,6 +164,7 @@ const AddSaving = ({ toggleModal, id }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                 isRequired={true}
                                     label={nav.name}
                                     type='text' placeHolder={nav.enterName}
                                     onChange={(e) => handleInputChange(e, 'name')}
@@ -172,6 +174,7 @@ const AddSaving = ({ toggleModal, id }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                 isRequired={true}
                                     label={nav.type}
                                     options={types} onSelect={(e) => handleSelectChange(e, 'typeId')}
                                     isValid={errors.typeId}
@@ -182,6 +185,7 @@ const AddSaving = ({ toggleModal, id }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                 isRequired={true}
                                     label={nav.amount}
                                     type='number'
                                     placeHolder={nav.enterAmount} onChange={(e) => handleInputChange(e, 'amount')}
@@ -191,6 +195,7 @@ const AddSaving = ({ toggleModal, id }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                 isRequired={true}
                                     label={nav.date}
                                     type='date'
                                     placeHolder={nav.enterSomething}
@@ -200,12 +205,12 @@ const AddSaving = ({ toggleModal, id }) => {
                                 ></CustomInput>
                             </div>
                         </div>
-                        
+
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomTextArea 
-                            label={nav.notes} 
-                            placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')}
-                            value={userData.value}
+                            <CustomTextArea
+                                label={nav.notes}
+                                placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')}
+                                value={userData.value}
                             />
                         </div>
                         <div className='p-4'>

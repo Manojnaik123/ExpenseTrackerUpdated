@@ -29,14 +29,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .eq("email", user.email)
         .single();
 
-      console.log('-------data--error-------');
-
-      console.log(data);
-      console.log(error);
-
-      console.log('-------data--error-------');
-
-
       if (!data) {
         await supabase.from("User").insert({
           name: user.name,

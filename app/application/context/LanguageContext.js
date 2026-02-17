@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  const [lan, setLan] = useState(); // selected language ID
+  const [lan, setLan] = useState(1); 
 
   useEffect(() => {
     const languageId = localStorage.getItem('languageId');

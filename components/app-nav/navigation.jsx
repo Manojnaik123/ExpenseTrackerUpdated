@@ -48,7 +48,7 @@ const Navigation = ({ children }) => {
                 </div>
             </div>
             
-            <MobileAddButton/>
+            {/* <MobileAddButton/> */}
             <MobileBottomNav/>
         </div>
     );

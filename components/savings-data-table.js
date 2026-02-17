@@ -387,16 +387,19 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     const { currentCurrencySymbol } = useCurrency();
 
 
-    var totalAmount = tableData.reduce(
-        (sum, item) => sum + item.fourth,
-        0
-    )
+    var totalAmount = tableData
+        .filter(item => item.typeId === 1)
+        .reduce(
+            (sum, item) => sum + item.fourth,
+            0
+        )
 
     const now = new Date();
     const currentMonth = now.getMonth(); // 0–11
     const currentYear = now.getFullYear();
 
     const thisMonthSavings = tableData
+        .filter(item => item.typeId === 1)
         .filter(item => {
             const d = new Date(item.first); // '2026-02-04' ✅ valid
             return (
@@ -581,10 +584,8 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     function handleUnSelectAllRows() {
         filterdData.map(item => item.isSelected = false);
         setAllSelected(false);
+        setSelectedRows(prev => !prev);
     }
-
-    console.log('rerendered');
-
 
     return (
         <>
@@ -729,168 +730,185 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                     }
 
                     <div className='overflow-x-auto'>
-                        <table className="min-w-[800px] w-full border-collapse border mt-4
+                        {(filterdData && filterdData.length > 0) && (
+                            <table className="min-w-[800px] w-full border-collapse border mt-4
             border-light-border dark:border-dark-border
             ">
-                            <thead>
-                                <tr className='border-b border-light-border dark:border-dark-border'>
-                                    <th className='text-left p-3
-                        '>
-                                        <button className={`border-3 rounded-sm p-2 h-5 w-5
-                                    flex justify-center items-center
-                                    border-light-border dark:border-dark-border
-                                    bg-light-background dark:bg-dark-background
-                                    text-light-secondary-text dark:text-dark-secondary-text
-                                    `}
-                                            onClick={() => handleAllSelect()}
-                                        >
-                                            {(allSelected || filterdData.every(item => item.isSelected == true)) ?
-                                                <span>{tick}</span> : ''}
-                                        </button>
-                                    </th>
-                                    <th className='text-left p-3 
-                        text-light-secondary-text dark:text-dark-secondary-text'>
-                                        {titleArray[0]}
-                                    </th>
-                                    <th className='text-left p-3
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        '>{titleArray[1]}</th>
-                                    <th className='text-left p-3
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        '>{titleArray[2]}</th>
-                                    <th className='text-left p-3
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        '>{titleArray[3]}</th>
-                                    <th className='text-left p-3
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        '>{titleArray[4]}</th>
-                                </tr>
-                            </thead>
-                            <tbody className='p-0  text-[13px] md:text-[18px]'>
-                                {filterdData && filterdData.map((item) => (
+                                <thead>
                                     <tr className='border-b border-light-border dark:border-dark-border'>
-                                        <td className='text-left p-3'>
+                                        <th className='text-left p-3
+                        '>
                                             <button className={`border-3 rounded-sm p-2 h-5 w-5
                                     flex justify-center items-center
                                     border-light-border dark:border-dark-border
                                     bg-light-background dark:bg-dark-background
                                     text-light-secondary-text dark:text-dark-secondary-text
                                     `}
-                                                onClick={() => handleinputclick(item.id)}
+                                                onClick={() => handleAllSelect()}
                                             >
-                                                {item.isSelected ? <span> {tick} </span> : ''}
+                                                {(filterdData.every(item => item.isSelected == true)) ?
+                                                    <span>{tick}</span> : ''}
+                                                {((filterdData.some(item => item.isSelected == true) 
+                                                && filterdData.some(item => item.isSelected == false))) ?
+                                                    <span>{dash}</span> : ''}
                                             </button>
-                                            {/* <input type='checkbox' onChange={()=> handleinputclick(item.id)} checked={item.isSelected ? item.isSelected: undefined}/> checked={true} */}
-                                        </td>
-                                        <td className='p-6
+                                        </th>
+                                        <th className='text-left p-3 
+                        text-light-secondary-text dark:text-dark-secondary-text'>
+                                            {titleArray[0]}
+                                        </th>
+                                        <th className='text-left p-3
+                        text-light-secondary-text dark:text-dark-secondary-text
+                        '>{titleArray[1]}</th>
+                                        <th className='text-left p-3
+                        text-light-secondary-text dark:text-dark-secondary-text
+                        '>{titleArray[2]}</th>
+                                        <th className='text-left p-3
+                        text-light-secondary-text dark:text-dark-secondary-text
+                        '>{titleArray[3]}</th>
+                                        <th className='text-left p-3
+                        text-light-secondary-text dark:text-dark-secondary-text
+                        '>{titleArray[4]}</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='p-0  text-[13px] md:text-[18px]'>
+                                    {filterdData && filterdData.map((item) => (
+                                        <tr className='border-b border-light-border dark:border-dark-border'>
+                                            <td className='text-left p-3'>
+                                                <button className={`border-3 rounded-sm p-2 h-5 w-5
+                                    flex justify-center items-center
+                                    border-light-border dark:border-dark-border
+                                    bg-light-background dark:bg-dark-background
+                                    text-light-secondary-text dark:text-dark-secondary-text
+                                    `}
+                                                    onClick={() => handleinputclick(item.id)}
+                                                >
+                                                    {item.isSelected ? <span> {tick} </span> : ''}
+                                                </button>
+                                                {/* <input type='checkbox' onChange={()=> handleinputclick(item.id)} checked={item.isSelected ? item.isSelected: undefined}/> checked={true} */}
+                                            </td>
+                                            <td className='p-6
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>{item.first}</td>
-                                        <td className='p-3 
+                                            <td className='p-3 
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>
-                                            <div className='flex flex-col'>
-                                                <span>
-                                                    {item.second}
-                                                </span>
-                                                {/* <span className=' text-[12px] md:text-[15px]
+                                                <div className='flex flex-col'>
+                                                    <span>
+                                                        {item.second}
+                                                    </span>
+                                                    {/* <span className=' text-[12px] md:text-[15px]
                                         text-light-muted-text dark:text-dark-muted-text
                                         '>
                                                 {item.third}
                                             </span> */}
-                                            </div>
-                                        </td>
-                                        <td className='p-3
+                                                </div>
+                                            </td>
+                                            <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>
-                                            <span className={`${item.typeId == 1 ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
-                                                {item.third}
-                                            </span>
-                                        </td>
-                                        <td className='p-3
+                                                <span className={`${item.typeId == 1 ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
+                                                    {item.third}
+                                                </span>
+                                            </td>
+                                            <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>{currentCurrencySymbol} {item.fourth}</td>
-                                        <td className='p-3
+                                            <td className='p-3
                     text-light-secondary-text dark:text-dark-secondary-text
                     '>{item.fifth}</td>
-                                    </tr>
-                                ))}
+                                        </tr>
+                                    ))}
 
-                                {Array.from({ length: (rowsPerPage - filterdData.length) }).map((_, index) => (
-                                    <tr className='border-b border-transparent'>
+                                    {Array.from({ length: (rowsPerPage - filterdData.length) }).map((_, index) => (
+                                        <tr className='border-b border-transparent'>
 
-                                        <td className='text-left p-3'></td>
-                                        <td className='text-left p-3'></td>
-                                        <td className='text-left p-3'>
-                                            <div className='flex flex-col text-transparent'>
-                                                <span>
-                                                    dddd
-                                                </span>
-                                                <span className=' text-[12px] md:text-[15px]
+                                            <td className='text-left p-3'></td>
+                                            <td className='text-left p-3'></td>
+                                            <td className='text-left p-3'>
+                                                <div className='flex flex-col text-transparent'>
+                                                    <span>
+                                                        dddd
+                                                    </span>
+                                                    <span className=' text-[12px] md:text-[15px]
                                         text-transparent
                                         '>
-                                                    ddd
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                                        ddd
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+
 
                     </div>
                 </div>
-                <div className='h-10 border-x border-light-border dark:border-dark-border '>
 
-                </div>
-                <footer className='border border-t- flex flex-col justify-center gap-2 md:gap-0 md:flex-row md:justify-between items-center p-4
-            border-light-border dark:border-dark-border
-            text-light-secondary-text dark:text-dark-secondary-text
-            '>
-                    <div className='flex gap-2'>
-                        <button className='text-light-muted-text dark:text-dark-muted-text
+                {(filterdData && filterdData.length > 0) && (
+                    <>
+                        <div className='h-10 border-x border-light-border dark:border-dark-border '>
+
+                        </div>
+                        <footer className='border border-t- flex flex-col justify-center gap-2 md:gap-0 md:flex-row md:justify-between items-center p-4
+                        border-light-border dark:border-dark-border
+                        text-light-secondary-text dark:text-dark-secondary-text
+                        '>
+                            <div className='flex gap-2'>
+                                <button className='text-light-muted-text dark:text-dark-muted-text
                     px-2 py-2 rounded-md
                     hover:bg-hover-gray 
                     '>
-                            {arrowFirst}
-                        </button>
-                        <button className='text-light-muted-text dark:text-dark-muted-text
+                                    {arrowFirst}
+                                </button>
+                                <button className='text-light-muted-text dark:text-dark-muted-text
                     px-2 py-2 rounded-md
                    hover:bg-hover-gray '
-                            onClick={handlePreviousSelection}
-                        >
-                            {leftArrow}
-                        </button>
+                                    onClick={handlePreviousSelection}
+                                >
+                                    {leftArrow}
+                                </button>
 
-                        {Array.from({ length: totalPages }).map((_, index) => (
-                            <button className={` px-4 py-2 rounded-md hidden sm:flex
+                                {Array.from({ length: totalPages }).map((_, index) => (
+                                    <button className={` px-4 py-2 rounded-md hidden sm:flex
                         ${currentPage === index + 1 ? 'bg-primary-accent text-white ' :
-                                    'hover:bg-hover-gray text-light-secondary-text dark:text-dark-secondary-text'}
+                                            'hover:bg-hover-gray text-light-secondary-text dark:text-dark-secondary-text'}
                         `}
-                                onClick={() => handlePageButtonClick(index + 1)}
-                            >
-                                {index + 1}
-                            </button>
-                        ))}
+                                        onClick={() => handlePageButtonClick(index + 1)}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
 
-                        <button className='text-light-muted-text dark:text-dark-muted-text
+                                <button className='text-light-muted-text dark:text-dark-muted-text
                     px-2 py-2 rounded-md
                     hover:hover:bg-hover-gray '
-                            onClick={handleNextSelection}>
-                            {rightArrow}
-                        </button>
-                        <button className='text-light-muted-text dark:text-dark-muted-text
+                                    onClick={handleNextSelection}>
+                                    {rightArrow}
+                                </button>
+                                <button className='text-light-muted-text dark:text-dark-muted-text
                     px-2 py-2 rounded-md
                     hover:hover:bg-hover-gray'>
-                            {arrowEnd}
-                        </button>
+                                    {arrowEnd}
+                                </button>
+                            </div>
+                            <div className='flex text-light-muted-text dark:text-dark-muted-text'>
+                                {currentPage} {nav.of} {totalPages} {nav.pages}
+                            </div>
+                        </footer>
+                    </>
+                )}
+                {(!filterdData || filterdData.length === 0) && (
+                    <div className="flex items-center justify-center h-full text-sm text-gray-500">
+                        <span className='text-light-muted-text dark:text-dark-muted-text text-xs'>{nav.noRecords}</span>
                     </div>
-                    <div className='flex text-light-muted-text dark:text-dark-muted-text'>
-                        {currentPage} {nav.of} {totalPages} {nav.pages}
-                    </div>
-                </footer>
+                )}
+
             </div>
         </>
     )

@@ -10,7 +10,6 @@ function ActiveGoal({ prop }) {
     const { nav } = useLanguage();
     return (
         <>
-
             <div className='border-b
               border-light-border dark:border-dark-border'>
                 <div className='flex justify-start items-center gap-2 py-4 pb-2'>
@@ -18,8 +17,7 @@ function ActiveGoal({ prop }) {
                         style={{
                             backgroundColor: hexToRgba(goalIconColor[prop.categoryId], 0.3),
                             color: hexToRgba(goalIconColor[prop.categoryId], 1)
-                        }}
-                    >
+                        }}>
                         {goalCategoryIcons[prop.categoryId]}
                     </div>
                     <div className='grow'>
@@ -28,7 +26,7 @@ function ActiveGoal({ prop }) {
                                 {prop.title}
                             </span>
                             <span className='text-sm text-light-primary-text dark:text-dark-primary-text'>
-                                {currentCurrencySymbol + ' ' + prop.amount}
+                                {currentCurrencySymbol + ' ' + new Intl.NumberFormat().format(prop.amount)}
                             </span>
                         </div>
                         <div className='flex justify-between'>

@@ -12,7 +12,7 @@ import { budgetDataValidator } from '@/util/form-validation';
 import { useRouter, usePathname } from 'next/navigation';
 
 
-const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
+const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
     const [data, setData] = useState();
     const [userData, setUserData] = useState({
         id: 0,
@@ -58,7 +58,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
 
         if (id > 0 && data?.userBudget?.length) {
             const budget = data.userBudget[0];
-            
+
             setUserData({
                 id: budget.id,
                 title: budget.title,
@@ -82,9 +82,6 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
         id: item.id,
         value: item.translation
     }));
-
-    console.log(categories);
-
 
     function handleSelectChange(selected, identifier) {
         setUserData(prev => ({
@@ -123,7 +120,11 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
         }
     }
 
-    if (!data) return <ClipLoader color='gray' size={30} className='m-auto' />
+    if (!data) return (<div className='bg-light-surface-background dark:bg-dark-surface-background
+                        rounded-md  flex flex-col justify-center items-center gap-2 p-4 grow'>
+        <ClipLoader color='gray' size={30} className='' />
+        <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
+    </div>)
 
 
     return (
@@ -134,10 +135,11 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                     bg-light-primary-text/10 dark:bg-dark-primary-text/10`}>
 
                     <div className='bg-light-surface-background dark:bg-dark-surface-background
-                    w-20 h-20 rounded-md 
-                    flex justify-center items-center
-                    '>
-                        <ClipLoader color='gray' size={30}/>
+                                         rounded-md 
+                                        flex flex-col justify-center items-center gap-2 p-4
+                                        '>
+                        <ClipLoader color='gray' size={30} className='' />
+                        <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.savingData}</p>
                     </div>
                 </div>
                 <div className='absolute h-full w-full flex flex-col' >
@@ -152,7 +154,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                         <span className='grow pl-4 text-lg md:p-0
             text-light-primary-text dark:text-dark-primary-text
             '>
-                            {nav.create} {nav.budget}
+                            {isAddExpensePage ? nav.addExpense : (!id ? nav.create : nav.edit) + ' ' + nav.budget}
                         </span>
                         <button className='md:hidden text-sm
             text-light-secondary-text dark:text-dark-secondary-text'
@@ -165,6 +167,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                    isRequired={true}
                                     label={nav.title}
                                     type='text'
                                     placeHolder={nav.enterName}
@@ -176,6 +179,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomSelect
+                                    isRequired={true}
                                     label={nav.category}
                                     options={categories}
                                     onSelect={(e) => handleSelectChange(e, 'categoryId')}
@@ -187,8 +191,9 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
-                            {/* amount X amountSpent */}
+                                {/* amount X amountSpent */}
                                 <CustomInput
+                                    isRequired={true}
                                     label={isAddExpensePage ? nav.addExpense : nav.amount}
                                     type='number'
                                     placeHolder={nav.enterAmount}
@@ -199,6 +204,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomInput
+                                    isRequired={true}
                                     label={nav.date}
                                     type='date'
                                     placeHolder={nav.enterSomething}
@@ -210,12 +216,12 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                             </div>
                         </div>
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
-                            <CustomTextArea 
-                            label={nav.notes} 
-                            placeHolder={nav.enterSomething} 
-                            onChange={(e) => handleInputChange(e, 'notes')} 
-                            value={userData.notes}
-                            disabled={isAddExpensePage}
+                            <CustomTextArea
+                                label={nav.notes}
+                                placeHolder={nav.enterSomething}
+                                onChange={(e) => handleInputChange(e, 'notes')}
+                                value={userData.notes}
+                                disabled={isAddExpensePage}
                             />
                         </div>
                         <div className='p-4'>
@@ -231,9 +237,9 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage=false }) => {
                         <div className='hidden md:flex justify-end items-center gap-3 pt-10 mt-auto'>
                             <button className='text-lg
                     text-blue-700'
-                    onClick={toggleModal}
-                    >
-                        {nav.cancel}</button>
+                                onClick={toggleModal}
+                            >
+                                {nav.cancel}</button>
                             <button className='text-lg
                     text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}

@@ -186,11 +186,13 @@ const SettingsPage = () => {
                                             '>
                                         <div className='flex flex-col gap-1'>
                                             <span className='text-[13px] md:text-[18px]
-                            text-light-secondary-text dark:text-dark-secondary-text
-                            '>{nav.preference}</span>
+                                                text-light-secondary-text dark:text-dark-secondary-text
+                                                '>{nav.preference}
+                                            </span>
                                             <span className='text-[12px] md:text-[15px]
-                            text-light-muted-text dark:text-dark-muted-text
-                            '>{nav.preferredLanguage}, {nav.currency}, {nav.timeZone}</span>
+                                                text-light-muted-text dark:text-dark-muted-text
+                                                '>{nav.preferredLanguage}, {nav.currency}
+                                            </span>
                                         </div>
                                         <div>
                                             <div className='text-light-secondary-text dark:text-dark-secondary-text'>

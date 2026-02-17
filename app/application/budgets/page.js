@@ -187,10 +187,10 @@ const BudgetsPage = () => {
                         <ClipLoader color='gray' size={30} className='' />
                         <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
                     </div>}
-                    {data && <div className='grid grid-cols-1 md:grid-cols-2 
+                    {(filteredData && filteredData.length > 0) ? (<div className='grid grid-cols-1 md:grid-cols-2 
                  xl:grid-cols-3 2xl:grid-cols-4
                  gap-4 pt-4'>
-                        {data && filteredData.map(item => (
+                        {filteredData.map(item => (
                             <BudgetCard
                                 toggleModal={toggleModal}
                                 toggleEditModal={openEditModal}
@@ -204,7 +204,11 @@ const BudgetsPage = () => {
                                 imgId={item.categoryId}
                             />
                         ))}
-                    </div>}
+                    </div>) : (
+                        <div className="flex items-center justify-center h-full text-sm text-gray-500">
+                            <span className='text-light-muted-text dark:text-dark-muted-text text-xs'>{nav.noRecords}</span>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
