@@ -11,6 +11,7 @@ import AddVerificaltionModal from '@/components/verification-modal/add-modal';
 import { cross } from '@/lib/icons';
 import { useCurrency } from './context/CurrencyContext';
 import { useTheme } from './context/ThemeContext';
+import { usePre } from './context/PreContext';
 
 
 export async function fetchingLogic(lanId, setData) {
@@ -37,6 +38,7 @@ const PageClient = ({ name, image, email }) => {
     const { nav, lan, setLan } = useLanguage();
     const { setCurrency } = useCurrency();
     const { setTheme } = useTheme();
+    const { setEmail } = usePre();
 
     useEffect(() => {
         const flag = localStorage.getItem('firstTime');
@@ -67,6 +69,7 @@ const PageClient = ({ name, image, email }) => {
         // localStorage.setItem('currencyId', 1);
         localStorage.setItem('gmail', email);
         fetchingLogic(lan, setData);
+        setEmail(prev => !prev);
     }, [])
 
     async function handleContinueWithSampleData() {
