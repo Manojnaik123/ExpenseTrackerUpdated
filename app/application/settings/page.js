@@ -225,7 +225,7 @@ const SettingsPage = () => {
                                             '>{nav.profile}</span>
                                                             <span className='text-[12px] md:text-[15px]
                                             text-light-muted-text dark:text-dark-muted-text
-                                            '>{nav.name}, {nav.gender}</span>
+                                            '>{nav.name}, {nav.gmail}</span>
                                         </div>
                                         <div>
                                             <span className='text-light-secondary-text dark:text-dark-secondary-text'>

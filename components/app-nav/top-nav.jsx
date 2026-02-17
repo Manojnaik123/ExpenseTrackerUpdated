@@ -191,7 +191,7 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
                                         {rightArrow}
                                         {titleFinder(path, nav) == 'Appearance' && nav.appearance}
                                         {titleFinder(path, nav) == 'Personalize' && nav.personalize}
-                                        {titleFinder(path, nav) == 'Logout' && nav.logout}
+                                        {titleFinder(path, nav) == 'Logout' && nav.accountSettings}
                                         {titleFinder(path, nav) == 'Profile' && nav.profile}
                                     </div>
                                 )}
