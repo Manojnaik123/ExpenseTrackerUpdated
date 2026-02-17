@@ -259,9 +259,8 @@ const AddTransaction = ({ toggleModal, id }) => {
                                     onSelect={(e) => handleSelectChange(e, 'subCategoryId')}
                                     isValid={errors.subCategoryId}
                                 />
-
                             </div>
-                            <div className='md:w-1/2'>
+                            <div className='w-full md:w-1/2'>
                                 <CustomInput
                                     isRequired={true}
                                     value={userData.amount}

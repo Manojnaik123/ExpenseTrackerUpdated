@@ -197,7 +197,6 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
                                 )}
 
                         </span>
-
                     </div>
 
                     <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
