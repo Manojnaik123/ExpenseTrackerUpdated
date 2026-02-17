@@ -12,6 +12,7 @@ import AddVerificaltionModal from './verification-modal/add-modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { exportTransactionsToExcel } from '@/util/xl-export';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
+import MobileCalenderCustom from './mobile-calender-custom';
 
 const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -318,7 +319,7 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                             </button>
                         </div>
                         <div className='flex gap-3 justify-between items-center md:justify-end'>
-                            <div className='w-44'>
+                            <div className='w-44 hidden md:flex'>
                                 <CustomSelect
                                     options={transactionTimeSpan[lan]}
                                     onSelect={(e) => handleTimeSpanSelect(e.key)}
@@ -326,6 +327,11 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                                     height={10}
                                     showLabel={false}
                                 />
+                            </div>
+                            <div className='w-44 flex md:hidden'>
+                                <MobileCalenderCustom 
+                                handleOnSelectClick={handleTimeSpanSelect} 
+                                options={transactionTimeSpan[lan]} />
                             </div>
 
                             <button className='px-4 py-2 border rounded-full flex justify-between items-center gap-3
