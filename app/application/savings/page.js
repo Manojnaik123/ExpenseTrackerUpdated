@@ -38,7 +38,7 @@ const SavingsPage = () => {
     }, [lan, searchParams]);
 
     console.log(data);
-    
+
 
     const filteredData = data?.savings.map(item => ({
         isSelected: false,
@@ -66,7 +66,7 @@ const SavingsPage = () => {
                     <ClipLoader color='gray' size={30} className='' />
                     <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.loading}</p>
                 </div>}
-                {data && <SavingsDataTable titleArray={tableTitles} tableData={filteredData} onRefresh={fetchSavings} />}
+                {data && <SavingsDataTable titleArray={tableTitles} tableData={filteredData} onRefresh={() => fetchSavings(lan, setData)} />}
             </div>
         </div>
     )

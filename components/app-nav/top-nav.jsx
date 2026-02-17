@@ -14,6 +14,8 @@ import Logout from '@/components/logout';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import TopMessage from '../top-message';
+// import { useResponse } from '@/app/application/context/ResponseContext';
 
 
 function titleFinder(path, nav) {
@@ -43,6 +45,9 @@ function titleFinder(path, nav) {
     }
     if (path === '/application/settings/logoutpage') {
         return `Logout`
+    }
+    if (path === '/application/settings/profile') {
+        return `Profile`
     }
 }
 
@@ -142,15 +147,13 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
         <>
             {isModalOpen && <AddModal toggleModal={toggleModal} modalId={modalIdentifier} />}
             <div>
-                {/* <div className='w-full bg-green-400 flex justify-center items-center'>
-                <span className='text-[12px] p-0 text-green-900' >Data saved successfully</span>
-        </div> */}
+                <TopMessage />
                 <nav className='fixed z-40 bg-light-background dark:bg-dark-background w-full 
-    h-16 border-b border-light-border dark:border-dark-border
-    flex
-    '>
+                        h-16 border-b border-light-border dark:border-dark-border
+                        flex
+                        '>
                     <div className={` ${sideBarOpen ? 'w-60' : 'w-20'} hidden h-16 border-r border-light-border dark:border-dark-border
-        md:flex justify-between items-center p-4`}>
+                            md:flex justify-between items-center p-4`}>
                         <div>
                             <span className='text-light-primary-text dark:text-dark-primary-text'>
                                 <Image src='/images/pngegg.png'
@@ -163,13 +166,12 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                         <span className={`${sideBarOpen ? 'flex' : 'hidden'} text-light-primary-text dark:text-dark-primary-text
                             text-lg font-semibold`}>{nav.finovex}</span>
                         <button className='text-light-primary-text dark:text-dark-primary-text'
-                            onClick={sideBarToggle} disabled={isSmallScreen}
-                        >
+                            onClick={sideBarToggle} disabled={isSmallScreen}>
                             {sideBarOpen ? leftArrow : rightArrow}
                         </button>
                     </div>
                     <div className='grow flex md:justify-between items-center p-4 pr-0
-                    bg-light-background dark:bg-dark-background'>
+                            bg-light-background dark:bg-dark-background'>
                         <Link href={'/application'} className='md:hidden pr-2 text-light-primary-text dark:text-dark-primary-text'>
                             <Image src='/images/pngegg.png'
                                 alt="Logo"
@@ -182,11 +184,13 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                             '>
                             {(titleFinder(path, nav) != 'Personalize' &&
                                 titleFinder(path, nav) != 'Appearance' &&
-                                titleFinder(path, nav) != 'Logout') && titleFinder(path, nav)}
+                                titleFinder(path, nav) != 'Logout' && 
+                                titleFinder(path, nav) != 'Profile') && titleFinder(path, nav)}
 
                             {(titleFinder(path, nav) == 'Personalize' ||
                                 titleFinder(path, nav) == 'Appearance' ||
-                                titleFinder(path, nav) == 'Logout') && (
+                                titleFinder(path, nav) == 'Logout' ||
+                                titleFinder(path, nav) == 'Profile') && (
                                     <div className='flex justify-start items-center'>
                                         <Link href={'/application/settings'} className='text-accent-hover underline'>
                                             {nav.settings}
@@ -195,6 +199,7 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                                         {titleFinder(path, nav) == 'Appearance' && nav.appearance}
                                         {titleFinder(path, nav) == 'Personalize' && nav.personalize}
                                         {titleFinder(path, nav) == 'Logout' && nav.logout}
+                                        {titleFinder(path, nav) == 'Profile' && nav.profile}
                                     </div>
                                 )}
 
@@ -204,7 +209,7 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
 
                     <div className='relative flex justify-center items-center' ref={dropdownWrapperRef}>
                         <button className='fixed bottom-18 right-4 md:bottom-0 md:static flex justify-between items-center gap-1 p-4 md:px-4 md:py-2 rounded-full
-                        text-white bg-primary-accent hover:bg-accent-hover'
+                                text-white bg-primary-accent hover:bg-accent-hover'
                             onClick={() => dropDownToggle()}>
                             <span className='hidden md:flex'>{nav.create} {isDropDownOpen ? upArrow : downArrow}</span>
                             <span className='flex md:hidden'>{plus}</span>
@@ -213,14 +218,14 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                                             bg-light-surface-background dark:bg-dark-sidebar-background
                                             border-light-border dark:border-dark-border'>
                                 <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
+                                hover:bg-hover-gray
                                 text-light-secondary-text dark:text-dark-secondary-text'
                                     onClick={() => handleCreateClick(1)}>
                                     {transaction}
                                     <span>{nav.transactions}</span>
                                 </button>
                                 <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
+                                hover:bg-hover-gray
                                 text-light-secondary-text dark:text-dark-secondary-text'
                                     onClick={() => handleCreateClick(2)}
                                 >
@@ -228,7 +233,7 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                                     <span>{nav.budget}</span>
                                 </button>
                                 <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
+                                hover:bg-hover-gray
                                 text-light-secondary-text dark:text-dark-secondary-text'
                                     onClick={() => handleCreateClick(3)}
                                 >
@@ -236,7 +241,7 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                                     <span>{nav.saving}</span>
                                 </button>
                                 <button className='flex justify-start items-center py-2 px-4 gap-2
-                            hover:bg-hover-gray
+                                hover:bg-hover-gray
                                 text-light-secondary-text dark:text-dark-secondary-text'
                                     onClick={() => handleCreateClick(4)}
                                 >
@@ -288,9 +293,9 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                     <div className='flex justify-center items-center pl-3 pr-4'>
                         <span ref={profileDropdownWrapperRef}
                             className='rounded-full border
-                        border-light-border dark:border-dark-border
-                        text-light-secondary-text dark:text-dark-secondary-text
-                        '>
+                            border-light-border dark:border-dark-border
+                            text-light-secondary-text dark:text-dark-secondary-text
+                            '>
                             {profileImage && (
                                 <Image
                                     src={profileImage}

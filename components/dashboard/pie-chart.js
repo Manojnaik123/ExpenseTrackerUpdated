@@ -1,5 +1,6 @@
 "use client";
 
+import { useCurrency } from "@/app/application/context/CurrencyContext";
 import { useLanguage } from "@/app/application/context/LanguageContext";
 import {
   PieChart,
@@ -14,6 +15,7 @@ export const PIECOLORS = ["#EC6B56", "#FFC154", "#47B39C"];
 
 export default function PieChartComp({ data, expenseOrIncome }) {
   const { nav } = useLanguage();
+  const { currentCurrencySymbol } = useCurrency();
   return (
 
     <ResponsiveContainer className="h-full w-full">
@@ -45,7 +47,7 @@ export default function PieChartComp({ data, expenseOrIncome }) {
                 fontSize={12}
                 fontWeight="bold"
               >
-                {new Intl.NumberFormat().format(value)}
+                {currentCurrencySymbol +' '+new Intl.NumberFormat().format(value)}
               </text>
             );
           }}

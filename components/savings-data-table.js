@@ -362,6 +362,9 @@ import { exportSavingsToExcel } from '@/util/xl-export';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
 import MobileCalenderCustom from './mobile-calender-custom';
 import { truncateString } from '@/lib/local-storage';
+import { useTopMessage } from '@/app/application/context/ResponseContext';
+import { ClipLoader } from 'react-spinners';
+import { errors } from '@/data.js';
 
 const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -371,6 +374,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     const [selectedRows, setSelectedRows] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showVerificationModal, setShowVerificationModal] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     const dialog = useRef();
 
@@ -387,6 +391,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
 
     const { nav, lan } = useLanguage();
     const { currentCurrencySymbol } = useCurrency();
+    const { showMessage } = useTopMessage();
 
 
     var totalAmount = tableData
@@ -550,9 +555,9 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     }
 
     async function handleMultipleDelete() {
+        setShowVerificationModal(false);
+        setDeleting(true);
         const selectedIds = filterdData.filter(item => item.isSelected === true).map(item => item.id);
-        console.log(selectedIds);
-
         const res = await fetch("/api/savings", {
             method: "POST",
             headers: {
@@ -564,11 +569,12 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
         const data = await res.json();
 
         if (!res.ok) {
-            console.error(data.error);
+            showMessage(2, errors[lan].somethingWentWrong);
             return;
         }
         onRefresh();
-        setShowVerificationModal(false);
+        setDeleting(false);
+        showMessage(1, errors[lan].deletedSucc + '!')
     }
 
     async function showConfirmationModal() {
@@ -591,6 +597,15 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
 
     return (
         <>
+            {deleting && <AddVerificaltionModal>
+                <div className='bg-light-surface-background dark:bg-dark-surface-background
+                     rounded-md
+                    flex flex-col justify-center items-center gap-4 p-4
+                    '>
+                    <ClipLoader color='gray' size={30} className='' />
+                    <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.deleting}...</p>
+                </div>
+            </AddVerificaltionModal>}
             {showVerificationModal && <AddVerificaltionModal ref={dialog}>
                 <div className='flex flex-col  rounded-md gap-4
             bg-light-surface-background dark:bg-dark-surface-background
@@ -820,7 +835,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                                             </td>
                                             <td className='p-3
                                                 text-light-secondary-text dark:text-dark-secondary-text
-                                                '>{currentCurrencySymbol +' '+new Intl.NumberFormat().format(item.fourth)}</td>
+                                                '>{currentCurrencySymbol + ' ' + new Intl.NumberFormat().format(item.fourth)}</td>
                                             <td className='p-3
                                                 text-light-secondary-text dark:text-dark-secondary-text
                                                 '>{truncateString(item.fifth, 15)}</td>

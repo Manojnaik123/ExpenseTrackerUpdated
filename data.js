@@ -178,7 +178,7 @@ export const navBarData = {
     resetDesc: 'This will permanently delete all your data, including transactions, savings, budgets, and goals. This action cannot be undone.',
     clickToReset: 'Click here to reset all data',
 
-    
+
     pages: 'pages',
     of: 'of',
     goToSettingsPage: 'Go to settings page',
@@ -190,18 +190,26 @@ export const navBarData = {
     savingGrowth: 'Saving Growth',
     viewMore: 'View More',
     balance: 'Balance',
-    
-    // need translation 
+
     import: 'Import',
-    toBegin : 'To begin using the app, you can start with sample data or opt out. We have also provided the option to reset the data anytime.',
+    toBegin: 'To begin using the app, you can start with sample data or opt out. We have also provided the option to reset the data anytime.',
     sampleData: 'Sample Data',
     finish: 'Finish',
     toBeginDesc: 'We recommend starting with sample data to get a better feel for the app’s structure and functionality.',
     continueWithSampleData: 'Continue with Sample Data',
     finovex: 'Finovex',
-    add:'Add',
-    
+    add: 'Add',
 
+    conformationForReset: 'Confirmation for Reset',
+    areYouSureReset: 'Are you sure you want to reset all data',
+
+    // need trans
+    resetting: 'Resetting',
+    settingLanguage: 'Setting Language',
+    gmail: 'Gmail',
+    profile: 'Profile',
+    deleting: 'Deleting',
+    deletedSucc: 'Deleted Successfully',
 
   },
 
@@ -385,7 +393,22 @@ export const navBarData = {
     activeGoals: 'सक्रिय लक्ष्य',
     savingGrowth: 'बचत वृद्धि',
     viewMore: 'और देखें',
-    balance: 'शेष राशि'
+    balance: 'शेष राशि',
+    import: 'आयात',
+    toBegin: 'ऐप का उपयोग शुरू करने के लिए, आप सैंपल डेटा से शुरुआत कर सकते हैं या इसे छोड़ सकते हैं। हमने किसी भी समय डेटा रीसेट करने का विकल्प भी दिया है।',
+    sampleData: 'सैंपल डेटा',
+    finish: 'समाप्त',
+    toBeginDesc: 'ऐप की संरचना और कार्यक्षमता को बेहतर समझने के लिए हम सैंपल डेटा से शुरुआत करने की सलाह देते हैं।',
+    continueWithSampleData: 'सैंपल डेटा के साथ जारी रखें',
+    finovex: 'Finovex',
+    add: 'जोड़ें',
+
+    resetting: 'रीसेट किया जा रहा है',
+    settingLanguage: 'भाषा सेट की जा रही है',
+    gmail: 'जीमेल',
+    profile: 'प्रोफ़ाइल',
+    deleting: 'हटाया जा रहा है',
+    deletedSucc: 'सफलतापूर्वक हटाया गया',
 
   },
 
@@ -576,7 +599,21 @@ export const navBarData = {
     activeGoals: 'Aktive Ziele',
     savingGrowth: 'Sparwachstum',
     viewMore: 'Mehr anzeigen',
-    balance: 'Kontostand'
+    balance: 'Kontostand',
+    import: 'Importieren',
+    toBegin: 'Um die App zu nutzen, können Sie mit Beispieldaten beginnen oder darauf verzichten. Sie haben außerdem jederzeit die Möglichkeit, die Daten zurückzusetzen.',
+    sampleData: 'Beispieldaten',
+    finish: 'Fertig',
+    toBeginDesc: 'Wir empfehlen, mit Beispieldaten zu starten, um ein besseres Gefühl für die Struktur und Funktionalität der App zu bekommen.',
+    continueWithSampleData: 'Mit Beispieldaten fortfahren',
+    finovex: 'Finovex',
+    add: 'Hinzufügen',
+    resetting: 'Wird zurückgesetzt',
+    settingLanguage: 'Sprache wird eingestellt',
+    gmail: 'Gmail',
+    profile: 'Profil',
+    deleting: 'Wird gelöscht',
+    deletedSucc: 'Erfolgreich gelöscht',
   },
 
 
@@ -767,7 +804,21 @@ export const navBarData = {
     activeGoals: 'Objectifs actifs',
     savingGrowth: 'Croissance de l’épargne',
     viewMore: 'Voir plus',
-    balance: 'Solde'
+    balance: 'Solde',
+    import: 'Importer',
+    toBegin: 'Pour commencer à utiliser l’application, vous pouvez démarrer avec des données d’exemple ou les ignorer. Nous avons également prévu une option pour réinitialiser les données à tout moment.',
+    sampleData: 'Données d’exemple',
+    finish: 'Terminer',
+    toBeginDesc: 'Nous recommandons de commencer avec des données d’exemple afin de mieux comprendre la structure et le fonctionnement de l’application.',
+    continueWithSampleData: 'Continuer avec les données d’exemple',
+    finovex: 'Finovex',
+    add: 'Ajouter',
+    resetting: 'Réinitialisation en cours',
+    settingLanguage: 'Définition de la langue',
+    gmail: 'Gmail',
+    profile: 'Profil',
+    deleting: 'Suppression en cours',
+    deletedSucc: 'Supprimé avec succès',
   },
 
 
@@ -957,7 +1008,21 @@ export const navBarData = {
     activeGoals: 'Metas activas',
     savingGrowth: 'Crecimiento de ahorros',
     viewMore: 'Ver más',
-    balance: 'Saldo'
+    balance: 'Saldo',
+    import: 'Importar',
+    toBegin: 'Para comenzar a usar la aplicación, puedes empezar con datos de muestra o descartarlos. También hemos proporcionado la opción de restablecer los datos en cualquier momento.',
+    sampleData: 'Datos de muestra',
+    finish: 'Finalizar',
+    toBeginDesc: 'Recomendamos comenzar con datos de muestra para comprender mejor la estructura y funcionalidad de la aplicación.',
+    continueWithSampleData: 'Continuar con datos de muestra',
+    finovex: 'Finovex',
+    add: 'Agregar',
+    resetting: 'Restableciendo',
+    settingLanguage: 'Configurando idioma',
+    gmail: 'Gmail',
+    profile: 'Perfil',
+    deleting: 'Eliminando',
+    deletedSucc: 'Eliminado correctamente',
   },
 
 
@@ -1146,7 +1211,21 @@ export const navBarData = {
     activeGoals: '進行中の目標',
     savingGrowth: '貯蓄の成長',
     viewMore: 'もっと見る',
-    balance: '残高'
+    balance: '残高',
+    import: 'インポート',
+    toBegin: 'アプリの使用を開始するには、サンプルデータから始めるか、スキップすることができます。また、いつでもデータをリセットするオプションも用意されています。',
+    sampleData: 'サンプルデータ',
+    finish: '完了',
+    toBeginDesc: 'アプリの構造や機能をより理解するために、サンプルデータから始めることをおすすめします。',
+    continueWithSampleData: 'サンプルデータで続行',
+    finovex: 'Finovex',
+    add: '追加',
+    resetting: 'リセット中',
+    settingLanguage: '言語を設定中',
+    gmail: 'Gmail',
+    profile: 'プロフィール',
+    deleting: '削除中',
+    deletedSucc: '正常に削除されました',
   },
 };
 
@@ -1519,3 +1598,78 @@ export const financialOverviewDropDOwnValues = {
   ],
 };
 
+export const errors = {
+
+  // 1️⃣ English
+  1: {
+    cannotResetData: 'Cannot reset data',
+    somethingWentWrong: 'Something went wrong',
+    dataResetSuccess: 'Data reset successfully',
+    changesMade: 'Changes made successfully',
+    dataSavedSuccesfully: 'Data saved successfully',
+    dataEditedSuccesfully: 'Data edited successfully',
+    deletedSucc: 'Data deleted successfully',
+    amountAdded: 'Amount added successfully',
+  },
+
+  // 2️⃣ Hindi
+  2: {
+    cannotResetData: 'डेटा रीसेट नहीं किया जा सका',
+    somethingWentWrong: 'कुछ गलत हो गया',
+    dataResetSuccess: 'डेटा सफलतापूर्वक रीसेट किया गया',
+    changesMade: 'परिवर्तन सफलतापूर्वक किए गए',
+    dataSavedSuccesfully: 'डेटा सफलतापूर्वक सहेजा गया',
+    dataEditedSuccesfully: 'डेटा सफलतापूर्वक संपादित किया गया',
+    deletedSucc: 'डेटा सफलतापूर्वक हटाया गया',
+    amountAdded: 'राशि सफलतापूर्वक जोड़ी गई',
+  },
+
+  // 3️⃣ German
+  3: {
+    cannotResetData: 'Daten konnten nicht zurückgesetzt werden',
+    somethingWentWrong: 'Etwas ist schiefgelaufen',
+    dataResetSuccess: 'Daten erfolgreich zurückgesetzt',
+    changesMade: 'Änderungen erfolgreich vorgenommen',
+    dataSavedSuccesfully: 'Daten erfolgreich gespeichert',
+    dataEditedSuccesfully: 'Daten erfolgreich bearbeitet',
+    deletedSucc: 'Daten erfolgreich gelöscht',
+    amountAdded: 'Betrag erfolgreich hinzugefügt',
+  },
+
+  // 4️⃣ French
+  4: {
+    cannotResetData: 'Impossible de réinitialiser les données',
+    somethingWentWrong: 'Une erreur est survenue',
+    dataResetSuccess: 'Données réinitialisées avec succès',
+    changesMade: 'Modifications effectuées avec succès',
+    dataSavedSuccesfully: 'Données enregistrées avec succès',
+    dataEditedSuccesfully: 'Données modifiées avec succès',
+    deletedSucc: 'Données supprimées avec succès',
+    amountAdded: 'Montant ajouté avec succès',
+  },
+
+  // 5️⃣ Spanish
+  5: {
+    cannotResetData: 'No se pudieron restablecer los datos',
+    somethingWentWrong: 'Algo salió mal',
+    dataResetSuccess: 'Datos restablecidos correctamente',
+    changesMade: 'Cambios realizados correctamente',
+    dataSavedSuccesfully: 'Datos guardados correctamente',
+    dataEditedSuccesfully: 'Datos editados correctamente',
+    deletedSucc: 'Datos eliminados correctamente',
+    amountAdded: 'Cantidad agregada correctamente',
+  },
+
+  // 6️⃣ Japanese
+  6: {
+    cannotResetData: 'データをリセットできませんでした',
+    somethingWentWrong: '問題が発生しました',
+    dataResetSuccess: 'データが正常にリセットされました',
+    changesMade: '変更が正常に保存されました',
+    dataSavedSuccesfully: 'データが正常に保存されました',
+    dataEditedSuccesfully: 'データが正常に編集されました',
+    deletedSucc: 'データが正常に削除されました',
+    amountAdded: '金額が正常に追加されました',
+  }
+
+};

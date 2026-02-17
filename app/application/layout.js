@@ -6,6 +6,7 @@ import { CurrencyProvider } from "@/app/application/context/CurrencyContext";
 
 
 import Navigation from "@/components/app-nav/navigation";
+import { ResponseProvider, TopMessageProvider } from "./context/ResponseContext";
 
 export default function RootLayout({ children }) {
   return (
@@ -13,15 +14,18 @@ export default function RootLayout({ children }) {
       {/* <div className="fixed z-50 bg-red-400 w-full h-0.5">
 
         </div> */}
-      <CurrencyProvider>
-        <LanguageProvider>
-          <ThemeProvider>
-            <Navigation>
-              {children}
-            </Navigation>
-          </ThemeProvider>
-        </LanguageProvider>
-      </CurrencyProvider>
+      <TopMessageProvider>
+        <CurrencyProvider>
+          <LanguageProvider>
+            <ThemeProvider>
+              <Navigation>
+                {children}
+              </Navigation>
+            </ThemeProvider>
+          </LanguageProvider>
+        </CurrencyProvider>
+      </TopMessageProvider>
+
 
     </main>
     // </html>

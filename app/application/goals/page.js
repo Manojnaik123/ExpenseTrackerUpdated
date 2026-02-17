@@ -12,6 +12,8 @@ import { useSearchParams } from 'next/navigation';
 import GoalCard from '@/components/goal-card';
 import AddVerificaltionModal from '@/components/verification-modal/add-modal';
 import AddModal from '@/components/add-components/add-modal';
+import { useTopMessage } from '../context/ResponseContext';
+import { errors } from '@/data';
 
 const GoalsPage = () => {
     const { nav, lan } = useLanguage();
@@ -25,8 +27,10 @@ const GoalsPage = () => {
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [buttonActive, setButtonActive] = useState(1);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     const searchParams = useSearchParams();
+    const { showMessage } = useTopMessage();
 
     async function fetchGoals() {
         const fetchData = async () => {
@@ -68,8 +72,10 @@ const GoalsPage = () => {
     function toggleEditModal() {
         setEditModalOpen(prev => !prev)
     }
-    
+
     async function handleDeletionOfGoal() {
+        setVerifyModalVisibility(false);
+        setDeleting(true);
         const id = selectedId;
         const res = await fetch("/api/goals", {
             method: "POST",
@@ -82,12 +88,12 @@ const GoalsPage = () => {
         const data = await res.json();
 
         if (!res.ok) {
-            console.error(data.error);
+            showMessage(1, errors[lan].somethingWentWrong + '!');
             return;
         }
-        console.log('data deletes');
-        setVerifyModalVisibility(false);
         fetchGoals();
+        setDeleting(false);
+        showMessage(1, errors[lan].deletedSucc + '!');
     }
 
     function toggleModal() {
@@ -150,6 +156,15 @@ const GoalsPage = () => {
 
     return (
         <>
+            {deleting && <AddVerificaltionModal>
+                <div className='bg-light-surface-background dark:bg-dark-surface-background
+                     rounded-md
+                    flex flex-col justify-center items-center gap-4 p-4
+                    '>
+                    <ClipLoader color='gray' size={30} className='' />
+                    <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.deleting}...</p>
+                </div>
+            </AddVerificaltionModal>}
             {isVerificationModalOpen && <AddVerificaltionModal>
 
                 <div className='flex flex-col  rounded-md gap-4 
@@ -221,7 +236,7 @@ const GoalsPage = () => {
                                         bg-light-surface-background dark:bg-dark-surface-background
                                         '>
                                     <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.thisMonthSaving}</span>
-                                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{currentCurrencySymbol+' '+new Intl.NumberFormat().format(thisMonthSavings)}</span>
+                                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{currentCurrencySymbol + ' ' + new Intl.NumberFormat().format(thisMonthSavings)}</span>
                                 </div>
 
                                 <div className='flex grow gap-4 md:w-2/3'>

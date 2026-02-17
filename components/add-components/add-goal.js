@@ -10,7 +10,8 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { goalDataValidator } from '@/util/form-validation';
 import { useRouter, usePathname } from 'next/navigation';
-
+import { errors as errorData } from '@/data';
+import { useTopMessage } from '@/app/application/context/ResponseContext';
 
 const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
     const [data, setData] = useState();
@@ -35,6 +36,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
     })
 
     const { lan, nav } = useLanguage();
+    const { showMessage } = useTopMessage();
     const router = useRouter();
 
 
@@ -129,6 +131,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
             setShowSpinner(false);
             router.replace('/application/goals?reload=' + Date.now());
             toggleModal();
+            showMessage(1, id ? (isAddFundPage ? errorData[lan].amountAdded + '!' : errorData[lan].dataEditedSuccesfully + '!') : errorData[lan].dataSavedSuccesfully + '!');
         }
     }
 

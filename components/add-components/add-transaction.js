@@ -14,6 +14,8 @@ import { maxDate } from '@/util/time-related-date';
 import AddVerificaltionModal from '../verification-modal/add-modal';
 import { useRouter, usePathname } from 'next/navigation';
 import { exportTransactionsToExcel } from '@/util/xl-export';
+import { useTopMessage } from '@/app/application/context/ResponseContext';
+import { errors as errorData } from '@/data';
 
 const AddTransaction = ({ toggleModal, id }) => {
     const [data, setData] = useState();
@@ -38,6 +40,7 @@ const AddTransaction = ({ toggleModal, id }) => {
     })
 
     const { lan, nav } = useLanguage();
+    const {showMessage} = useTopMessage();
 
     const router = useRouter();
     const pathname = usePathname();
@@ -142,9 +145,6 @@ const AddTransaction = ({ toggleModal, id }) => {
         }));
     }
 
-    console.log(userData);
-
-
     function handleInputChange(event, identifier) {
         let value = event.target.value;
 
@@ -178,6 +178,7 @@ const AddTransaction = ({ toggleModal, id }) => {
             setShowSpinner(false);
             router.replace('/application/transactions?reload=' + Date.now());
             toggleModal();
+            showMessage(1, id? errorData[lan].dataEditedSuccesfully + '!' : errorData[lan].dataSavedSuccesfully + '!')
         }
     }
 

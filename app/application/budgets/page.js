@@ -10,6 +10,8 @@ import AddVerificaltionModal from '@/components/verification-modal/add-modal';
 import { useSearchParams } from 'next/navigation';
 import { cross } from '@/lib/icons';
 import AddModal from '@/components/add-components/add-modal';
+import { useTopMessage } from '../context/ResponseContext';
+import { errors } from '@/data';
 
 const BudgetsPage = () => {
     const { nav, lan } = useLanguage();
@@ -21,7 +23,9 @@ const BudgetsPage = () => {
     const [selectedId, setSelectedId] = useState(0);
     const [isAddExpensePage, setIsExpensePage] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const searchParams = useSearchParams();
+    const { showMessage } = useTopMessage();
 
     async function fetchBudgets() {
         const fetchData = async () => {
@@ -78,8 +82,9 @@ const BudgetsPage = () => {
     }
 
     async function handleDeletionOfBudget() {
+        setVerificationModalOpen(false);
+        setDeleting(true);
         const id = selectedId;
-
         const res = await fetch("/api/budgets", {
             method: "POST",
             headers: {
@@ -91,11 +96,12 @@ const BudgetsPage = () => {
         const data = await res.json();
 
         if (!res.ok) {
-            console.error(data.error);
+            showMessage(1, errors[lan].deletedSucc + '!');
             return;
         }
-        setVerificationModalOpen(false);
         fetchBudgets();
+        setDeleting(false);
+        showMessage(1, errors[lan].deletedSucc + '!');
     }
 
     const filteredData = data?.budgets
@@ -103,7 +109,15 @@ const BudgetsPage = () => {
 
     return (
         <>
-
+            {deleting && <AddVerificaltionModal>
+                <div className='bg-light-surface-background dark:bg-dark-surface-background
+                     rounded-md
+                    flex flex-col justify-center items-center gap-4 p-4
+                    '>
+                    <ClipLoader color='gray' size={30} className='' />
+                    <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.deleting}...</p>
+                </div>
+            </AddVerificaltionModal>}
             {isVerificationModalOpen && <AddVerificaltionModal>
                 <div className='flex flex-col  rounded-md gap-4
                             bg-light-surface-background dark:bg-dark-surface-background

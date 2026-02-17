@@ -4,13 +4,15 @@ import React, { useEffect, useState } from 'react';
 import { useTheme } from '@/app/application/context/ThemeContext';
 import CustomSelect from '@/components/add-components/custom-dropdown';
 import { useLanguage } from '../../context/LanguageContext';
-import { themeOptionLabels } from '@/data';
+import { errors, themeOptionLabels } from '@/data';
+import { useTopMessage } from '../../context/ResponseContext';
 
 const EditAppearance = () => {
 
   const [selectedThemeKey, setSelectedThemeKey] = useState();
   const { setTheme, themeMode } = useTheme();
   const { nav, lan } = useLanguage();
+  const {showMessage} = useTopMessage();
 
   useEffect(() => {
     const theme = localStorage.getItem('themeMode');
@@ -27,6 +29,7 @@ const EditAppearance = () => {
     localStorage.setItem('themeMode', option.label);
     setSelectedThemeKey(option.key)
     setTheme(option.label);
+    showMessage(1, errors[lan].changesMade)
   }
 
   const options = [

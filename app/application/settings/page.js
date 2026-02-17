@@ -10,6 +10,9 @@ import Image from 'next/image';
 import AddVerificaltionModal from '@/components/verification-modal/add-modal';
 import { signOut } from 'next-auth/react';
 import { exportTransactionAndSavingsToExcel } from '@/util/xl-export';
+import { ClipLoader } from 'react-spinners';
+import { useResponse, useTopMessage } from '../context/ResponseContext';
+import { errors } from '@/data';
 
 export async function dataFetcher(lanId, path) {
     try {
@@ -26,11 +29,15 @@ export async function dataFetcher(lanId, path) {
 }
 
 const SettingsPage = () => {
-    const { nav, lan } = useLanguage();
     const [profileImage, setProfileImage] = useState('');
     const [showComfirmationModal, setShowComfirmationModal] = useState(false);
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
+    const [identifier, setIdentifier] = useState('');
+    const [resetting, setResetting] = useState(false);
+
+    const { nav, lan } = useLanguage();
+    const { showMessage } = useTopMessage()
 
     useEffect(() => {
         setProfileImage(localStorage.getItem('image'));
@@ -38,13 +45,26 @@ const SettingsPage = () => {
         setEmail(localStorage.getItem('gmail'));
     }, [])
 
-    function showConfirmationDialog(bool) {
-        setShowComfirmationModal(bool);
+    function showConfirmationDialog(identifier) {
+        if (identifier == 'logout') {
+            setIdentifier(identifier);
+        } else if (identifier == 'reset') {
+            setIdentifier(identifier)
+        }
+        setShowComfirmationModal(true);
     }
 
     async function handleLogout(e) {
-        e.preventDefault();
         await signOut({ callbackUrl: '/login' });
+    }
+
+    async function handleButtonSubmission(e) {
+        e.preventDefault();
+        if (identifier === 'reset') {
+            await handleReset();
+        } else {
+            await handleLogout(e);
+        }
     }
 
     async function handleAllExport() {
@@ -53,8 +73,41 @@ const SettingsPage = () => {
         exportTransactionAndSavingsToExcel(transactions.transactions, savings.savings, lan)
     }
 
+    async function handleReset() {
+        try {
+            setShowComfirmationModal(false);
+            setResetting(true);
+            const res = await fetch("/api/reset", {
+                method: "POST",
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showMessage(2, errors[lan].somethingWentWrong)
+                throw new Error(data.error);
+            }
+        } catch (error) {
+            showMessage(2, errors[lan].cannotResetData)
+            setResetting(false);
+        } finally {
+
+            showMessage(1, errors[lan].dataResetSuccess)
+            setResetting(false);
+        }
+    }
+
     return (
         <>
+            {resetting && <AddVerificaltionModal>
+                <div className='w-full flex flex-col gap-4 justify-center items-center border p-4 rounded-md h-full
+                        border-light-border dark:border-dark-border
+                        bg-light-surface-background dark:bg-dark-surface-background 
+                    '>
+                    <ClipLoader color='gray' size={30} className='' />
+                    <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.resetting}</p>
+                </div>
+            </AddVerificaltionModal>}
             {showComfirmationModal && <AddVerificaltionModal>
                 <div className='flex flex-col  rounded-md gap-4
                         bg-light-surface-background dark:bg-dark-surface-background
@@ -63,15 +116,17 @@ const SettingsPage = () => {
                     <div className='flex justify-between items-center border-b p-4
                             border-light-border dark:border-dark-border'>
                         <span className='text-lg text-light-primary-text dark:text-dark-primary-text'
-                        >{nav.confirmationForLogout}</span>
+                        >
+                            {identifier == 'reset' ? nav.conformationForReset : nav.confirmationForLogout}
+                        </span>
                         <button className='text-light-secondary-text dark:text-dark-secondary-text'
-                            onClick={() => showConfirmationDialog(false)}>
+                            onClick={() => setShowComfirmationModal(false)}>
                             {cross}
                         </button>
                     </div>
                     <div className='p-4 text-light-secondary-text dark:text-dark-secondary-text'>
                         <p>
-                            {nav.areYouSureAboutLogout}?
+                            {identifier == 'reset' ? nav.areYouSureReset : nav.areYouSureAboutLogout}?
                         </p>
                         <p className='text-sm
                                                 text-light-muted-text dark:text-dark-muted-text'>
@@ -82,14 +137,14 @@ const SettingsPage = () => {
                         <button className='grow border max-w-1/2 rounded-sm py-2 border-light-border dark:border-dark-border
                                 text-light-secondary-text dark:text-dark-secondary-text
                                 hover:bg-hover-gray/30
-                                ' onClick={() => showConfirmationDialog(false)}>
+                                ' onClick={() => setShowComfirmationModal(false)}>
                             {nav.cancel}
                         </button>
                         <button className='grow border max-w-1/2 rounded-sm py-2 border-warning-primary/30 bg-warning-secondary/50
                                 text-light-secondary-text dark:text-dark-secondary-text
                                 hover:border-warning-primary hover:bg-warning-secondary/60
-                                ' onClick={handleLogout} >
-                            {nav.logout}
+                                ' onClick={handleButtonSubmission} >
+                            {identifier == 'reset' ? nav.reset : nav.logout}
                         </button>
                     </div>
                 </div>
@@ -135,17 +190,18 @@ const SettingsPage = () => {
                                 text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleAllExport}>
                                 {nav.export} {download}</button>
-                            <button  className='px-4 py-1 border rounded-full text-[13px] md:text-[18px] flex justify-center items-center gap-2  bg-hover-gray 
-                                border-light-border dark:border-dark-border hover:bg-hover-gray
-                                 text-hover-gray'>
-                                    {/* text-light-secondary-text dark:text-dark-secondary-text */}
-                                    {nav.reset} {reset}
-                                    </button>
+                            <button className='px-4 py-1 border rounded-full text-[13px] md:text-[18px] flex justify-center items-center gap-2
+                                border-light-border dark:border-dark-border hover:bg-hover-gray/30
+                                text-light-secondary-text dark:text-dark-secondary-text'
+                                onClick={() => showConfirmationDialog('reset')}>
+                                {/* text-light-secondary-text dark:text-dark-secondary-text */}
+                                {nav.reset} {reset}
+                            </button>
                             <button className='grow border max-w-1/2 py-2 px-4 rounded-full flex  gap-2 justify-center items-center
                                     border-warning-primary/30 bg-warning-secondary/50
                                 text-warning-primary
                                 hover:border-warning-primary hover:bg-warning-secondary/60
-                                ' onClick={() => showConfirmationDialog(true)}>
+                                ' onClick={() => showConfirmationDialog('logout')}>
                                 {nav.logout}
                                 {logout}
                             </button>
@@ -158,25 +214,27 @@ const SettingsPage = () => {
                             bg-light-background dark:bg-dark-background
                             '>
                             {/* Profile */}
-                            <div className='px-4 hover:bg-hover-gray/30'>
-                                <div className='flex justify-between items-center py-4 border-b 
+                            <Link href={'/application/settings/profile'}>
+                                <div className='px-4 hover:bg-hover-gray/30'>
+                                    <div className='flex justify-between items-center py-4 border-b 
                                     border-light-border dark:border-dark-border
                                         '>
-                                    <div className='flex flex-col gap-1'>
-                                        <span className='text-[13px] md:text-[18px]
-                            text-light-secondary-text dark:text-dark-secondary-text
-                            '>{nav.profile}</span>
-                                        <span className='text-[12px] md:text-[15px]
-                            text-light-muted-text dark:text-dark-muted-text
-                            '>{nav.name}, {nav.gender}</span>
-                                    </div>
-                                    <div>
-                                        <span className='text-light-secondary-text dark:text-dark-secondary-text'>
-                                            {rightArrow}
-                                        </span>
+                                        <div className='flex flex-col gap-1'>
+                                            <span className='text-[13px] md:text-[18px]
+                                            text-light-secondary-text dark:text-dark-secondary-text
+                                            '>{nav.profile}</span>
+                                                            <span className='text-[12px] md:text-[15px]
+                                            text-light-muted-text dark:text-dark-muted-text
+                                            '>{nav.name}, {nav.gender}</span>
+                                        </div>
+                                        <div>
+                                            <span className='text-light-secondary-text dark:text-dark-secondary-text'>
+                                                {rightArrow}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
 
                             {/* Preferences */}
                             <Link href='/application/settings/editpersonalization'>

@@ -11,6 +11,8 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { savingDataValidator } from '@/util/form-validation';
 import { useRouter, usePathname } from 'next/navigation';
+import { useTopMessage } from '@/app/application/context/ResponseContext';
+import { errors as errorData } from '@/data';
 
 const AddSaving = ({ toggleModal, id }) => {
     const [data, setData] = useState();
@@ -32,6 +34,7 @@ const AddSaving = ({ toggleModal, id }) => {
     })
 
     const { lan, nav } = useLanguage();
+    const { showMessage } = useTopMessage();
     const router = useRouter();
 
 
@@ -54,9 +57,6 @@ const AddSaving = ({ toggleModal, id }) => {
         };
         fetchData();
     }, []);
-
-    console.log(data);
-
 
     useEffect(() => {
         if (id > 0 && data?.userSaving?.length) {
@@ -119,6 +119,7 @@ const AddSaving = ({ toggleModal, id }) => {
             setShowSpinner(false);
             router.replace('/application/savings?reload=' + Date.now());
             toggleModal();
+            showMessage(1, id ? errorData[lan].dataEditedSuccesfully + '!' : errorData[lan].dataSavedSuccesfully + '!');
         }
     }
 
@@ -155,7 +156,7 @@ const AddSaving = ({ toggleModal, id }) => {
                         <span className='grow pl-4 text-lg md:p-0
                             text-light-primary-text dark:text-dark-primary-text
                             '>
-                            {id? nav.edit: nav.create} {nav.saving}
+                            {id ? nav.edit : nav.create} {nav.saving}
                         </span>
                         <button className='md:hidden text-sm
                             text-light-secondary-text dark:text-dark-secondary-text'

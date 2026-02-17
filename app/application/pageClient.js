@@ -110,7 +110,7 @@ const PageClient = ({ name, image, email }) => {
                     </div>
                     <div className='flex justify-between items-center p-4 gap-2 border-t border-light-border dark:border-dark-border'>
                         <button className='grow border rounded-sm py-2 border-accent-hover/50 bg-primary-accent/50
-                                            text-accent-hover/50
+                                            text-white
                                             hover:border-accent-hover hover:bg-primary-accent/60'
                             onClick={handleContinueWithSampleData}>
                             {nav.continueWithSampleData}

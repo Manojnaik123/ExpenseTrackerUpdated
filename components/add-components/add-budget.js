@@ -10,7 +10,8 @@ import { useLanguage } from '@/app/application/context/LanguageContext';
 import { ClipLoader } from 'react-spinners';
 import { budgetDataValidator } from '@/util/form-validation';
 import { useRouter, usePathname } from 'next/navigation';
-
+import { useTopMessage } from '@/app/application/context/ResponseContext';
+import { errors as errorData } from '@/data';
 
 const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
     const [data, setData] = useState();
@@ -33,6 +34,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
     })
 
     const { lan, nav } = useLanguage();
+    const {showMessage} = useTopMessage();
     const router = useRouter();
 
     useEffect(() => {
@@ -117,6 +119,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
             setShowSpinner(false);
             router.replace('/application/budgets?reload=' + Date.now());
             toggleModal();
+            showMessage(1, id? (isAddExpensePage ? errorData[lan].amountAdded + '!' :errorData[lan].dataEditedSuccesfully + '!') : errorData[lan].dataSavedSuccesfully + '!');
         }
     }
 
@@ -144,8 +147,8 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
                 </div>
                 <div className='absolute h-full w-full flex flex-col' >
                     <div className=' h-16 border-b flex justify-between items-center p-4 md:flex-row-reverse
-        border-light-border dark:border-dark-border
-        '>
+                            border-light-border dark:border-dark-border
+                            '>
                         <button
                             onClick={toggleModal}
                             className='text-light-primary-text dark:text-dark-primary-text'>

@@ -78,7 +78,7 @@ const TransactionsPage = () => {
                     <TransactionsDataTable
                         titleArray={tableTitles}
                         tableData={filteredData}
-                        onRefresh={fetchingLogic}
+                        onRefresh={()=> fetchingLogic(lan, setData)}
                     />)}
             </div>
         </div>
