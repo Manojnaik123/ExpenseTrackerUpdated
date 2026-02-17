@@ -40,62 +40,60 @@ const BudgetCard = ({ deleteHandler, toggleEditModal, toggleModal, id, title, su
         <div ref={wrapperRef} className='relative'>
             {IsDropDownOpen && <BudgetDropDown deleteHandler={deleteHandler} id={id} toggleEditModal={toggleEditModal} toggleModal={toggleModal} />}
             <div className='flex flex-col w-full border rounded-md p-4
-    border-light-border dark:border-dark-border
-    bg-light-surface-background dark:bg-dark-surface-background
-    '>
+                    border-light-border dark:border-dark-border
+                    bg-light-surface-background dark:bg-dark-surface-background
+                    '>
                 <div className='flex justify-between items-center py-3
-        border-b border-light-border dark:border-dark-border
-        '>
+                        border-b border-light-border dark:border-dark-border
+                        '>
                     <div className={`p-3 rounded-md`}
                         style={{
                             backgroundColor: hexToRgba(iconColor[imgId], 0.2),
                             color: hexToRgba(iconColor[imgId], 1)
-                        }}
-                    >
+                        }}>
                         {categoryIcons[imgId]}
                     </div>
                     <div className='flex flex-col grow pl-4'>
                         <span className='text-[18px]
-                text-light-primary-text dark:text-dark-primary-text
-                '>
+                            text-light-primary-text dark:text-dark-primary-text
+                            '>
                             {title}
                         </span>
                         <span className='text-[15px]
-                text-light-secondary-text dark:text-dark-muted-text
-                '>{subTitle}</span>
+                            text-light-secondary-text dark:text-dark-muted-text
+                            '>{subTitle}
+                        </span>
                     </div>
                     <button className='text-light-primary-text dark:text-dark-primary-text p-2 rounded-md
-                hover:bg-hover-gray/30
-                '
-                        onClick={handleDropDown}
-                    >
+                            hover:bg-hover-gray/30'
+                        onClick={handleDropDown}>
                         {more}
                     </button>
                 </div>
                 <div className='w-full'>
                     <div className='flex justify-between items-center pt-2'>
                         <span className='text-2xl
-                    text-light-primary-text dark:text-dark-primary-text
-                    '> {currentCurrencySymbol} {Math.abs(amount - amountSpent)}</span>
+                        text-light-primary-text dark:text-dark-primary-text'>
+                             {currentCurrencySymbol +' '+ new Intl.NumberFormat().format(Math.abs(amount - amountSpent))}
+                        </span>
                         <span className='text-light-secondary-text dark:text-dark-secondary-text'>{date}</span>
                     </div>
                     <div className='flex justify-between items-center
-                text-light-muted-text dark:text-dark-muted-text
-                '>
+                        text-light-muted-text dark:text-dark-muted-text'>
                         <span>{(amount - amountSpent) > 0 ? nav.remainingFrom + ' ' : 'Spent over '}
-                            {currentCurrencySymbol} {amount}</span>
+                            {currentCurrencySymbol +' '+new Intl.NumberFormat().format(amount)}</span>
                         <span>{nav.createdOn}</span>
                     </div>
                     <div className='flex justify-between items-center pt-4
-                text-light-muted-text dark:text-dark-muted-text
-                '>
+                        text-light-muted-text dark:text-dark-muted-text
+                        '>
                         <span>{nav.amountSpent}</span>
                         <span>{nav.utilization}</span>
                     </div>
                     <div className='flex justify-between items-center py-1
-                text-light-secondary-text dark:text-light-secondary-text
-                '>
-                        <span>{currentCurrencySymbol}{amountSpent ? amountSpent : 0}</span>
+                        text-light-secondary-text dark:text-light-secondary-text
+                        '>
+                        <span>{currentCurrencySymbol}{amountSpent ? new Intl.NumberFormat().format(amountSpent) : 0}</span>
                         <span>{`${Math.floor((amountSpent / amount) * 100)}%`}</span>
                     </div>
                     {/* <progress value='40' max='100' className='w-full h-3 rounded-full overflow-hidden'></progress> */}

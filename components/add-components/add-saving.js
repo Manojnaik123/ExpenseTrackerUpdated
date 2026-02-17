@@ -55,6 +55,9 @@ const AddSaving = ({ toggleModal, id }) => {
         fetchData();
     }, []);
 
+    console.log(data);
+
+
     useEffect(() => {
         if (id > 0 && data?.userSaving?.length) {
             const us = data.userSaving[0];
@@ -133,38 +136,39 @@ const AddSaving = ({ toggleModal, id }) => {
                     bg-light-primary-text/10 dark:bg-dark-primary-text/10`}>
 
                     <div className='bg-light-surface-background dark:bg-dark-surface-background
-                    w-20 h-20 rounded-md 
-                    flex justify-center items-center
-                    '>
+                                         rounded-md 
+                                        flex flex-col justify-center items-center gap-2 p-4
+                                        '>
                         <ClipLoader color='gray' size={30} className='' />
+                        <p className='text-light-muted-text text-xs dark:text-dark-muted-text'>{nav.savingData}</p>
                     </div>
                 </div>
                 <div className='absolute h-full w-full flex flex-col' >
                     <div className=' h-16 border-b flex justify-between items-center p-4 md:flex-row-reverse
-        border-light-border dark:border-dark-border
-        '>
+                            border-light-border dark:border-dark-border
+                            '>
                         <button
                             onClick={toggleModal}
                             className='text-light-primary-text dark:text-dark-primary-text'>
                             {cross}
                         </button>
                         <span className='grow pl-4 text-lg md:p-0
-            text-light-primary-text dark:text-dark-primary-text
-            '>
-                            {nav.create} {nav.saving}
+                            text-light-primary-text dark:text-dark-primary-text
+                            '>
+                            {id? nav.edit: nav.create} {nav.saving}
                         </span>
                         <button className='md:hidden text-sm
-            text-light-secondary-text dark:text-dark-secondary-text'
+                            text-light-secondary-text dark:text-dark-secondary-text'
                             onClick={handleSubmit}
                         >
-                            {nav.create}
+                            {id ? nav.edit : nav.create}
                         </button>
                     </div>
                     <div className='flex flex-col grow p-4'>
                         <div className='flex flex-col md:flex md:flex-row gap-4'>
                             <div className='md:w-1/2'>
                                 <CustomInput
-                                 isRequired={true}
+                                    isRequired={true}
                                     label={nav.name}
                                     type='text' placeHolder={nav.enterName}
                                     onChange={(e) => handleInputChange(e, 'name')}
@@ -174,7 +178,7 @@ const AddSaving = ({ toggleModal, id }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomSelect
-                                 isRequired={true}
+                                    isRequired={true}
                                     label={nav.type}
                                     options={types} onSelect={(e) => handleSelectChange(e, 'typeId')}
                                     isValid={errors.typeId}
@@ -185,7 +189,7 @@ const AddSaving = ({ toggleModal, id }) => {
                         <div className='flex flex-col md:flex md:flex-row gap-4 mt-4'>
                             <div className='md:w-1/2'>
                                 <CustomInput
-                                 isRequired={true}
+                                    isRequired={true}
                                     label={nav.amount}
                                     type='number'
                                     placeHolder={nav.enterAmount} onChange={(e) => handleInputChange(e, 'amount')}
@@ -195,7 +199,7 @@ const AddSaving = ({ toggleModal, id }) => {
                             </div>
                             <div className='md:w-1/2'>
                                 <CustomInput
-                                 isRequired={true}
+                                    isRequired={true}
                                     label={nav.date}
                                     type='date'
                                     placeHolder={nav.enterSomething}
@@ -210,7 +214,7 @@ const AddSaving = ({ toggleModal, id }) => {
                             <CustomTextArea
                                 label={nav.notes}
                                 placeHolder={nav.enterSomething} onChange={(e) => handleInputChange(e, 'notes')}
-                                value={userData.value}
+                                value={userData.notes}
                             />
                         </div>
                         <div className='p-4'>
@@ -230,7 +234,7 @@ const AddSaving = ({ toggleModal, id }) => {
                             <button className='text-lg
                     text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}
-                            >{nav.create}</button>
+                            >{id ? nav.edit : nav.create}</button>
                         </div>
                     </div>
                 </div>

@@ -221,7 +221,7 @@ const GoalsPage = () => {
                                         bg-light-surface-background dark:bg-dark-surface-background
                                         '>
                                     <span className='text-light-secondary-text dark:text-dark-secondary-text'>{nav.thisMonthSaving}</span>
-                                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{currentCurrencySymbol} {thisMonthSavings}</span>
+                                    <span className='text-2xl text-light-primary-text dark:text-dark-primary-text'>{currentCurrencySymbol+' '+new Intl.NumberFormat().format(thisMonthSavings)}</span>
                                 </div>
 
                                 <div className='flex grow gap-4 md:w-2/3'>

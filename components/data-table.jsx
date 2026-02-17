@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { exportTransactionsToExcel } from '@/util/xl-export';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
 import MobileCalenderCustom from './mobile-calender-custom';
+import { truncateString } from '@/lib/local-storage';
 
 const DataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -336,9 +337,9 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                                 {nav.export} {download}
                             </button>
                             <div className='flex md:hidden'>
-                                <MobileCalenderCustom 
-                                handleOnSelectClick={handleTimeSpanSelect} 
-                                options={transactionTimeSpan[lan]} />
+                                <MobileCalenderCustom
+                                    handleOnSelectClick={handleTimeSpanSelect}
+                                    options={transactionTimeSpan[lan]} />
                             </div>
                         </div>
                     </div>
@@ -427,11 +428,11 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                                             </span>
                                         </td>
                                         <td className='p-3
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '> {currentCurrencySymbol + ' ' + item.fifth}</td>
+                                            text-light-secondary-text dark:text-dark-secondary-text
+                                            '> {currentCurrencySymbol + ' ' + new Intl.NumberFormat().format(item.fifth)}</td>
                                         <td className='p-3
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>{item.sixth}</td>
+                                            text-light-secondary-text dark:text-dark-secondary-text
+                                            '>{truncateString(item.sixth, 15)}</td>
                                     </tr>
                                 ))}
 
@@ -464,7 +465,57 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                 </div>
             </div>
             {(filterdData && filterdData.length > 0) && (
-                (filterdData && filterdData.length > 0)
+                <>
+                    <div className='h-10 border-x border-light-border dark:border-dark-border '>
+
+                    </div>
+                    <footer className='border border-t- flex flex-col justify-center gap-2 md:gap-0 md:flex-row md:justify-between items-center p-4
+                                        border-light-border dark:border-dark-border
+                                        text-light-secondary-text dark:text-dark-secondary-text
+                                        '>
+                        <div className='flex gap-2'>
+                            <button className='text-light-muted-text dark:text-dark-muted-text
+                                    px-2 py-2 rounded-md
+                                    hover:bg-hover-gray 
+                                    '>
+                                {arrowFirst}
+                            </button>
+                            <button className='text-light-muted-text dark:text-dark-muted-text
+                                    px-2 py-2 rounded-md
+                                   hover:bg-hover-gray '
+                                onClick={handlePreviousSelection}
+                            >
+                                {leftArrow}
+                            </button>
+
+                            {Array.from({ length: totalPages }).map((_, index) => (
+                                <button className={` px-4 py-2 rounded-md hidden sm:flex
+                                        ${currentPage === index + 1 ? 'bg-primary-accent text-white ' :
+                                        'hover:bg-hover-gray text-light-secondary-text dark:text-dark-secondary-text'}
+                                        `}
+                                    onClick={() => handlePageButtonClick(index + 1)}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+
+                            <button className='text-light-muted-text dark:text-dark-muted-text
+                                    px-2 py-2 rounded-md
+                                    hover:hover:bg-hover-gray '
+                                onClick={handleNextSelection}>
+                                {rightArrow}
+                            </button>
+                            <button className='text-light-muted-text dark:text-dark-muted-text
+                                    px-2 py-2 rounded-md
+                                    hover:hover:bg-hover-gray'>
+                                {arrowEnd}
+                            </button>
+                        </div>
+                        <div className='flex text-light-muted-text dark:text-dark-muted-text'>
+                            {currentPage} {nav.of} {totalPages} {nav.pages}
+                        </div>
+                    </footer>
+                </>
             )}
 
             {filterdData.length === 0 && (

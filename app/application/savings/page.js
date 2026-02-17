@@ -59,7 +59,7 @@ const SavingsPage = () => {
         bg-light-background dark:bg-dark-background
         '>
             <div className='h-full flex flex-col'>
-                {!data && <div className='w-full flex justify-center items-center border p-4 rounded-md h-full
+                {!data && <div className='w-full flex flex-col gap-4 justify-center items-center border p-4 rounded-md h-full
                         border-light-border dark:border-dark-border
                         bg-light-surface-background dark:bg-dark-surface-background 
                     '>

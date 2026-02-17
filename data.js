@@ -199,6 +199,7 @@ export const navBarData = {
     toBeginDesc: 'We recommend starting with sample data to get a better feel for the app’s structure and functionality.',
     continueWithSampleData: 'Continue with Sample Data',
     finovex: 'Finovex',
+    add:'Add',
     
 
 

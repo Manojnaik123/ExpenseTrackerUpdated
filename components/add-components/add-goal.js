@@ -171,7 +171,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                          text-light-secondary-text dark:text-dark-secondary-text'
                             onClick={handleSubmit}
                         >
-                            {nav.create}
+                            {id ? (isAddFundPage ? nav.add : nav.edit) : nav.create}
                         </button>
                     </div>
                     <div className='flex flex-col grow p-4'>
@@ -262,7 +262,7 @@ const AddGoal = ({ toggleModal, id, isAddFundPage = false }) => {
                             <button className='text-lg
                     text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}
-                            >{nav.create}</button>
+                            >{id ? (isAddFundPage ? nav.add : nav.edit) : nav.create}</button>
                         </div>
                     </div>
                 </div>

@@ -160,7 +160,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
             text-light-secondary-text dark:text-dark-secondary-text'
                             onClick={handleSubmit}
                         >
-                            {nav.create}
+                            {id ? (isAddExpensePage ? nav.add : nav.edit) : nav.create}
                         </button>
                     </div>
                     <div className='flex flex-col grow p-4'>
@@ -243,7 +243,7 @@ const AddBudget = ({ toggleModal, id, isAddExpensePage = false }) => {
                             <button className='text-lg
                     text-light-secondary-text dark:text-dark-secondary-text'
                                 onClick={handleSubmit}
-                            >{nav.create}</button>
+                            >{id ? (isAddExpensePage ? nav.add : nav.edit) : nav.create}</button>
                         </div>
                     </div>
                 </div>

@@ -361,6 +361,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { exportSavingsToExcel } from '@/util/xl-export';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
 import MobileCalenderCustom from './mobile-calender-custom';
+import { truncateString } from '@/lib/local-storage';
 
 const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -811,18 +812,18 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                                                 </div>
                                             </td>
                                             <td className='p-3
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>
+                                                    text-light-secondary-text dark:text-dark-secondary-text
+                                                    '>
                                                 <span className={`${item.typeId == 1 ? 'bg-success-bg/40 text-success-bg' : 'bg-warning-secondary/40 text-warning-secondary'} border px-2  rounded-md`}>
                                                     {item.third}
                                                 </span>
                                             </td>
                                             <td className='p-3
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>{currentCurrencySymbol} {item.fourth}</td>
+                                                text-light-secondary-text dark:text-dark-secondary-text
+                                                '>{currentCurrencySymbol +' '+new Intl.NumberFormat().format(item.fourth)}</td>
                                             <td className='p-3
-                    text-light-secondary-text dark:text-dark-secondary-text
-                    '>{item.fifth}</td>
+                                                text-light-secondary-text dark:text-dark-secondary-text
+                                                '>{truncateString(item.fifth, 15)}</td>
                                         </tr>
                                     ))}
 

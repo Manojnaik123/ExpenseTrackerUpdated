@@ -76,11 +76,11 @@ const EditPersonalization = () => {
             '>
                 <div>
                     <CustomSelect 
+                    key={nav}
                     label={nav.selectLanguage} 
                     selectedKey={nav} 
                     onSelect={handleSelect} 
                     options={lanData} />
-
                 </div>
                 <div className='mt-4'>
                     <CustomSelect 
