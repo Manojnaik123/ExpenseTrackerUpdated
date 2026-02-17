@@ -291,7 +291,7 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
                             '>
                             {/* {profileImage && ( */}
                                 <Image
-                                    src={profileImage}
+                                    src={image}
                                     alt="Profile"
                                     width={40}
                                     height={40}
