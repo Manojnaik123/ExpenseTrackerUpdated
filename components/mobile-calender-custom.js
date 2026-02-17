@@ -29,7 +29,7 @@ const MobileCalenderCustom = ({ options, handleOnSelectClick }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className='relative z-40 text-light-secondary-text dark:text-dark-secondary-text'>
+    <div ref={containerRef} className='relative z-30 text-light-secondary-text dark:text-dark-secondary-text'>
       <button
         className='hover:bg-hover-gray/50 p-2 rounded-full'
         onClick={toggleDD}
