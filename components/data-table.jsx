@@ -328,12 +328,6 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                                     showLabel={false}
                                 />
                             </div>
-                            <div className='w-44 flex md:hidden'>
-                                <MobileCalenderCustom 
-                                handleOnSelectClick={handleTimeSpanSelect} 
-                                options={transactionTimeSpan[lan]} />
-                            </div>
-
                             <button className='px-4 py-2 border rounded-full flex justify-between items-center gap-3
                                 border-light-border dark:border-dark-border
                                 text-light-secondary-text dark:text-dark-secondary-text
@@ -341,6 +335,11 @@ const DataTable = ({ titleArray, tableData, onRefresh }) => {
                                 onClick={() => handleTransactionExport(tableData)}>
                                 {nav.export} {download}
                             </button>
+                            <div className='flex md:hidden'>
+                                <MobileCalenderCustom 
+                                handleOnSelectClick={handleTimeSpanSelect} 
+                                options={transactionTimeSpan[lan]} />
+                            </div>
                         </div>
                     </div>
                 }

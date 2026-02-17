@@ -360,6 +360,7 @@ import AddVerificaltionModal from './verification-modal/add-modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { exportSavingsToExcel } from '@/util/xl-export';
 import { useCurrency } from '@/app/application/context/CurrencyContext';
+import MobileCalenderCustom from './mobile-calender-custom';
 
 const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -707,7 +708,7 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                                 </button>
                             </div>
                             <div className='flex gap-3 justify-between items-center md:justify-end bg-red400'>
-                                <div className='w-44'>
+                                <div className='w-44 hidden md:flex'>
                                     <CustomSelect
                                         options={transactionTimeSpan[lan]}
                                         onSelect={(e) => handleTimeSpanSelect(e.key)}
@@ -718,13 +719,18 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                                 </div>
 
                                 <button className='px-4 py-2 border rounded-full flex justify-between items-center gap-3
-                         border-light-border dark:border-dark-border
-                         text-light-secondary-text dark:text-dark-secondary-text
-                         hover:bg-hover-gray/30'
-                                    onClick={() => handleSavingsExport(tableData)}
-                                >
+                                    border-light-border dark:border-dark-border
+                                    text-light-secondary-text dark:text-dark-secondary-text
+                                    hover:bg-hover-gray/30'
+                                    onClick={() => handleSavingsExport(tableData)}>
                                     {nav.export} {download}
                                 </button>
+
+                                <div className='flex md:hidden'>
+                                    <MobileCalenderCustom
+                                        handleOnSelectClick={handleTimeSpanSelect}
+                                        options={transactionTimeSpan[lan]} />
+                                </div>
                             </div>
                         </div>
                     }
@@ -732,12 +738,12 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                     <div className='overflow-x-auto'>
                         {(filterdData && filterdData.length > 0) && (
                             <table className="min-w-[800px] w-full border-collapse border mt-4
-            border-light-border dark:border-dark-border
-            ">
+                                    border-light-border dark:border-dark-border
+                                    ">
                                 <thead>
                                     <tr className='border-b border-light-border dark:border-dark-border'>
                                         <th className='text-left p-3
-                        '>
+                                                 '>
                                             <button className={`border-3 rounded-sm p-2 h-5 w-5
                                     flex justify-center items-center
                                     border-light-border dark:border-dark-border
@@ -748,8 +754,8 @@ const SavingsDataTable = ({ titleArray, tableData, onRefresh }) => {
                                             >
                                                 {(filterdData.every(item => item.isSelected == true)) ?
                                                     <span>{tick}</span> : ''}
-                                                {((filterdData.some(item => item.isSelected == true) 
-                                                && filterdData.some(item => item.isSelected == false))) ?
+                                                {((filterdData.some(item => item.isSelected == true)
+                                                    && filterdData.some(item => item.isSelected == false))) ?
                                                     <span>{dash}</span> : ''}
                                             </button>
                                         </th>
