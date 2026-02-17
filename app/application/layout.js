@@ -1,33 +1,11 @@
-'use client';
+import { auth } from "@/auth";
+import LayoutClient from "./layoutClient";
 
-import { ThemeProvider } from "@/app/application/context/ThemeContext";
-import { LanguageProvider, useLanguage } from "./context/LanguageContext";
-import { CurrencyProvider } from "@/app/application/context/CurrencyContext";
-
-
-import Navigation from "@/components/app-nav/navigation";
-import { ResponseProvider, TopMessageProvider } from "./context/ResponseContext";
-
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await auth();
   return (
-    <main className="w-full h-lvh flex flex-col scrollbar-custom">
-      {/* <div className="fixed z-50 bg-red-400 w-full h-0.5">
-
-        </div> */}
-      <TopMessageProvider>
-        <CurrencyProvider>
-          <LanguageProvider>
-            <ThemeProvider>
-              <Navigation>
-                {children}
-              </Navigation>
-            </ThemeProvider>
-          </LanguageProvider>
-        </CurrencyProvider>
-      </TopMessageProvider>
-
-
-    </main>
-    // </html>
+    <LayoutClient image={session?.user?.image}>
+      {children}
+    </LayoutClient>
   );
 }

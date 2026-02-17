@@ -5,8 +5,10 @@ import Testmonial from "@/components/landing-page/testimonail";
 import AllInOne from "@/components/landing-page/all-in-one";
 import Image from "next/image";
 import { copyWrite, dot, faceBook, insta, mail, rightArrowLineSmall, twitter, youtube } from "@/lib/icons";
+import {auth} from '@/auth';
 
-export default async function Home() {
+
+export default async function Home() {  
   return (
     <>
       <TopNavBar />

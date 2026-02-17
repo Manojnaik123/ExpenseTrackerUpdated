@@ -15,7 +15,7 @@ import Logout from '@/components/logout';
 import Image from 'next/image';
 import Link from 'next/link';
 import TopMessage from '../top-message';
-// import { useResponse } from '@/app/application/context/ResponseContext';
+import { auth } from '@/auth';
 
 
 function titleFinder(path, nav) {
@@ -51,7 +51,7 @@ function titleFinder(path, nav) {
     }
 }
 
-export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
+export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
 
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [isProfileDropDownOpen, setProfileIsDropDownOpen] = useState(false);
@@ -71,13 +71,6 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
 
     function toggleProfileDrowDown() {
         setProfileIsDropDownOpen(prev => !prev);
-    }
-
-    function redirectToSettings() {
-        console.log('reached');
-
-        setProfileIsDropDownOpen(false);
-        redirect('settings');
     }
 
     // Create dropdown outside click
@@ -184,7 +177,7 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                             '>
                             {(titleFinder(path, nav) != 'Personalize' &&
                                 titleFinder(path, nav) != 'Appearance' &&
-                                titleFinder(path, nav) != 'Logout' && 
+                                titleFinder(path, nav) != 'Logout' &&
                                 titleFinder(path, nav) != 'Profile') && titleFinder(path, nav)}
 
                             {(titleFinder(path, nav) == 'Personalize' ||
@@ -257,7 +250,7 @@ export default function TopNavBar({ sideBarToggle, sideBarOpen }) {
                                                 '>
                             <div className='flex gap-2 pb-4'>
                                 <Image
-                                    src={profileImage}
+                                    src={image}
                                     alt="Profile"
                                     width={40}
                                     height={40}
