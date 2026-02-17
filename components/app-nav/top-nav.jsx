@@ -249,7 +249,7 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
                                                 border-light-border dark:border-dark-border
                                                 '>
                             <div className='flex gap-2 pb-4'>
-                                <Image
+                                <img
                                     src={image}
                                     alt="Profile"
                                     width={40}
