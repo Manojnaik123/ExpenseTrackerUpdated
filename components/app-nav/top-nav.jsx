@@ -289,7 +289,7 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
                             border-light-border dark:border-dark-border
                             text-light-secondary-text dark:text-dark-secondary-text
                             '>
-                            {profileImage && (
+                            {/* {profileImage && ( */}
                                 <Image
                                     src={profileImage}
                                     alt="Profile"
@@ -298,7 +298,7 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
                                     className="rounded-full md:flex"
                                     onClick={toggleProfileDrowDown}
                                 />
-                            )}
+                            {/* )} */}
 
                         </span>
                     </div>
