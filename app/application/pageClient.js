@@ -69,7 +69,7 @@ const PageClient = ({ name, image, email }) => {
         // localStorage.setItem('currencyId', 1);
         localStorage.setItem('gmail', email);
         fetchingLogic(lan, setData);
-        setEmail(prev => !prev);
+        setEmail(true);
     }, [])
 
     async function handleContinueWithSampleData() {

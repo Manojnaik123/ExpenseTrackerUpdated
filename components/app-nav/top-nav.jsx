@@ -59,6 +59,7 @@ export default function TopNavBar({ image, sideBarToggle, sideBarOpen }) {
     const [modalIdentifier, setModalIdentifier] = useState(0);
     const [profileImage, setProfileImage] = useState('');
     const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
 
     const dropdownWrapperRef = useRef(null);
     const profileDropdownWrapperRef = useRef(null);

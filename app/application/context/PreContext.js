@@ -7,7 +7,7 @@ import { currency } from "@/data";
 const PreContext = createContext(null);
 
 export function PreProvider({ children }) {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(false);
   
   const value = {
     setEmail,
