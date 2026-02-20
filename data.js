@@ -1358,6 +1358,7 @@ export const exportTableHeaders = {
 export const loginPageData = {
   1: {
     // English
+    companyName: 'FINOVEX',
     email: 'Email',
     password: 'Password',
     logIn: 'Log In',
@@ -1374,6 +1375,7 @@ export const loginPageData = {
 
   2: {
     // Hindi
+    companyName: 'FINOVEX',
     email: 'ईमेल',
     password: 'पासवर्ड',
     logIn: 'लॉग इन',
@@ -1390,6 +1392,7 @@ export const loginPageData = {
 
   3: {
     // German
+    companyName: 'FINOVEX',
     email: 'E-Mail',
     password: 'Passwort',
     logIn: 'Anmelden',
@@ -1406,6 +1409,7 @@ export const loginPageData = {
 
   4: {
     // French
+    companyName: 'FINOVEX',
     email: 'E-mail',
     password: 'Mot de passe',
     logIn: 'Se connecter',
@@ -1422,6 +1426,7 @@ export const loginPageData = {
 
   5: {
     // Spanish
+    companyName: 'FINOVEX',
     email: 'Correo electrónico',
     password: 'Contraseña',
     logIn: 'Iniciar sesión',
@@ -1438,6 +1443,7 @@ export const loginPageData = {
 
   6: {
     // Japanese
+    companyName: 'FINOVEX',
     email: 'メールアドレス',
     password: 'パスワード',
     logIn: 'ログイン',

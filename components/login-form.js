@@ -17,7 +17,7 @@ export default function LoginForm() {
     const handleGoogleAuth = async (e) => {
         e.preventDefault(); // prevent page refresh
         console.log('reached');
-        
+
         await signIn('google')
     };
 
@@ -44,15 +44,16 @@ export default function LoginForm() {
             <form className='flex flex-col gap-2'>
 
                 <div className='w-full flex flex-col justify-center items-center gap-2 pb-2'>
-                     <Image src='/images/pngegg.png'
-                                                    alt="Logo"
-                                                    width={40}
-                                                    height={40}
-                                                />
-                    <h1 className=' flex justify-center items-center md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
-                        {userName != null ? lan.welcomeBack+'! ' + userName : lan.welcome+'!'}
+                    <Image src='/images/pngegg.png'
+                        alt="Logo"
+                        width={40}
+                        height={40}
+                    />
+                    <h1 className='text-1xl font-semibold text-light-primary-text dark:text-dark-primary-text'>{lan.companyName}</h1>
+                    <h1 className=' mt-4 flex justify-center items-center md:text-2xl text-light-primary-text dark:text-dark-primary-text'>
+                        {userName != null ? lan.welcomeBack + '! ' + userName : lan.welcome + '!'}
                     </h1>
-                    <span className='text-[10px] md:text-[12px] text-light-muted-text dark:text-dark-muted-text'>
+                    <span className='text-[10px]  md:text-[12px] text-light-muted-text dark:text-dark-muted-text'>
                         {lan.enterYourEmailAndPasswordToAccessYourAccount}
                     </span>
                 </div>
@@ -85,8 +86,7 @@ export default function LoginForm() {
                 border-light-border dark:border-dark-border
                 text-light-secondary-text dark:text-dark-secondary-text
                 hover:bg-hover-gray/30'
-                onClick={handleGoogleAuth}
-            >
+                onClick={handleGoogleAuth}>
                 <Image src='/images/google.webp'
                     alt="Logo"
                     width={25}
