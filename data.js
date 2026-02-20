@@ -1364,12 +1364,12 @@ export const loginPageData = {
     forgotPassword: 'Forgot password',
     orLoginWith: 'Or, Login with',
     signUpWithGoogle: 'Sign up with Google',
-    dontHaveAnAccount: "Don't have an account",
+    dontHaveAnAccount: "By registering you agree to Privacy Policy.",
     registerHere: 'Register here',
     welcomeBack: 'Welcome Back',
     welcome: 'Welcome',
     enterYourEmailAndPasswordToAccessYourAccount:
-      'Enter your email and password to access your account.',
+      'Sign up with google to access the application.',
   },
 
   2: {

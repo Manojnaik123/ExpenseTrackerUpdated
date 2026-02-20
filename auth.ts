@@ -8,10 +8,6 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
 )
 
-console.log('`process.env.GOOGLE_CLIENT_ID`');
-console.log(process.env.GOOGLE_CLIENT_ID);
-
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
@@ -52,3 +48,67 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 })
+
+
+// import NextAuth from "next-auth";
+// import GoogleProvider from "next-auth/providers/google";
+
+// import { createClient } from '@supabase/supabase-js';
+
+// const supabase = createClient(
+//   "https://oikjefdnymfghsbtznub.supabase.co",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pa2plZmRueW1mZ2hzYnR6bnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNzg3NzksImV4cCI6MjA4NDc1NDc3OX0.AH-V3gFKSX564PGltXn3IE2ieZ6RU___oK5xCtGVkgI"
+// )
+
+
+// import CredentialsProvider from "next-auth/providers/credentials";
+
+// export const { handlers, signIn, signOut, auth } = NextAuth({
+//   providers: [
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     }),
+//     CredentialsProvider({
+//       name: "Project Login",
+//       credentials: {
+//         username: { label: "Email", type: "text" },
+//         password: { label: "Password", type: "password" },
+//       },
+//       async authorize(credentials, req) {
+//         // 1. Look up user in Supabase
+//         const { data, error } = await supabase
+//           .from("User")
+//           .select("*")
+//           .eq("username", credentials.username)
+//           .single();
+
+//         if (!data) return null;
+
+//         // 2. Verify password (assuming hashed)
+//         const validPassword = credentials.password === data.password; // or use bcrypt
+//         if (!validPassword) return null;
+
+//         // 3. Return user object for session
+//         return {
+//           id: data.id,
+//           name: data.name,
+//           email: data.email,
+//         };
+//       },
+//     }),
+//   ],
+
+//   callbacks: {
+//     async session({ session, token }) {
+//       if (session.user) {
+//         session.user.id = token.id;
+//       }
+//       return session;
+//     },
+//     async jwt({ token, user }) {
+//       if (user) token.id = user.id;
+//       return token;
+//     },
+//   },
+// });

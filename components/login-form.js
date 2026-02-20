@@ -38,9 +38,9 @@ export default function LoginForm() {
 
     return (
         <>
-            <span className=' text-[13px] font-extralight mb-4 p-2 px-4 w-full bg-red-500/20 text-red-500 border border-red-500 rounded-md flex justify-start items-center gap-2'>
+            {/* <span className=' text-[13px] font-extralight mb-4 p-2 px-4 w-full bg-red-500/20 text-red-500 border border-red-500 rounded-md flex justify-start items-center gap-2'>
                {warning}   Only google auth available
-            </span>
+            </span> */}
             <form className='flex flex-col gap-2'>
 
                 <div className='w-full flex flex-col justify-center items-center gap-2 pb-2'>
@@ -57,7 +57,7 @@ export default function LoginForm() {
                     </span>
                 </div>
 
-                <CustomInput label={lan.email} />
+                {/* <CustomInput label={lan.email} />
                 <CustomInput label={lan.password} />
                 <div className='w-full flex justify-end items-center'>
                     <span className='text-[12px] text-accent-hover'>
@@ -69,16 +69,16 @@ export default function LoginForm() {
                 border-light-border dark:border-dark-border
                 hover:bg-accent-hover'>
                     {lan.logIn}
-                </button>
+                </button> */}
             </form>
 
-            <div className='flex items-center gap-2 my-2'>
+            {/* <div className='flex items-center gap-2 my-2'>
                 <hr className='border-t grow border-light-muted-text/50 dark:border-dark-muted-text/50' />
                 <span className='text-[12px] text-light-muted-text dark:text-dark-muted-text'>
                     {lan.orLoginWith}
                 </span>
                 <hr className='border-t grow border-light-muted-text/50 dark:border-dark-muted-text/50' />
-            </div>
+            </div> */}
 
             {/* <form className='w-full '> */}
             <button className='border w-full flex p-2 rounded-md gap-2 justify-center mt-2
@@ -96,11 +96,11 @@ export default function LoginForm() {
             </button>
             {/* </form> */}
             <div className='flex justify-center items-center gap-2 text-light-muted-text dark:text-dark-muted-text
-            text-sm pt-6'>
-                <span>{lan.dontHaveAnAccount}?</span>
-                <span className='text-accent-hover underline decoration-accent-hover'>
+            text-xs md:text-sm pt-6'>
+                <span>{lan.dontHaveAnAccount}</span>
+                {/* <span className='text-accent-hover underline decoration-accent-hover'>
                     {lan.registerHere}
-                </span>
+                </span> */}
             </div>
         </>
     )
